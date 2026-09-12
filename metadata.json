@@ -1,0 +1,6 @@
+{
+  "name": "Motion Canvas BFS Visualizer",
+  "description": "Animaciones procedurales en formato vertical 9:16 (1080x1920) y código fuente TypeScript para Motion Canvas: Detección de Fraude Financiero con Grafos (Cycle Detection & Risk Scoring), Google Maps A* Pathfinding y Tráfico, Embeddings IA, Cache Hit vs Miss, Event Loop JS y BFS Matriz (CODEVO.PE).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
