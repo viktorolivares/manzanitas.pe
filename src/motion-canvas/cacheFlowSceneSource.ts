@@ -6,7 +6,7 @@
  * - Tema: Arquitectura de Escudo de Memoria (RAM Shield vs Disk Vault)
  * - Concepto: Evita tarjetas estándar. Utiliza un Núcleo de Entrada (Gateway),
  *   un Escudo de Memoria RAM en suspensión (Redis) y un Cilindro de Almacenamiento Físico (Database).
- * - Marca: CODEVO.PE (Limpia)
+ * - Marca: codevo.pe (Limpia)
  */
 
 export const CACHE_FLOW_SCENE_CODE = `import {makeScene2D} from '@motion-canvas/2d';
@@ -51,7 +51,7 @@ export default makeScene2D(function* (view) {
   view.add(<Rect width={1080} height={1920} fill={C.fondo} />);
 
   // =========================================================================
-  // 1. HEADER LIMPIO CON MARCA CODEVO.PE (Y: -850)
+  // 1. HEADER LIMPIO CON MARCA codevo.pe (Y: -850)
   // =========================================================================
   const headerNode = createRef<Node>();
   const estadoTexto = createSignal('CACHE HIT • 4ms');
@@ -61,7 +61,7 @@ export default makeScene2D(function* (view) {
   view.add(
     <Node ref={headerNode} y={-840}>
       <Txt
-        text="CODEVO.PE"
+        text="codevo.pe"
         fill={'#ffffff'}
         fontFamily={'JetBrains Mono, monospace'}
         fontSize={34}

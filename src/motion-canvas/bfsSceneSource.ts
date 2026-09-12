@@ -5,7 +5,7 @@
  * - Formato: Vertical 9:16 (1080x1920) a 60 FPS
  * - Tema: Visualización del Algoritmo BFS (Breadth-First Search) en Matriz 5x5
  * - Diseño: Sin consola de código estática, 100% enfocado en los elementos visuales del algoritmo (Matriz, Cola FIFO, Exploración 4 Direcciones y Ruta Óptima)
- * - Marca: CODEVO.PE
+ * - Marca: codevo.pe
  * 
  * Listo para copiar y pegar en tu proyecto Motion Canvas sin dependencias externas
  * excepto @motion-canvas/2d y @motion-canvas/core.
@@ -64,7 +64,7 @@ export default makeScene2D(function* (view) {
   );
 
   // =========================================================================
-  // 2. ENCABEZADO DE MARCA CODEVO.PE (Y: -850)
+  // 2. ENCABEZADO DE MARCA codevo.pe (Y: -850)
   // Limpio, tipografía monoespaciada de alto contraste
   // =========================================================================
   const marcaRef = createRef<Node>();
@@ -76,7 +76,7 @@ export default makeScene2D(function* (view) {
   view.add(
     <Node ref={marcaRef} y={-850}>
       <Txt
-        text="CODEVO.PE"
+        text="codevo.pe"
         fill={'#ffffff'}
         fontFamily={'JetBrains Mono, monospace'}
         fontSize={34}

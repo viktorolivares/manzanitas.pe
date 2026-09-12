@@ -1,4 +1,4 @@
-# CODEVO.PE — Motion Canvas Scenes (1080x1920 Vertical)
+# codevo.pe — Motion Canvas Scenes (1080x1920 Vertical)
 
 Este repositorio contiene el código fuente TypeScript oficial (`makeScene2D`) para animaciones procedurales en **Motion Canvas** en formato vertical 9:16 (1080x1920 a 60 FPS), listas para generar videos educativos (Shorts, Reels, TikTok).
 

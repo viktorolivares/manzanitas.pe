@@ -1,26 +1,35 @@
 import React, { useState } from 'react';
-import { Copy, Check, Download, FileCode, Terminal, Sparkles, Navigation, ShieldAlert } from 'lucide-react';
+import { Copy, Check, Download, FileCode, Terminal, Sparkles, Navigation, ShieldAlert, Cloud, AlertTriangle } from 'lucide-react';
 import { MOTION_CANVAS_CODE } from '../motion-canvas/bfsSceneSource';
 import { EVENT_LOOP_SCENE_CODE } from '../motion-canvas/eventLoopSceneSource';
 import { CACHE_FLOW_SCENE_CODE } from '../motion-canvas/cacheFlowSceneSource';
 import { EMBEDDING_SCENE_CODE } from '../motion-canvas/embeddingSceneSource';
 import { GOOGLE_MAPS_ASTAR_SCENE_CODE } from '../motion-canvas/googleMapsAStarSceneSource';
 import { FRAUD_DETECTION_SCENE_CODE } from '../motion-canvas/fraudDetectionSceneSource';
+import { FACTURACION_SUNAT_SCENE_CODE } from '../motion-canvas/facturacionSunatSceneSource';
+import { PSE_OSE_SCENE_CODE } from '../motion-canvas/pseOseSceneSource';
+import { ERROR_2119_SCENE_CODE } from '../motion-canvas/error2119SceneSource';
 
 interface MotionCanvasCodeViewerProps {
-  currentScene?: 'fraud' | 'maps' | 'embedding' | 'cacheflow' | 'eventloop' | 'bfs';
-  onSceneSelect?: (scene: 'fraud' | 'maps' | 'embedding' | 'cacheflow' | 'eventloop' | 'bfs') => void;
+  currentScene?: 'error_2119' | 'pse_ose' | 'facturacion' | 'fraud' | 'maps' | 'embedding' | 'cacheflow' | 'eventloop' | 'bfs';
+  onSceneSelect?: (scene: 'error_2119' | 'pse_ose' | 'facturacion' | 'fraud' | 'maps' | 'embedding' | 'cacheflow' | 'eventloop' | 'bfs') => void;
 }
 
 export const MotionCanvasCodeViewer: React.FC<MotionCanvasCodeViewerProps> = ({
-  currentScene = 'fraud',
+  currentScene = 'error_2119',
   onSceneSelect,
 }) => {
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<'code' | 'instructions'>('code');
 
   const activeCode =
-    currentScene === 'fraud'
+    currentScene === 'error_2119'
+      ? ERROR_2119_SCENE_CODE
+      : currentScene === 'pse_ose'
+      ? PSE_OSE_SCENE_CODE
+      : currentScene === 'facturacion'
+      ? FACTURACION_SUNAT_SCENE_CODE
+      : currentScene === 'fraud'
       ? FRAUD_DETECTION_SCENE_CODE
       : currentScene === 'maps'
       ? GOOGLE_MAPS_ASTAR_SCENE_CODE
@@ -33,7 +42,13 @@ export const MotionCanvasCodeViewer: React.FC<MotionCanvasCodeViewerProps> = ({
       : MOTION_CANVAS_CODE;
 
   const fileName =
-    currentScene === 'fraud'
+    currentScene === 'error_2119'
+      ? 'error2119Scene.tsx'
+      : currentScene === 'pse_ose'
+      ? 'pseOseScene.tsx'
+      : currentScene === 'facturacion'
+      ? 'facturacionSunatScene.tsx'
+      : currentScene === 'fraud'
       ? 'fraudDetectionScene.tsx'
       : currentScene === 'maps'
       ? 'googleMapsAStarScene.tsx'
@@ -74,6 +89,39 @@ export const MotionCanvasCodeViewer: React.FC<MotionCanvasCodeViewerProps> = ({
         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           {/* Scene Selector Pills */}
           <div className="flex items-center bg-[#111827] p-1 rounded-xl border border-[#334155] flex-wrap gap-1">
+            <button
+              onClick={() => onSceneSelect?.('error_2119')}
+              className={`px-3 py-1 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 ${
+                currentScene === 'error_2119'
+                  ? 'bg-gradient-to-r from-[#ef4444] to-[#10b981] text-white shadow-md shadow-[#ef4444]/30 font-black'
+                  : 'text-[#94a3b8] hover:text-white'
+              }`}
+            >
+              <AlertTriangle className="w-3.5 h-3.5" />
+              <span>error2119Scene.tsx</span>
+            </button>
+            <button
+              onClick={() => onSceneSelect?.('pse_ose')}
+              className={`px-3 py-1 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 ${
+                currentScene === 'pse_ose'
+                  ? 'bg-gradient-to-r from-[#8b5cf6] to-[#10b981] text-white shadow-md shadow-[#10b981]/30 font-black'
+                  : 'text-[#94a3b8] hover:text-white'
+              }`}
+            >
+              <Cloud className="w-3.5 h-3.5" />
+              <span>pseOseScene.tsx</span>
+            </button>
+            <button
+              onClick={() => onSceneSelect?.('facturacion')}
+              className={`px-3 py-1 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 ${
+                currentScene === 'facturacion'
+                  ? 'bg-gradient-to-r from-[#0284c7] to-[#10b981] text-white shadow-md font-black'
+                  : 'text-[#94a3b8] hover:text-white'
+              }`}
+            >
+              <FileCode className="w-3.5 h-3.5" />
+              <span>facturacionSunat.tsx</span>
+            </button>
             <button
               onClick={() => onSceneSelect?.('fraud')}
               className={`px-3 py-1 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 ${

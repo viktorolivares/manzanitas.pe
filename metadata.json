@@ -1,6 +1,6 @@
 {
   "name": "Motion Canvas BFS Visualizer",
-  "description": "Animaciones procedurales en formato vertical 9:16 (1080x1920) y código fuente TypeScript para Motion Canvas: Detección de Fraude Financiero con Grafos (Cycle Detection & Risk Scoring), Google Maps A* Pathfinding y Tráfico, Embeddings IA, Cache Hit vs Miss, Event Loop JS y BFS Matriz (CODEVO.PE).",
+  "description": "Animaciones procedurales en formato vertical 9:16 (1080x1920, 60fps) y código TypeScript para Motion Canvas: Diagnóstico y Solución del Error SUNAT 2119 de IGV, Facturación con PSE y OSE, Facturación SUNAT 10 Pasos, Detección de Fraude Financiero con Grafos, Google Maps A*, Embeddings IA, Cache Hit vs Miss, Event Loop JS y BFS Matriz (codevo.pe).",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

@@ -1,0 +1,373 @@
+export interface Error2119Snapshot {
+  stepIndex: number;
+  timeSec: number;
+  stepDurationMs: number;
+  phase: 'ENVIO_INICIAL' | 'ERROR_DETECTADO' | 'RECHAZO_CDR' | 'ENFOQUE_CORRECCION' | 'AUDITORIA_CALCULO' | 'APLICACION_REGLA' | 'REENVIO_CORREGIDO' | 'VALIDACION_CONFORME' | 'CDR_ACEPTADO' | 'LECCION_TECNICA';
+  phaseLabel: string;
+  stepTitle: string;
+  description: string;
+  statusText: string;
+  statusColor: string;
+  badgeText: string;
+  badgeColor: string;
+  activeNodes: {
+    sistema: boolean;
+    validador: boolean;
+    correccion: boolean;
+  };
+  comprobanteData: {
+    serieNumero: string;
+    baseImponible: string;
+    igvCalculado: string;
+    igvCorrecto: string;
+    diferencia: string;
+    isError: boolean;
+  };
+  packetPosition: { x: number; y: number };
+  packetStatus: 'invalido' | 'rechazado' | 'corregido' | 'aprobado';
+  errorModalVisible: boolean;
+  correctionHighlighted: boolean;
+  technicalDetails: {
+    norma: string;
+    causa: string;
+    solucion: string;
+  };
+}
+
+export const ERROR_2119_CODE_LINES = [
+  '# DIAGNÓSTICO Y CORRECCIÓN: ERROR SUNAT 2119 (DISCREPANCIA EN CÁLCULO DE IGV)',
+  '# 1. ERROR COMÚN: Sumar ítems con redondeo prematuro en cada línea:',
+  '# item_1.igv = round(33.33 * 0.18, 2)  -> 5.9994 -> 6.00',
+  '# item_2.igv = round(33.33 * 0.18, 2)  -> 5.9994 -> 6.00',
+  '# item_3.igv = round(33.34 * 0.18, 2)  -> 6.0012 -> 6.00',
+  '# Total incorrecto por truncamiento acumulado = S/ 17.90 (Inconsistencia detectada)',
+  'base_imponible_total = Decimal("100.00")',
+  'igv_declarado_erroneo = Decimal("17.90")',
+  '# 2. VALIDACIÓN DEL OSE / SUNAT (Regla XSD / Matriz 2119):',
+  'tasa_igv_oficial = Decimal("0.18")',
+  'igv_esperado_matriz = (base_imponible_total * tasa_igv_oficial).quantize(Decimal("0.01"))',
+  'if abs(igv_declarado_erroneo - igv_esperado_matriz) > Decimal("0.05"):',
+  '    raise SunatRejectionException("Error 2119: El importe de IGV difiere de la tasa")',
+  '# 3. SOLUCIÓN TÉCNICA UBL 2.1:',
+  '# Calcular el impuesto global sobre la base imponible acumulada del nodo TaxSubtotal:',
+  'igv_corregido = (base_imponible_total * Decimal("0.18")).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)',
+  'assert igv_corregido == Decimal("18.00")  # S/ 18.00 exacto',
+  '# 4. REENVÍO DEL COMPROBANTE CON XML VÁLIDO:',
+  'cdr_response = ose_client.sendBill(xml_corregido_zip)',
+  'assert cdr_response.code == "0"  # ¡CDR ACEPTADO CONFORME POR EL OSE!',
+];
+
+export function generateError2119Timeline(): Error2119Snapshot[] {
+  return [
+    {
+      stepIndex: 0,
+      timeSec: 0,
+      stepDurationMs: 3500,
+      phase: 'ENVIO_INICIAL',
+      phaseLabel: 'FASE 1/10 • ENVÍO DE COMPROBANTE',
+      stepTitle: 'Paso 1: Tu Sistema despacha la Factura F001-102',
+      description: 'Tu ERP o Punto de Venta empaqueta la factura electrónica en XML UBL 2.1 y la envía hacia el validador OSE/SUNAT para su autorización fiscal.',
+      statusText: 'TU SISTEMA: POST /sendBill (XML UBL 2.1)',
+      statusColor: '#38bdf8',
+      badgeText: 'DESPACHO DE XML • F001-102',
+      badgeColor: '#38bdf8',
+      activeNodes: { sistema: true, validador: false, correccion: false },
+      comprobanteData: {
+        serieNumero: 'F001-102',
+        baseImponible: 'S/ 100.00',
+        igvCalculado: 'S/ 17.90',
+        igvCorrecto: 'S/ 18.00',
+        diferencia: '-S/ 0.10',
+        isError: true,
+      },
+      packetPosition: { x: 50, y: 19 },
+      packetStatus: 'invalido',
+      errorModalVisible: false,
+      correctionHighlighted: false,
+      technicalDetails: {
+        norma: 'OASIS UBL 2.1 / cbc:TaxAmount',
+        causa: 'Discrepancia decimal en tag cac:TaxTotal',
+        solucion: 'Aplicar redondeo bancario HALF_UP a nivel cabecera',
+      },
+    },
+    {
+      stepIndex: 1,
+      timeSec: 3.5,
+      stepDurationMs: 3500,
+      phase: 'ERROR_DETECTADO',
+      phaseLabel: 'FASE 2/10 • ESCANEO FISCAL EN OSE',
+      stepTitle: 'Paso 2: El Validador escanea la Base Imponible vs IGV',
+      description: 'El motor del OSE intercepta el comprobante y ejecuta la matriz de validaciones aritméticas. Detecta que Base (S/ 100.00) * 18% no es igual a S/ 17.90.',
+      statusText: 'VALIDADOR: DISCREPANCIA EN REGLAS ARITMÉTICAS',
+      statusColor: '#f59e0b',
+      badgeText: 'AUDITORÍA ARITMÉTICA • MATRIZ XSD',
+      badgeColor: '#f59e0b',
+      activeNodes: { sistema: false, validador: true, correccion: false },
+      comprobanteData: {
+        serieNumero: 'F001-102',
+        baseImponible: 'S/ 100.00',
+        igvCalculado: 'S/ 17.90',
+        igvCorrecto: 'S/ 18.00',
+        diferencia: '-S/ 0.10',
+        isError: true,
+      },
+      packetPosition: { x: 50, y: 44 },
+      packetStatus: 'invalido',
+      errorModalVisible: false,
+      correctionHighlighted: false,
+      technicalDetails: {
+        norma: 'Resolución de Superintendencia 097-2012/SUNAT',
+        causa: 'Base S/ 100.00 * 0.18 debe dar S/ 18.00 (tolerancia superada)',
+        solucion: 'Alinear el cálculo de la cabecera con los totales de línea',
+      },
+    },
+    {
+      stepIndex: 2,
+      timeSec: 7.0,
+      stepDurationMs: 4000,
+      phase: 'RECHAZO_CDR',
+      phaseLabel: 'FASE 3/10 • DISPARO DE ERROR 2119',
+      stepTitle: 'Paso 3: El OSE emite CDR de Rechazo (Error 2119)',
+      description: '¡Comprobante rechazado! El validador genera un CDR con código de excepción: "El importe del tributo no coincide con la base imponible y su porcentaje (18%)".',
+      statusText: 'ALERTA: DISPARO DE ERROR 2119 (RECHAZO)',
+      statusColor: '#ef4444',
+      badgeText: 'CDR ESTADO: RECHAZADO (ERROR 2119)',
+      badgeColor: '#ef4444',
+      activeNodes: { sistema: false, validador: true, correccion: false },
+      comprobanteData: {
+        serieNumero: 'F001-102',
+        baseImponible: 'S/ 100.00',
+        igvCalculado: 'S/ 17.90',
+        igvCorrecto: 'S/ 18.00',
+        diferencia: '-S/ 0.10',
+        isError: true,
+      },
+      packetPosition: { x: 50, y: 48 },
+      packetStatus: 'rechazado',
+      errorModalVisible: true,
+      correctionHighlighted: false,
+      technicalDetails: {
+        norma: 'Catálogo de Errores SUNAT - Código 2119',
+        causa: 'Diferencia de S/ 0.10 entre cálculo del emisor y regla tributaria',
+        solucion: 'No reenviar con la misma serie sin corregir la lógica',
+      },
+    },
+    {
+      stepIndex: 3,
+      timeSec: 11.0,
+      stepDurationMs: 3500,
+      phase: 'ENFOQUE_CORRECCION',
+      phaseLabel: 'FASE 4/10 • ANÁLISIS DE LA CAUSA RAÍZ',
+      stepTitle: 'Paso 4: Identificando la causa raíz del redondeo',
+      description: 'Muchos sistemas cometen el error de redondear a 2 decimales el IGV de cada ítem antes de sumarlos, acumulando errores por truncamiento decimal.',
+      statusText: 'DIAGNÓSTICO: REDONDEO PREMATURO POR ÍTEM',
+      statusColor: '#f59e0b',
+      badgeText: 'ANÁLISIS DE CAUSA RAÍZ',
+      badgeColor: '#f59e0b',
+      activeNodes: { sistema: false, validador: false, correccion: true },
+      comprobanteData: {
+        serieNumero: 'F001-102',
+        baseImponible: 'S/ 100.00',
+        igvCalculado: 'S/ 17.90',
+        igvCorrecto: 'S/ 18.00',
+        diferencia: '-S/ 0.10',
+        isError: true,
+      },
+      packetPosition: { x: 50, y: 65 },
+      packetStatus: 'invalido',
+      errorModalVisible: false,
+      correctionHighlighted: true,
+      technicalDetails: {
+        norma: 'Regla de Negocio SUNAT: TaxSubtotal / TaxAmount',
+        causa: 'Redondear en cada iteración del bucle en vez del total',
+        solucion: 'Mantener precisión de coma flotante o Decimal hasta el final',
+      },
+    },
+    {
+      stepIndex: 4,
+      timeSec: 14.5,
+      stepDurationMs: 3500,
+      phase: 'AUDITORIA_CALCULO',
+      phaseLabel: 'FASE 5/10 • COMPARATIVA TÉCNICA',
+      stepTitle: 'Paso 5: Comparativa: Lógica Incorrecta vs Lógica UBL',
+      description: '❌ Incorrecto: 3 ítems con redondeo forzado dan S/ 17.90. ✅ Regla UBL: Sumar primero todas las bases (S/ 100.00) y luego aplicar * 0.18 = S/ 18.00.',
+      statusText: 'PANEL: REGLA DE CÁLCULO GLOBAL DE BASE',
+      statusColor: '#38bdf8',
+      badgeText: 'COMPARATIVA MATEMÁTICA',
+      badgeColor: '#38bdf8',
+      activeNodes: { sistema: false, validador: false, correccion: true },
+      comprobanteData: {
+        serieNumero: 'F001-102',
+        baseImponible: 'S/ 100.00',
+        igvCalculado: 'S/ 17.90',
+        igvCorrecto: 'S/ 18.00',
+        diferencia: '-S/ 0.10',
+        isError: true,
+      },
+      packetPosition: { x: 50, y: 72 },
+      packetStatus: 'corregido',
+      errorModalVisible: false,
+      correctionHighlighted: true,
+      technicalDetails: {
+        norma: 'Fórmula Oficial: TotalIGV = Round(SUM(Base_i) * 0.18, 2)',
+        causa: 'Falta de consolidación de base agregada en el XML',
+        solucion: 'Reemplazar lógica en el módulo generador de comprobantes',
+      },
+    },
+    {
+      stepIndex: 5,
+      timeSec: 18.0,
+      stepDurationMs: 3500,
+      phase: 'APLICACION_REGLA',
+      phaseLabel: 'FASE 6/10 • CORRECCIÓN EN EL XML UBL',
+      stepTitle: 'Paso 6: Se ajusta el tag cac:TaxTotal a S/ 18.00 exacto',
+      description: 'El script de facturación actualiza el XML reemplazando el valor erróneo por S/ 18.00 exacto y regenera la firma digital con el nuevo DigestValue.',
+      statusText: 'XML ACTUALIZADO: IGV = S/ 18.00 (REFIRMADO)',
+      statusColor: '#10b981',
+      badgeText: 'XML UBL 2.1 CORREGIDO Y REFIRMADO',
+      badgeColor: '#10b981',
+      activeNodes: { sistema: true, validador: false, correccion: true },
+      comprobanteData: {
+        serieNumero: 'F001-102',
+        baseImponible: 'S/ 100.00',
+        igvCalculado: 'S/ 18.00',
+        igvCorrecto: 'S/ 18.00',
+        diferencia: 'S/ 0.00',
+        isError: false,
+      },
+      packetPosition: { x: 50, y: 30 },
+      packetStatus: 'corregido',
+      errorModalVisible: false,
+      correctionHighlighted: true,
+      technicalDetails: {
+        norma: 'DigestValue SHA-256 recalculado',
+        causa: 'Corrección aplicada en memoria antes del despacho',
+        solucion: 'El comprobante cumple con la tolerancia estricta (0.00)',
+      },
+    },
+    {
+      stepIndex: 6,
+      timeSec: 21.5,
+      stepDurationMs: 3500,
+      phase: 'REENVIO_CORREGIDO',
+      phaseLabel: 'FASE 7/10 • REENVÍO DEL COMPROBANTE',
+      stepTitle: 'Paso 7: Reenvío del paquete XML corregido al OSE',
+      description: 'Tu sistema envía el comprobante refirmado con la base imponible y el IGV perfectamente alineados hacia la troncal de validación del OSE.',
+      statusText: 'REENVÍO: TRONCAL DE VALIDACIÓN CONFORME',
+      statusColor: '#38bdf8',
+      badgeText: 'REINTENTO CON DATOS CONSOLIDADOS',
+      badgeColor: '#38bdf8',
+      activeNodes: { sistema: true, validador: true, correccion: false },
+      comprobanteData: {
+        serieNumero: 'F001-102',
+        baseImponible: 'S/ 100.00',
+        igvCalculado: 'S/ 18.00',
+        igvCorrecto: 'S/ 18.00',
+        diferencia: 'S/ 0.00',
+        isError: false,
+      },
+      packetPosition: { x: 50, y: 45 },
+      packetStatus: 'corregido',
+      errorModalVisible: false,
+      correctionHighlighted: false,
+      technicalDetails: {
+        norma: 'Protocolo sendBill / ZIP firmado',
+        causa: 'Validación en vivo con datos matemáticos exactos',
+        solucion: 'Verificación inmediata sin cuellos de botella',
+      },
+    },
+    {
+      stepIndex: 7,
+      timeSec: 25.0,
+      stepDurationMs: 3500,
+      phase: 'VALIDACION_CONFORME',
+      phaseLabel: 'FASE 8/10 • ESCANEO APROBADO',
+      stepTitle: 'Paso 8: El OSE valida la tasa al 100% conforme',
+      description: 'El escáner del validador ejecuta nuevamente la matriz: Base S/ 100.00 * 0.18 = S/ 18.00. Coincidencia aritmética perfecta de 0.00 de margen.',
+      statusText: 'VALIDADOR: APROBADO SIN OBSERVACIONES',
+      statusColor: '#10b981',
+      badgeText: 'AUDITORÍA SUPERADA • IGV CONFORME',
+      badgeColor: '#10b981',
+      activeNodes: { sistema: false, validador: true, correccion: false },
+      comprobanteData: {
+        serieNumero: 'F001-102',
+        baseImponible: 'S/ 100.00',
+        igvCalculado: 'S/ 18.00',
+        igvCorrecto: 'S/ 18.00',
+        diferencia: 'S/ 0.00',
+        isError: false,
+      },
+      packetPosition: { x: 50, y: 48 },
+      packetStatus: 'aprobado',
+      errorModalVisible: false,
+      correctionHighlighted: false,
+      technicalDetails: {
+        norma: 'Validación XSD y Esquema UBL 2.1 superada',
+        causa: 'Alineación perfecta entre cabecera y detalle',
+        solucion: 'Comprobante apto para emisión de constancia legal',
+      },
+    },
+    {
+      stepIndex: 8,
+      timeSec: 28.5,
+      stepDurationMs: 3500,
+      phase: 'CDR_ACEPTADO',
+      phaseLabel: 'FASE 9/10 • CONSTANCIA OFICIAL',
+      stepTitle: 'Paso 9: Se estampa el CDR Estado 0 (Aceptado)',
+      description: '¡Éxito total! El OSE genera la Constancia de Recepción (CDR) con Estado 0: La Factura F001-102 ha sido aceptada con plena validez legal.',
+      statusText: 'CDR GENERADO: ESTADO 0 (ACEPTADO LEGAL)',
+      statusColor: '#10b981',
+      badgeText: 'CDR OFICIAL ESTADO 0 (ACEPTADO)',
+      badgeColor: '#10b981',
+      activeNodes: { sistema: true, validador: true, correccion: false },
+      comprobanteData: {
+        serieNumero: 'F001-102',
+        baseImponible: 'S/ 100.00',
+        igvCalculado: 'S/ 18.00',
+        igvCorrecto: 'S/ 18.00',
+        diferencia: 'S/ 0.00',
+        isError: false,
+      },
+      packetPosition: { x: 50, y: 22 },
+      packetStatus: 'aprobado',
+      errorModalVisible: false,
+      correctionHighlighted: false,
+      technicalDetails: {
+        norma: 'Constancia de Recepción R-2060...-01-F001-102.zip',
+        causa: 'Certificación del OSE autorizada por SUNAT',
+        solucion: 'El cliente recibe su comprobante fiscalmente blindado',
+      },
+    },
+    {
+      stepIndex: 9,
+      timeSec: 32.0,
+      stepDurationMs: 3000,
+      phase: 'LECCION_TECNICA',
+      phaseLabel: 'FASE 10/10 • BUENAS PRÁCTICAS CLOUD',
+      stepTitle: 'Paso 10: Regla de Oro codevo.pe para Facturación',
+      description: 'Nunca redondees el IGV de cada ítem antes de consolidar. Calcula siempre sobre la base agregada o usa tipos numéricos Decimal con ROUND_HALF_UP.',
+      statusText: 'ARQUITECTURA RESILIENTE: CERO RECHAZOS',
+      statusColor: '#10b981',
+      badgeText: 'BUENAS PRÁCTICAS • codevo.pe',
+      badgeColor: '#10b981',
+      activeNodes: { sistema: true, validador: true, correccion: true },
+      comprobanteData: {
+        serieNumero: 'F001-102',
+        baseImponible: 'S/ 100.00',
+        igvCalculado: 'S/ 18.00',
+        igvCorrecto: 'S/ 18.00',
+        diferencia: 'S/ 0.00',
+        isError: false,
+      },
+      packetPosition: { x: 50, y: 88 },
+      packetStatus: 'aprobado',
+      errorModalVisible: false,
+      correctionHighlighted: true,
+      technicalDetails: {
+        norma: 'Estándar de Integración codevo.pe',
+        causa: 'Diseño arquitectónico preventivo en facturación electrónica',
+        solucion: 'Operatividad sin interrupciones ni multas tributarias',
+      },
+    },
+  ];
+}

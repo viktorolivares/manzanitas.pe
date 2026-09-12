@@ -19,13 +19,13 @@ export const CacheFlowVerticalViewport: React.FC<CacheFlowVerticalViewportProps>
       />
 
       {/* ================================================================= */}
-      {/* 1. HEADER MINIMALISTA - MARCA CODEVO.PE                           */}
+      {/* 1. HEADER MINIMALISTA - MARCA codevo.pe                           */}
       {/* ================================================================= */}
       <div className="relative z-20 pb-2.5 border-b border-[#1e293b]">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="font-mono font-black text-white text-base tracking-[0.25em]">
-              CODEVO.PE
+              codevo.pe
             </span>
             <span className="px-1.5 py-0.5 rounded text-[8px] font-mono font-bold bg-[#38bdf8]/15 text-[#38bdf8] border border-[#38bdf8]/30">
               MEMORY SHIELD

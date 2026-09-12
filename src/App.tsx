@@ -9,6 +9,8 @@ import {
   Database,
   Navigation,
   ShieldAlert,
+  Cloud,
+  AlertTriangle,
 } from 'lucide-react';
 import { generateBfsTimeline } from './data/bfsAlgorithm';
 import { generateEventLoopTimeline } from './data/eventLoopAlgorithm';
@@ -16,12 +18,18 @@ import { generateCacheFlowTimeline } from './data/cacheFlowAlgorithm';
 import { generateEmbeddingTimeline } from './data/embeddingAlgorithm';
 import { generateMapsTimeline, MAPS_CODE_LINES } from './data/mapsAlgorithm';
 import { generateFraudTimeline, FRAUD_CODE_LINES } from './data/fraudDetectionAlgorithm';
+import { generateFacturacionTimeline, FACTURACION_CODE_LINES } from './data/facturacionSunatAlgorithm';
+import { generatePseOseTimeline, PSE_OSE_CODE_LINES } from './data/pseOseAlgorithm';
+import { generateError2119Timeline, ERROR_2119_CODE_LINES } from './data/error2119Algorithm';
 import { VerticalVideoViewport } from './components/VerticalVideoViewport';
 import { EventLoopVerticalViewport } from './components/EventLoopVerticalViewport';
 import { CacheFlowVerticalViewport } from './components/CacheFlowVerticalViewport';
 import { EmbeddingVerticalViewport } from './components/EmbeddingVerticalViewport';
 import { MapsVerticalViewport } from './components/MapsVerticalViewport';
 import { FraudVerticalViewport } from './components/FraudVerticalViewport';
+import { FacturacionVerticalViewport } from './components/FacturacionVerticalViewport';
+import { PseOseVerticalViewport } from './components/PseOseVerticalViewport';
+import { Error2119VerticalViewport } from './components/Error2119VerticalViewport';
 import { TimelineControls } from './components/TimelineControls';
 import { MotionCanvasCodeViewer } from './components/MotionCanvasCodeViewer';
 import { StepEventList, GenericStepItem } from './components/StepEventList';
@@ -30,8 +38,11 @@ import { JavaScriptCodeBlock } from './components/JavaScriptCodeBlock';
 import { playStepSound } from './utils/audioSynth';
 
 export default function App() {
-  const [selectedScene, setSelectedScene] = useState<'fraud' | 'maps' | 'embedding' | 'cacheflow' | 'eventloop' | 'bfs'>('fraud');
+  const [selectedScene, setSelectedScene] = useState<'error_2119' | 'pse_ose' | 'facturacion' | 'fraud' | 'maps' | 'embedding' | 'cacheflow' | 'eventloop' | 'bfs'>('error_2119');
 
+  const error2119Timeline = useMemo(() => generateError2119Timeline(), []);
+  const pseOseTimeline = useMemo(() => generatePseOseTimeline(), []);
+  const facturacionTimeline = useMemo(() => generateFacturacionTimeline(), []);
   const fraudTimeline = useMemo(() => generateFraudTimeline(), []);
   const mapsTimeline = useMemo(() => generateMapsTimeline(), []);
   const embeddingTimeline = useMemo(() => generateEmbeddingTimeline(), []);
@@ -48,7 +59,13 @@ export default function App() {
 
   // Active dataset
   const activeTimeline =
-    selectedScene === 'fraud'
+    selectedScene === 'error_2119'
+      ? error2119Timeline
+      : selectedScene === 'pse_ose'
+      ? pseOseTimeline
+      : selectedScene === 'facturacion'
+      ? facturacionTimeline
+      : selectedScene === 'fraud'
       ? fraudTimeline
       : selectedScene === 'maps'
       ? mapsTimeline
@@ -63,7 +80,7 @@ export default function App() {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Reset step index when switching scene
-  const handleSceneChange = (scene: 'fraud' | 'maps' | 'embedding' | 'cacheflow' | 'eventloop' | 'bfs') => {
+  const handleSceneChange = (scene: 'error_2119' | 'pse_ose' | 'facturacion' | 'fraud' | 'maps' | 'embedding' | 'cacheflow' | 'eventloop' | 'bfs') => {
     setIsPlaying(false);
     setSelectedScene(scene);
     setCurrentStepIndex(0);
@@ -71,7 +88,28 @@ export default function App() {
 
   // Convert timeline to generic step items for the step list
   const genericStepItems: GenericStepItem[] = useMemo(() => {
-    if (selectedScene === 'fraud') {
+    if (selectedScene === 'error_2119') {
+      return error2119Timeline.map((item) => ({
+        activeLine: item.stepIndex + 1,
+        description: item.description,
+        badge: `${item.timeSec.toFixed(1)}s`,
+        subInfo: `${item.phaseLabel} • ${item.statusText}`,
+      }));
+    } else if (selectedScene === 'pse_ose') {
+      return pseOseTimeline.map((item) => ({
+        activeLine: item.stepIndex + 1,
+        description: item.description,
+        badge: `${item.timeSec.toFixed(1)}s`,
+        subInfo: `${item.phaseLabel} • ${item.statusText}`,
+      }));
+    } else if (selectedScene === 'facturacion') {
+      return facturacionTimeline.map((item) => ({
+        activeLine: item.stepIndex + 1,
+        description: item.description,
+        badge: `${item.timeSec.toFixed(1)}s`,
+        subInfo: `${item.phaseLabel} • ${item.statusText}`,
+      }));
+    } else if (selectedScene === 'fraud') {
       return fraudTimeline.map((item) => ({
         activeLine: item.stepIndex + 1,
         description: item.description,
@@ -201,7 +239,7 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [activeTimeline.length]);
 
-  const totalCalculatedTime = activeTimeline[activeTimeline.length - 1]?.timeSec ? (selectedScene === 'fraud' ? 32.5 : activeTimeline[activeTimeline.length - 1].timeSec) : 32.5;
+  const totalCalculatedTime = activeTimeline[activeTimeline.length - 1]?.timeSec ? (selectedScene === 'error_2119' || selectedScene === 'pse_ose' ? 33.0 : selectedScene === 'facturacion' ? 34.0 : selectedScene === 'fraud' ? 32.5 : activeTimeline[activeTimeline.length - 1].timeSec) : 33.0;
   const currentCalculatedTime = currentStep.timeSec || 0;
 
   return (
@@ -209,21 +247,33 @@ export default function App() {
       {/* Top Application Bar with Scene Switcher */}
       <header className="border-b border-[#1f2937] bg-[#111827]/95 backdrop-blur-md px-4 sm:px-6 py-3 sticky top-0 z-50 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#10b981] via-[#38bdf8] to-[#ef4444] flex items-center justify-center shadow-lg shadow-[#10b981]/20">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#10b981] via-[#0284c7] to-[#e11d48] flex items-center justify-center shadow-lg shadow-[#10b981]/20">
             <Layers className="w-5 h-5 text-[#0a0e17] font-black" />
           </div>
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-sm sm:text-base font-bold text-white tracking-tight flex items-center gap-2 font-mono">
-                <span className="font-black tracking-widest text-white">CODEVO.PE</span>
+                <span className="font-black tracking-widest text-white">codevo.pe</span>
                 <span className="text-xs font-sans text-[#94a3b8]">Motion Canvas</span>
               </h1>
               <span className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-mono rounded-md bg-[#10b981]/15 text-[#10b981] border border-[#10b981]/30 font-medium">
-                1080×1920 (9:16) • 60 FPS • 32s
+                {selectedScene === 'error_2119'
+                  ? '1080×1920 (9:16) • 60 FPS • 33s (Error 2119 Debugging)'
+                  : selectedScene === 'pse_ose'
+                  ? '1080×1920 (9:16) • 60 FPS • 33s (PSE / OSE Cloud)'
+                  : selectedScene === 'facturacion'
+                  ? '1080×1920 (9:16) • 60 FPS • 34s (10 Pasos)'
+                  : '1080×1920 (9:16) • 60 FPS • 33s'}
               </span>
             </div>
             <p className="text-xs text-[#64748b] hidden sm:block">
-              {selectedScene === 'fraud'
+              {selectedScene === 'error_2119'
+                ? '¿Por qué SUNAT rechaza tu comprobante? Diagnóstico y Solución del Error 2119 de IGV / Esquema UBL 2.1'
+                : selectedScene === 'pse_ose'
+                ? '¿Cómo funciona la Facturación con PSE y OSE? Desacoplamiento de Servidores SUNAT y Validación en Tiempo Real'
+                : selectedScene === 'facturacion'
+                ? '¿Cómo funciona la Facturación Electrónica? (10 Pasos: ERP, UBL 2.1, Firma X.509, SOAP, Error 2324 y CDR Aceptado)'
+                : selectedScene === 'fraud'
                 ? 'Detección de Fraude Financiero en Tiempo Real con Grafos (Cycle Detection & Risk Scoring)'
                 : selectedScene === 'maps'
                 ? '¿Cómo calcula Google Maps tu ruta más rápida? A* Pathfinding y Tráfico en Tiempo Real'
@@ -240,6 +290,39 @@ export default function App() {
 
         {/* Scene Selector in Header */}
         <div className="flex items-center gap-1 bg-[#1f2937] p-1 rounded-xl border border-[#374151] flex-wrap">
+          <button
+            onClick={() => handleSceneChange('error_2119')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 ${
+              selectedScene === 'error_2119'
+                ? 'bg-gradient-to-r from-[#ef4444] to-[#10b981] text-white shadow-md shadow-[#ef4444]/30 font-black'
+                : 'text-[#9ca3af] hover:text-white'
+            }`}
+          >
+            <AlertTriangle className="w-3.5 h-3.5" />
+            <span>Error 2119 IGV</span>
+          </button>
+          <button
+            onClick={() => handleSceneChange('pse_ose')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 ${
+              selectedScene === 'pse_ose'
+                ? 'bg-gradient-to-r from-[#8b5cf6] to-[#10b981] text-white shadow-md shadow-[#10b981]/30 font-black'
+                : 'text-[#9ca3af] hover:text-white'
+            }`}
+          >
+            <Cloud className="w-3.5 h-3.5" />
+            <span>PSE y OSE Cloud</span>
+          </button>
+          <button
+            onClick={() => handleSceneChange('facturacion')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 ${
+              selectedScene === 'facturacion'
+                ? 'bg-gradient-to-r from-[#0284c7] to-[#10b981] text-white shadow-md shadow-[#10b981]/30 font-black'
+                : 'text-[#9ca3af] hover:text-white'
+            }`}
+          >
+            <Layers className="w-3.5 h-3.5" />
+            <span>SUNAT Facturación</span>
+          </button>
           <button
             onClick={() => handleSceneChange('fraud')}
             className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 ${
@@ -389,7 +472,13 @@ export default function App() {
                   <span>CANVAS PREVIEW (1080x1920 • 60 FPS)</span>
                 </span>
                 <span className="text-[10px] bg-[#16161e] px-2 py-0.5 rounded border border-[#414868]/40">
-                  {selectedScene === 'fraud'
+                  {selectedScene === 'error_2119'
+                    ? 'ERROR 2119 SUNAT DEBUGGING'
+                    : selectedScene === 'pse_ose'
+                    ? 'PSE / OSE CLOUD DECOUPLING'
+                    : selectedScene === 'facturacion'
+                    ? 'SUNAT FINTECH ARCHITECTURE'
+                    : selectedScene === 'fraud'
                     ? 'DISTRIBUTED FRAUD SHIELD'
                     : selectedScene === 'maps'
                     ? 'GOOGLE MAPS ENGINE'
@@ -404,7 +493,19 @@ export default function App() {
               </div>
 
               {/* Viewport Selection */}
-              {selectedScene === 'fraud' ? (
+              {selectedScene === 'error_2119' ? (
+                <Error2119VerticalViewport
+                  snapshot={error2119Timeline[currentStepIndex] || error2119Timeline[0]}
+                />
+              ) : selectedScene === 'pse_ose' ? (
+                <PseOseVerticalViewport
+                  snapshot={pseOseTimeline[currentStepIndex] || pseOseTimeline[0]}
+                />
+              ) : selectedScene === 'facturacion' ? (
+                <FacturacionVerticalViewport
+                  snapshot={facturacionTimeline[currentStepIndex] || facturacionTimeline[0]}
+                />
+              ) : selectedScene === 'fraud' ? (
                 <FraudVerticalViewport
                   snapshot={fraudTimeline[currentStepIndex] || fraudTimeline[0]}
                 />
@@ -469,7 +570,13 @@ export default function App() {
                 <div className="h-56">
                   <StepEventList
                     title={
-                      selectedScene === 'fraud'
+                      selectedScene === 'error_2119'
+                        ? 'Diagnóstico Error 2119 SUNAT Telemetry'
+                        : selectedScene === 'pse_ose'
+                        ? 'Arquitectura PSE / OSE Telemetry'
+                        : selectedScene === 'facturacion'
+                        ? 'Facturación Electrónica SUNAT Telemetry'
+                        : selectedScene === 'fraud'
                         ? 'Fraud Shield Detection Telemetry'
                         : selectedScene === 'maps'
                         ? 'Google Maps A* Navigation Telemetry'
@@ -492,7 +599,25 @@ export default function App() {
 
                 {/* Algorithmic Pseudocode Block */}
                 <div className="flex-1 min-h-[360px]">
-                  {selectedScene === 'fraud' ? (
+                  {selectedScene === 'error_2119' ? (
+                    <PythonCodeBlock
+                      activeLine={currentStep.stepIndex + 1}
+                      customLines={ERROR_2119_CODE_LINES}
+                      title="error_2119_igv_diagnostic.py"
+                    />
+                  ) : selectedScene === 'pse_ose' ? (
+                    <PythonCodeBlock
+                      activeLine={currentStep.stepIndex + 1}
+                      customLines={PSE_OSE_CODE_LINES}
+                      title="pse_ose_cloud_architecture.py"
+                    />
+                  ) : selectedScene === 'facturacion' ? (
+                    <PythonCodeBlock
+                      activeLine={currentStep.stepIndex + 1}
+                      customLines={FACTURACION_CODE_LINES}
+                      title="facturacion_sunat_pipeline.py"
+                    />
+                  ) : selectedScene === 'fraud' ? (
                     <PythonCodeBlock
                       activeLine={currentStep.stepIndex + 1}
                       customLines={FRAUD_CODE_LINES}
