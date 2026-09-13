@@ -1,4 +1,5 @@
 import { getAudioStreamDestination } from './audioSynth';
+import { COMPANY_NAME } from '../config/appConfig';
 
 export interface RecorderOptions {
   filename?: string;
@@ -18,7 +19,8 @@ let activeStream: MediaStream | null = null;
 export async function startVideoRecording(
   options: RecorderOptions = {}
 ): Promise<RecorderController | null> {
-  const filename = options.filename || `manzanitas-animacion-${Date.now()}`;
+  const brandSlug = COMPANY_NAME.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
+  const filename = options.filename || `${brandSlug}-animacion-${Date.now()}`;
 
   try {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {

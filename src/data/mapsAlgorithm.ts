@@ -102,8 +102,8 @@ export function generateMapsTimeline(): MapsSnapshot[] {
       phase: 'TRAFFIC_INCIDENT',
       phaseLabel: '2. EVENTO DE TRÁFICO',
       stepTitle: 'Fase 2: Congestión Repentina (+18 MIN)',
-      description: 'Sensores de GPS de otros conductores detectan desaceleración crítica en la avenida directa. La calle D ➔ G colapsa y su peso se eleva en rojo.',
-      subtitle: '⚠️ ¡Incidente de tráfico! La ruta directa está colapsada (+18 min)',
+      description: 'Sensores de GPS de otros conductores detectan desaceleración crítica en la avenida directa. La calle D -> G colapsa y su peso se eleva en rojo.',
+      subtitle: '¡Incidente de tráfico! La ruta directa está colapsada (+18 min)',
       subtitleColor: '#ef4444',
       nodes: baseNodes.map((n) => (n.id === 'D' || n.id === 'G' ? { ...n, status: 'discarded' } : n)),
       roads: baseRoads.map((r) => (r.id === 'r_DG' ? { ...r, status: 'traffic' } : r)),
@@ -123,8 +123,8 @@ export function generateMapsTimeline(): MapsSnapshot[] {
       subtitle: 'Calculando costo mínimo: f(n) = g(n) [recorrido] + h(n) [heurística]',
       subtitleColor: '#38bdf8',
       nodes: baseNodes.map((n) => {
-        if (n.id === 'D') return { ...n, status: 'discarded', costText: 'f(D) = 28m ✕' };
-        if (n.id === 'B') return { ...n, status: 'scanning', costText: 'f(B) = 12m ✓' };
+        if (n.id === 'D') return { ...n, status: 'discarded', costText: 'f(D) = 28m (x)' };
+        if (n.id === 'B') return { ...n, status: 'scanning', costText: 'f(B) = 12m (ok)' };
         return n;
       }),
       roads: baseRoads.map((r) => {
@@ -149,7 +149,7 @@ export function generateMapsTimeline(): MapsSnapshot[] {
       subtitleColor: '#10b981',
       nodes: baseNodes.map((n) => {
         if (['A', 'B', 'C', 'E', 'H'].includes(n.id)) return { ...n, status: 'optimal' };
-        if (n.id === 'D') return { ...n, status: 'discarded', costText: 'Descartado ✕' };
+        if (n.id === 'D') return { ...n, status: 'discarded', costText: 'Descartado' };
         return n;
       }),
       roads: baseRoads.map((r) => {
@@ -171,7 +171,7 @@ export function generateMapsTimeline(): MapsSnapshot[] {
       phaseLabel: '5. TELEMETRÍA FINAL',
       stepTitle: 'Fase 5: Ahorro de Tiempo y Llegada',
       description: 'El vehículo llega a destino en 12 minutos, ahorrando 6 minutos frente a condiciones normales y evitando 18 minutos de embotellamiento.',
-      subtitle: '🟢 AHORRO TOTAL: -6 MIN (12 min vs 28 min en tráfico)',
+      subtitle: 'AHORRO TOTAL: -6 MIN (12 min vs 28 min en tráfico)',
       subtitleColor: '#10b981',
       nodes: baseNodes.map((n) => {
         if (['A', 'B', 'C', 'E', 'H'].includes(n.id)) return { ...n, status: 'optimal' };

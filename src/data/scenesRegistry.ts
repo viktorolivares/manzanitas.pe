@@ -9,6 +9,10 @@ import {
   Database,
   Cpu,
   Network,
+  Landmark,
+  ShieldCheck,
+  BrainCircuit,
+  Binary,
   LucideIcon,
 } from 'lucide-react';
 
@@ -50,7 +54,7 @@ export interface CategoryMeta {
   name: string;
   badge: string;
   description: string;
-  icon: string;
+  icon: LucideIcon;
   scenes: SceneMeta[];
 }
 
@@ -181,7 +185,7 @@ export const SCENES_REGISTRY: SceneMeta[] = [
     category: 'algoritmos',
     categoryLabel: 'Algoritmos',
     path: '/algoritmos/cacheflow',
-    title: 'Flujo de API con Cache Hit vs Cache Miss (Redis ➔ SQL)',
+    title: 'Flujo de API con Cache Hit vs Cache Miss (Redis -> SQL)',
     shortTitle: 'Cache Hit vs Miss',
     badge: '1080×1920 • 28s',
     description: 'Optimización de latencia en microservicios: verificación ultra veloz en RAM vs consultas pesadas en disco.',
@@ -238,31 +242,31 @@ export const SCENES_REGISTRY: SceneMeta[] = [
 export const CATEGORIES_CONFIG: {
   id: SceneCategory;
   name: string;
-  icon: string;
+  icon: LucideIcon;
   badge: string;
 }[] = [
   {
     id: 'sunat',
     name: 'SUNAT',
-    icon: '🏛️',
+    icon: Landmark,
     badge: '3 escenas',
   },
   {
     id: 'fraude',
     name: 'Fraude',
-    icon: '🛡️',
+    icon: ShieldCheck,
     badge: '1 escena',
   },
   {
     id: 'ia-desarrollo',
     name: 'IA Desarrollo',
-    icon: '🤖',
+    icon: BrainCircuit,
     badge: '1 escena',
   },
   {
     id: 'algoritmos',
     name: 'Algoritmos',
-    icon: '⚡',
+    icon: Binary,
     badge: '4 escenas',
   },
 ];

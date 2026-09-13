@@ -20,6 +20,7 @@ import {
   Txt,
   Line,
 } from '@motion-canvas/2d';
+import { COMPANY_NAME } from '../../config/appConfig';
 
 /**
  * PALETA TRIBUTARIA FINTECH & GLASSMORPHISM DARK
@@ -115,7 +116,7 @@ export default makeScene2D(function* (view) {
       <Txt
         x={-300}
         y={0}
-        text="codevo.pe"
+        text={COMPANY_NAME}
         fontFamily="monospace"
         fontWeight={900}
         fontSize={36}
@@ -294,7 +295,7 @@ export default makeScene2D(function* (view) {
         >
           <Node y={-38}>
             <Circle size={24} fill={'#1e293b'} x={-130} y={0} />
-            <Txt text="💻" fontSize={14} x={-130} y={1} />
+            <Txt text="APP" fontSize={9} fontWeight={900} fill={COLORES.cianNeon} fontFamily={'JetBrains Mono, monospace'} x={-130} y={1} />
             <Txt
               x={15}
               y={0}
@@ -352,7 +353,7 @@ export default makeScene2D(function* (view) {
         >
           <Node y={-42}>
             <Circle size={24} fill={'#271c0b'} stroke={COLORES.doradoFirma} lineWidth={1.5} x={-130} y={0} />
-            <Txt text="🔐" fontSize={13} x={-130} y={0} />
+            <Txt text="XML" fontSize={9} fontWeight={900} fill={COLORES.doradoFirma} fontFamily={'JetBrains Mono, monospace'} x={-130} y={0} />
             <Txt
               x={15}
               y={0}
@@ -629,7 +630,7 @@ export default makeScene2D(function* (view) {
         scale={0.6}
       >
         <Txt
-          text="🔒 FIRMADO: DigestValue SHA-256"
+          text="FIRMADO: DigestValue SHA-256"
           fontFamily="monospace"
           fontWeight={900}
           fontSize={11}
@@ -768,7 +769,7 @@ export default makeScene2D(function* (view) {
     >
       <Node y={-100}>
         <Circle size={32} fill={COLORES.rojoAlerta} x={-270} y={0} shadowColor={COLORES.rojoAlerta} shadowBlur={14} />
-        <Txt text="✕" fontSize={18} fontWeight={900} fill={'#ffffff'} x={-270} y={1} />
+        <Txt text="X" fontSize={18} fontWeight={900} fill={'#ffffff'} x={-270} y={1} />
         <Txt
           x={30}
           y={0}
@@ -960,7 +961,7 @@ export default makeScene2D(function* (view) {
       scale={() => cdrDocScale()}
     >
       <Circle size={28} fill={COLORES.verdeExito} y={-35} shadowColor={COLORES.verdeExito} shadowBlur={12} />
-      <Txt text="✓" fontSize={16} fontWeight={900} fill={'#050811'} y={-35} />
+      <Txt text="OK" fontSize={11} fontWeight={900} fill={'#050811'} y={-35} />
 
       <Txt
         y={6}
@@ -1033,7 +1034,7 @@ export default makeScene2D(function* (view) {
         <Txt
           x={-270}
           y={0}
-          text="🏛️ 10 PASOS TRIBUTARIOS COMPLETADOS"
+          text="10 PASOS TRIBUTARIOS COMPLETADOS"
           fontFamily="monospace"
           fontWeight={800}
           fontSize={14}
@@ -1053,7 +1054,7 @@ export default makeScene2D(function* (view) {
 
       <Txt
         y={8}
-        text="ERP ➔ UBL 2.1 ➔ FIRMA X.509 ➔ SOAP ➔ EXCEPCIÓN ➔ CDR ACEPTADO"
+        text="ERP -> UBL 2.1 -> FIRMA X.509 -> SOAP -> EXCEPCIÓN -> CDR ACEPTADO"
         fontFamily="monospace"
         fontWeight={900}
         fontSize={16}

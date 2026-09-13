@@ -1,6 +1,20 @@
 import React from 'react';
+import {
+  Flag,
+  Target,
+  Zap,
+  Check,
+  Layers,
+  Compass,
+  ArrowUp,
+  ArrowRight,
+  ArrowDown,
+  ArrowLeft,
+  Trophy,
+} from 'lucide-react';
 import { StepSnapshot, GridPos } from '../types';
 import { GRID_ROWS, GRID_COLS, START_NODE, TARGET_NODE, INITIAL_GRID } from '../data/bfsAlgorithm';
+import { COMPANY_NAME } from '../config/appConfig';
 
 interface VerticalVideoViewportProps {
   snapshot: StepSnapshot;
@@ -38,13 +52,13 @@ export const VerticalVideoViewport: React.FC<VerticalVideoViewportProps> = ({ sn
       />
 
       {/* ================================================================= */}
-      {/* 1. HEADER MINIMALISTA - MARCA codevo.pe                           */}
+      {/* 1. HEADER MINIMALISTA                                            */}
       {/* ================================================================= */}
       <div className="relative z-20 pb-2 border-b border-[#1e293b]">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="font-mono font-black text-white text-base tracking-[0.25em]">
-              codevo.pe
+              {COMPANY_NAME}
             </span>
             <span className="px-1.5 py-0.5 rounded text-[8px] font-mono font-bold bg-[#38bdf8]/15 text-[#38bdf8] border border-[#38bdf8]/30">
               BFS SHORTEST PATH
@@ -63,7 +77,7 @@ export const VerticalVideoViewport: React.FC<VerticalVideoViewportProps> = ({ sn
               }`}
             >
               {isGoalReached
-                ? '¡META ALCANZADA! 🎯'
+                ? '¡META ALCANZADA!'
                 : snapshot.currentNode
                 ? `CURR: (${snapshot.currentNode.r},${snapshot.currentNode.c})`
                 : 'FRONT (FIFO)'}
@@ -121,40 +135,40 @@ export const VerticalVideoViewport: React.FC<VerticalVideoViewportProps> = ({ sn
 
                 let cellBg = 'bg-[#070b14] border-[#1e293b] text-[#64748b]';
                 let cellContent = `${r},${c}`;
-                let icon = '';
+                let iconNode: React.ReactNode = null;
                 let extraClasses = '';
 
                 if (cellType === 'wall') {
                   cellBg = 'bg-[#1e293b]/90 border-[#334155] text-[#475569]';
                   cellContent = '■';
-                  icon = '🧱';
+                  iconNode = <span className="w-2.5 h-2.5 bg-[#475569] rounded-xs inline-block mb-0.5" />;
                 } else if (isPath) {
                   cellBg = 'bg-[#10b981] border-[#34d399] text-[#070b14] shadow-[0_0_16px_rgba(16,185,129,0.7)] font-black';
                   cellContent = isStart ? 'START' : isTarget ? 'GOAL' : `${r},${c}`;
-                  icon = isStart ? '🏁' : isTarget ? '🎯' : '⚡';
+                  iconNode = isStart ? <Flag className="w-3 h-3 text-[#070b14]" /> : isTarget ? <Target className="w-3 h-3 text-[#070b14]" /> : <Zap className="w-3 h-3 text-[#070b14]" />;
                   extraClasses = 'scale-105 z-20 animate-pulse';
                 } else if (isCurrent) {
                   cellBg = 'bg-[#c084fc] border-white text-[#070b14] font-black shadow-[0_0_16px_rgba(192,132,252,0.8)]';
                   cellContent = `${r},${c}`;
-                  icon = '🚀';
+                  iconNode = <Zap className="w-3.5 h-3.5 text-[#070b14]" />;
                   extraClasses = 'scale-110 z-20 ring-2 ring-[#c084fc]';
                 } else if (cellType === 'in_queue') {
                   cellBg = 'bg-[#0284c7]/30 border-[#38bdf8] text-[#38bdf8] font-bold shadow-[0_0_10px_rgba(56,189,248,0.4)]';
                   cellContent = `${r},${c}`;
-                  icon = '🌊';
+                  iconNode = <Layers className="w-3 h-3 text-[#38bdf8]" />;
                   extraClasses = 'scale-[1.03] animate-pulse';
                 } else if (cellType === 'visited') {
                   cellBg = 'bg-[#0b1329] border-[#38bdf8]/30 text-[#38bdf8]/80';
                   cellContent = `${r},${c}`;
-                  icon = '✓';
+                  iconNode = <Check className="w-3 h-3 text-[#38bdf8]/80" />;
                 } else if (isStart) {
                   cellBg = 'bg-[#064e3b] border-[#10b981] text-[#34d399] font-black shadow-[0_0_10px_rgba(16,185,129,0.3)]';
                   cellContent = 'START';
-                  icon = '🏁';
+                  iconNode = <Flag className="w-3 h-3 text-[#34d399]" />;
                 } else if (isTarget) {
                   cellBg = 'bg-[#881337] border-[#f43f5e] text-[#fda4af] font-black shadow-[0_0_10px_rgba(244,63,94,0.4)]';
                   cellContent = 'GOAL';
-                  icon = '🎯';
+                  iconNode = <Target className="w-3 h-3 text-[#fda4af]" />;
                 }
 
                 return (
@@ -162,7 +176,7 @@ export const VerticalVideoViewport: React.FC<VerticalVideoViewportProps> = ({ sn
                     key={`${r}-${c}`}
                     className={`aspect-square rounded-xl border-2 flex flex-col items-center justify-center text-[10px] sm:text-[11px] font-mono transition-all duration-300 relative ${cellBg} ${extraClasses}`}
                   >
-                    {icon && <span className="text-xs leading-none mb-0.5">{icon}</span>}
+                    {iconNode && <div className="leading-none mb-0.5">{iconNode}</div>}
                     <span className="font-bold tracking-tight">{cellContent}</span>
                   </div>
                 );
@@ -173,12 +187,12 @@ export const VerticalVideoViewport: React.FC<VerticalVideoViewportProps> = ({ sn
       </div>
 
       {/* ================================================================= */}
-      {/* 3. COLA FIFO (collections.deque): POP ◀ Y APPEND ▶                */}
+      {/* 3. COLA FIFO (collections.deque): POP Y APPEND                    */}
       {/* ================================================================= */}
       <div className="relative z-10 bg-[#0e1726] border border-[#1e293b] rounded-2xl p-2.5 flex flex-col gap-1.5 shadow-md">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-sm">📬</span>
+            <Layers className="w-3.5 h-3.5 text-[#38bdf8]" />
             <span className="text-[10px] font-mono font-black text-[#38bdf8] tracking-wider">
               COLA FIFO (DEQUE)
             </span>
@@ -207,7 +221,7 @@ export const VerticalVideoViewport: React.FC<VerticalVideoViewportProps> = ({ sn
                     : 'bg-[#070b14] border-[#1e293b] text-[#cbd5e1]'
                 }`}
               >
-                {i === 0 && <span className="text-[8px] bg-[#c084fc] text-[#070b14] px-1 rounded font-black">POP ◀</span>}
+                {i === 0 && <span className="text-[8px] bg-[#c084fc] text-[#070b14] px-1 rounded font-black">POP</span>}
                 <span>({node.r},{node.c})</span>
               </div>
             ))
@@ -221,7 +235,7 @@ export const VerticalVideoViewport: React.FC<VerticalVideoViewportProps> = ({ sn
       <div className="relative z-10 bg-[#0e1726] border border-[#1e293b] rounded-2xl p-2.5 flex flex-col gap-1.5 mt-1.5 shadow-md">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
-            <span className="text-sm">🧭</span>
+            <Compass className="w-3.5 h-3.5 text-[#38bdf8]" />
             <span className="text-[10px] font-mono font-black text-white tracking-wider">
               LOOP DE 4 DIRECCIONES
             </span>
@@ -241,7 +255,7 @@ export const VerticalVideoViewport: React.FC<VerticalVideoViewportProps> = ({ sn
                 : 'bg-[#070b14] border-[#1e293b] text-[#64748b]'
             }`}
           >
-            <span className="text-xs">⬆️</span>
+            <ArrowUp className="w-3.5 h-3.5 text-[#38bdf8]" />
             <span className="text-[8px] font-mono font-bold mt-0.5">Arriba</span>
             <span className="text-[7px] font-mono opacity-80">(-1, 0)</span>
           </div>
@@ -254,7 +268,7 @@ export const VerticalVideoViewport: React.FC<VerticalVideoViewportProps> = ({ sn
                 : 'bg-[#070b14] border-[#1e293b] text-[#64748b]'
             }`}
           >
-            <span className="text-xs">➡️</span>
+            <ArrowRight className="w-3.5 h-3.5 text-[#38bdf8]" />
             <span className="text-[8px] font-mono font-bold mt-0.5">Derecha</span>
             <span className="text-[7px] font-mono opacity-80">(0, +1)</span>
           </div>
@@ -267,7 +281,7 @@ export const VerticalVideoViewport: React.FC<VerticalVideoViewportProps> = ({ sn
                 : 'bg-[#070b14] border-[#1e293b] text-[#64748b]'
             }`}
           >
-            <span className="text-xs">⬇️</span>
+            <ArrowDown className="w-3.5 h-3.5 text-[#38bdf8]" />
             <span className="text-[8px] font-mono font-bold mt-0.5">Abajo</span>
             <span className="text-[7px] font-mono opacity-80">(+1, 0)</span>
           </div>
@@ -280,7 +294,7 @@ export const VerticalVideoViewport: React.FC<VerticalVideoViewportProps> = ({ sn
                 : 'bg-[#070b14] border-[#1e293b] text-[#64748b]'
             }`}
           >
-            <span className="text-xs">⬅️</span>
+            <ArrowLeft className="w-3.5 h-3.5 text-[#38bdf8]" />
             <span className="text-[8px] font-mono font-bold mt-0.5">Izquierda</span>
             <span className="text-[7px] font-mono opacity-80">(0, -1)</span>
           </div>
@@ -298,9 +312,13 @@ export const VerticalVideoViewport: React.FC<VerticalVideoViewportProps> = ({ sn
               : 'bg-[#0e1726] border-[#1e293b]'
           }`}
         >
-          <span className="text-base flex-shrink-0">
-            {isGoalReached ? '🎉' : '⚡'}
-          </span>
+          <div className="p-1 rounded bg-[#070b14] flex-shrink-0">
+            {isGoalReached ? (
+              <Trophy className="w-4 h-4 text-[#10b981]" />
+            ) : (
+              <Zap className="w-4 h-4 text-[#38bdf8]" />
+            )}
+          </div>
           <div className="flex-1 min-w-0">
             <span className="text-[10px] font-mono font-black text-white block truncate leading-tight">
               {isGoalReached ? '¡Ruta Óptima Garantizada!' : 'Paso Algorítmico Activo'}

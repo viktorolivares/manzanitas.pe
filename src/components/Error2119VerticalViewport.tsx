@@ -1,5 +1,21 @@
 import React from 'react';
+import {
+  Upload,
+  Search,
+  AlertOctagon,
+  Settings,
+  BarChart3,
+  Lock,
+  Rocket,
+  CheckCircle2,
+  Landmark,
+  Laptop,
+  XCircle,
+  ClipboardList,
+  AlertTriangle,
+} from 'lucide-react';
 import { Error2119Snapshot } from '../data/error2119Algorithm';
+import { COMPANY_NAME } from '../config/appConfig';
 
 interface Error2119VerticalViewportProps {
   snapshot: Error2119Snapshot;
@@ -33,7 +49,7 @@ export const Error2119VerticalViewport: React.FC<Error2119VerticalViewportProps>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#10b981] shadow-[0_0_8px_#10b981]"></span>
             </span>
             <span className="font-mono font-black text-white text-base tracking-[0.2em]">
-              codevo.pe
+              {COMPANY_NAME}
             </span>
           </div>
 
@@ -86,25 +102,27 @@ export const Error2119VerticalViewport: React.FC<Error2119VerticalViewportProps>
         {/* Step Banner */}
         <div className="p-2.5 rounded-xl bg-[#0f172a]/95 border border-[#1e293b] backdrop-blur-md flex items-center justify-between">
           <div className="flex items-center gap-2 min-w-0">
-            <span className="text-base shrink-0">
-              {snapshot.phase === 'ENVIO_INICIAL'
-                ? '📤'
-                : snapshot.phase === 'ERROR_DETECTADO'
-                ? '🔍'
-                : snapshot.phase === 'RECHAZO_CDR'
-                ? '🛑'
-                : snapshot.phase === 'ENFOQUE_CORRECCION'
-                ? '⚙️'
-                : snapshot.phase === 'AUDITORIA_CALCULO'
-                ? '📊'
-                : snapshot.phase === 'APLICACION_REGLA'
-                ? '🔐'
-                : snapshot.phase === 'REENVIO_CORREGIDO'
-                ? '🚀'
-                : snapshot.phase === 'VALIDACION_CONFORME'
-                ? '✅'
-                : '🏛️'}
-            </span>
+            <div className="p-1 rounded bg-[#1e293b] text-[#38bdf8] shrink-0">
+              {snapshot.phase === 'ENVIO_INICIAL' ? (
+                <Upload className="w-4 h-4 text-[#38bdf8]" />
+              ) : snapshot.phase === 'ERROR_DETECTADO' ? (
+                <Search className="w-4 h-4 text-[#f59e0b]" />
+              ) : snapshot.phase === 'RECHAZO_CDR' ? (
+                <AlertOctagon className="w-4 h-4 text-[#ef4444]" />
+              ) : snapshot.phase === 'ENFOQUE_CORRECCION' ? (
+                <Settings className="w-4 h-4 text-[#38bdf8]" />
+              ) : snapshot.phase === 'AUDITORIA_CALCULO' ? (
+                <BarChart3 className="w-4 h-4 text-[#38bdf8]" />
+              ) : snapshot.phase === 'APLICACION_REGLA' ? (
+                <Lock className="w-4 h-4 text-[#10b981]" />
+              ) : snapshot.phase === 'REENVIO_CORREGIDO' ? (
+                <Rocket className="w-4 h-4 text-[#10b981]" />
+              ) : snapshot.phase === 'VALIDACION_CONFORME' ? (
+                <CheckCircle2 className="w-4 h-4 text-[#10b981]" />
+              ) : (
+                <Landmark className="w-4 h-4 text-[#38bdf8]" />
+              )}
+            </div>
             <div className="min-w-0">
               <div className="text-[10px] font-mono font-bold text-white tracking-wider truncate">
                 {snapshot.stepTitle}
@@ -127,7 +145,7 @@ export const Error2119VerticalViewport: React.FC<Error2119VerticalViewportProps>
           
           {/* SVG Connection Lines */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
-            {/* SISTEMA ➔ VALIDADOR (Vertical superior) */}
+            {/* SISTEMA -> VALIDADOR (Vertical superior) */}
             <line
               x1="50%"
               y1="22%"
@@ -138,7 +156,7 @@ export const Error2119VerticalViewport: React.FC<Error2119VerticalViewportProps>
               strokeDasharray="4 4"
             />
 
-            {/* VALIDADOR ➔ PANEL CORRECCIÓN (Vertical inferior) */}
+            {/* VALIDADOR -> PANEL CORRECCIÓN (Vertical inferior) */}
             <line
               x1="50%"
               y1="60%"
@@ -162,7 +180,7 @@ export const Error2119VerticalViewport: React.FC<Error2119VerticalViewportProps>
           >
             <div className="flex items-center justify-between mb-0.5">
               <div className="flex items-center gap-1.5">
-                <span className="text-xs">💻</span>
+                <Laptop className="w-3.5 h-3.5 text-[#38bdf8]" />
                 <span className="text-[9px] font-mono font-black text-white tracking-wider">
                   TU SISTEMA / ERP
                 </span>
@@ -189,8 +207,9 @@ export const Error2119VerticalViewport: React.FC<Error2119VerticalViewportProps>
             }`}
           >
             <div className="flex items-center justify-between mb-1">
-              <span className="px-1.5 py-0.2 rounded bg-[#0b1424] text-[#38bdf8] border border-[#0284c7]/40 text-[7px] font-mono font-black tracking-wider">
-                🏛️ ESCÁNER FISCAL OFICIAL
+              <span className="px-1.5 py-0.2 rounded bg-[#0b1424] text-[#38bdf8] border border-[#0284c7]/40 text-[7px] font-mono font-black tracking-wider flex items-center gap-1">
+                <Landmark className="w-3 h-3 text-[#38bdf8]" />
+                <span>ESCÁNER FISCAL OFICIAL</span>
               </span>
               <span
                 className="text-[7px] font-mono font-bold"
@@ -201,8 +220,14 @@ export const Error2119VerticalViewport: React.FC<Error2119VerticalViewportProps>
             </div>
 
             <div className="flex items-center gap-1.5">
-              <span className="text-sm">
-                {snapshot.phase === 'RECHAZO_CDR' ? '🛑' : snapshot.phase === 'VALIDACION_CONFORME' ? '✅' : '🔍'}
+              <span className="p-1 rounded bg-[#1e293b]">
+                {snapshot.phase === 'RECHAZO_CDR' ? (
+                  <AlertOctagon className="w-4 h-4 text-[#ef4444]" />
+                ) : snapshot.phase === 'VALIDACION_CONFORME' ? (
+                  <CheckCircle2 className="w-4 h-4 text-[#10b981]" />
+                ) : (
+                  <Search className="w-4 h-4 text-[#38bdf8]" />
+                )}
               </span>
               <div>
                 <span className="text-[10px] font-mono font-black text-white tracking-wider block">
@@ -235,14 +260,18 @@ export const Error2119VerticalViewport: React.FC<Error2119VerticalViewportProps>
           >
             <div className="flex items-center justify-between mb-1">
               <span className="text-[8px] font-mono font-black text-[#f59e0b] tracking-wider flex items-center gap-1">
-                <span>⚙️</span> DIAGNÓSTICO Y CORRECCIÓN TÉCNICA
+                <Settings className="w-3.5 h-3.5 text-[#f59e0b]" />
+                <span>DIAGNÓSTICO Y CORRECCIÓN TÉCNICA</span>
               </span>
               <span className="text-[7px] font-mono text-[#10b981] font-bold">UBL 2.1</span>
             </div>
 
             {/* Fila 1: Incorrecto */}
             <div className="p-1 rounded-lg bg-[#1a0a0e] border border-[#ef4444]/60 mb-1 flex items-center justify-between text-[7px] font-mono">
-              <span className="text-[#ef4444] font-bold">❌ Redondeo prematuro x ítem:</span>
+              <span className="text-[#ef4444] font-bold flex items-center gap-1">
+                <XCircle className="w-3 h-3 text-[#ef4444]" />
+                <span>Redondeo prematuro x ítem:</span>
+              </span>
               <span className="text-white bg-[#ef4444]/20 px-1 py-0.2 rounded font-mono font-black">
                 S/ 17.90 (Diff: -S/ 0.10)
               </span>
@@ -250,7 +279,10 @@ export const Error2119VerticalViewport: React.FC<Error2119VerticalViewportProps>
 
             {/* Fila 2: Regla Técnica UBL 2.1 */}
             <div className="p-1.5 rounded-lg bg-[#022c22] border-2 border-[#10b981] flex items-center justify-between text-[7.5px] font-mono">
-              <span className="text-[#86efac] font-black">✅ Regla Base Total * 0.18:</span>
+              <span className="text-[#86efac] font-black flex items-center gap-1">
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#10b981]" />
+                <span>Regla Base Total * 0.18:</span>
+              </span>
               <span className="text-[#10b981] bg-[#051e18] px-1.5 py-0.5 rounded font-mono font-black text-[8.5px] shadow-[0_0_8px_#10b981]">
                 S/ 18.00 EXACTO
               </span>
@@ -276,7 +308,10 @@ export const Error2119VerticalViewport: React.FC<Error2119VerticalViewportProps>
 
             {snapshot.packetStatus === 'rechazado' && (
               <div className="px-2.5 py-1.5 rounded-xl bg-[#26080d] border border-[#ef4444] shadow-[0_0_18px_#ef4444] text-center">
-                <div className="text-[8px] font-mono font-black text-[#ef4444]">🛑 RECHAZO: ERROR 2119</div>
+                <div className="text-[8px] font-mono font-black text-[#ef4444] flex items-center justify-center gap-1">
+                  <AlertOctagon className="w-3 h-3 text-[#ef4444]" />
+                  <span>RECHAZO: ERROR 2119</span>
+                </div>
                 <div className="text-[6.5px] font-mono text-[#fca5a5]">Tasa Oficial Discrepante</div>
               </div>
             )}
@@ -290,7 +325,10 @@ export const Error2119VerticalViewport: React.FC<Error2119VerticalViewportProps>
 
             {snapshot.packetStatus === 'aprobado' && (
               <div className="px-2.5 py-1.5 rounded-xl bg-[#022c22] border border-[#10b981] shadow-[0_0_20px_#10b981] text-center">
-                <div className="text-[8px] font-mono font-black text-[#10b981]">✓ CDR ESTADO 0: ACEPTADO</div>
+                <div className="text-[8px] font-mono font-black text-[#10b981] flex items-center justify-center gap-1">
+                  <CheckCircle2 className="w-3 h-3 text-[#10b981]" />
+                  <span>CDR ESTADO 0: ACEPTADO</span>
+                </div>
                 <div className="text-[6.5px] font-mono text-white">Comprobante Válido SUNAT</div>
               </div>
             )}
@@ -299,8 +337,9 @@ export const Error2119VerticalViewport: React.FC<Error2119VerticalViewportProps>
           {/* MODAL FLOTANTE DE ALERTA: ERROR 2119 */}
           {snapshot.errorModalVisible && (
             <div className="absolute top-[32%] left-[50%] -translate-x-1/2 w-[90%] p-2.5 rounded-2xl bg-[#1f0a0d]/98 border-2 border-[#ef4444] shadow-[0_0_24px_rgba(239,68,68,0.6)] backdrop-blur-md z-40 text-center animate-in zoom-in-95 duration-300">
-              <span className="text-[9px] font-mono font-black text-[#ef4444] block">
-                ⚠️ ERROR 2119: DISCREPANCIA DE IGV
+              <span className="text-[9px] font-mono font-black text-[#ef4444] flex items-center justify-center gap-1">
+                <AlertTriangle className="w-3.5 h-3.5 text-[#ef4444]" />
+                <span>ERROR 2119: DISCREPANCIA DE IGV</span>
               </span>
               <span className="text-[7.5px] text-[#fca5a5] block mt-0.5 font-sans">
                 La base imponible (S/ 100.00) y el tributo (S/ 17.90) no coinciden con la tasa oficial (18%).
@@ -319,7 +358,8 @@ export const Error2119VerticalViewport: React.FC<Error2119VerticalViewportProps>
         <div className="p-2.5 rounded-2xl bg-[#0f172a]/95 border border-[#1e293b] shadow-xl">
           <div className="flex items-center justify-between mb-1">
             <span className="text-[9px] font-mono font-bold text-[#38bdf8] tracking-wider flex items-center gap-1">
-              <span>📋</span> ESPECIFICACIÓN TRIBUTARIA
+              <ClipboardList className="w-3.5 h-3.5 text-[#38bdf8]" />
+              <span>ESPECIFICACIÓN TRIBUTARIA</span>
             </span>
             <span className="text-[8px] font-mono text-[#f59e0b] font-bold">
               Tolerancia máx: ± S/ 0.05

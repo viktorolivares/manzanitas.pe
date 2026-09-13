@@ -1,4 +1,5 @@
 import React from 'react';
+import { Target, Zap } from 'lucide-react';
 import { CellType, GridPos } from '../types';
 import { GRID_ROWS, GRID_COLS, START_NODE, TARGET_NODE } from '../data/bfsAlgorithm';
 
@@ -141,7 +142,7 @@ export const GridVisualizer: React.FC<GridVisualizerProps> = ({
                       : 'bg-[#24283b] border-[#414868] text-[#c0caf5]'
                   }`}
                 >
-                  {i === 0 && <span className="text-[9px] mr-1 text-[#c084fc]">POP ➜</span>}
+                  {i === 0 && <span className="text-[9px] mr-1 text-[#c084fc]">POP -&gt;</span>}
                   ({node.r}, {node.c})
                 </div>
               ))
@@ -160,8 +161,8 @@ export const GridVisualizer: React.FC<GridVisualizerProps> = ({
           ? 'bg-[#14532d]/40 border-[#4ade80] text-[#4ade80] shadow-[0_0_15px_rgba(74,222,128,0.2)]'
           : 'bg-[#1a1b26] border-[#414868]/40 text-[#c0caf5]'
       }`}>
-        <span className="text-sm">
-          {isGoalReached ? '🎯' : '⚡'}
+        <span className="shrink-0">
+          {isGoalReached ? <Target className="w-4 h-4 text-[#4ade80]" /> : <Zap className="w-4 h-4 text-[#38bdf8]" />}
         </span>
         <span className="truncate flex-1 font-medium">{stepDescription}</span>
       </div>

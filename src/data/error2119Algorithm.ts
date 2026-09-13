@@ -1,3 +1,5 @@
+import { COMPANY_NAME } from '../config/appConfig';
+
 export interface Error2119Snapshot {
   stepIndex: number;
   timeSec: number;
@@ -190,7 +192,7 @@ export function generateError2119Timeline(): Error2119Snapshot[] {
       phase: 'AUDITORIA_CALCULO',
       phaseLabel: 'FASE 5/10 • COMPARATIVA TÉCNICA',
       stepTitle: 'Paso 5: Comparativa: Lógica Incorrecta vs Lógica UBL',
-      description: '❌ Incorrecto: 3 ítems con redondeo forzado dan S/ 17.90. ✅ Regla UBL: Sumar primero todas las bases (S/ 100.00) y luego aplicar * 0.18 = S/ 18.00.',
+      description: 'Incorrecto: 3 ítems con redondeo forzado dan S/ 17.90. Regla UBL: Sumar primero todas las bases (S/ 100.00) y luego aplicar * 0.18 = S/ 18.00.',
       statusText: 'PANEL: REGLA DE CÁLCULO GLOBAL DE BASE',
       statusColor: '#38bdf8',
       badgeText: 'COMPARATIVA MATEMÁTICA',
@@ -344,11 +346,11 @@ export function generateError2119Timeline(): Error2119Snapshot[] {
       stepDurationMs: 3000,
       phase: 'LECCION_TECNICA',
       phaseLabel: 'FASE 10/10 • BUENAS PRÁCTICAS CLOUD',
-      stepTitle: 'Paso 10: Regla de Oro codevo.pe para Facturación',
+      stepTitle: `Paso 10: Regla de Oro ${COMPANY_NAME} para Facturación`,
       description: 'Nunca redondees el IGV de cada ítem antes de consolidar. Calcula siempre sobre la base agregada o usa tipos numéricos Decimal con ROUND_HALF_UP.',
       statusText: 'ARQUITECTURA RESILIENTE: CERO RECHAZOS',
       statusColor: '#10b981',
-      badgeText: 'BUENAS PRÁCTICAS • codevo.pe',
+      badgeText: `BUENAS PRÁCTICAS • ${COMPANY_NAME}`,
       badgeColor: '#10b981',
       activeNodes: { sistema: true, validador: true, correccion: true },
       comprobanteData: {
@@ -364,7 +366,7 @@ export function generateError2119Timeline(): Error2119Snapshot[] {
       errorModalVisible: false,
       correctionHighlighted: true,
       technicalDetails: {
-        norma: 'Estándar de Integración codevo.pe',
+        norma: `Estándar de Integración ${COMPANY_NAME}`,
         causa: 'Diseño arquitectónico preventivo en facturación electrónica',
         solucion: 'Operatividad sin interrupciones ni multas tributarias',
       },

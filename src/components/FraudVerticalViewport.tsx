@@ -1,5 +1,14 @@
 import React from 'react';
+import {
+  Shield,
+  ShieldCheck,
+  AlertTriangle,
+  AlertOctagon,
+  CreditCard,
+  Brain,
+} from 'lucide-react';
 import { FraudSnapshot } from '../data/fraudDetectionAlgorithm';
+import { COMPANY_NAME } from '../config/appConfig';
 
 interface FraudVerticalViewportProps {
   snapshot: FraudSnapshot;
@@ -24,7 +33,7 @@ export const FraudVerticalViewport: React.FC<FraudVerticalViewportProps> = ({ sn
       />
 
       {/* ================================================================= */}
-      {/* 1. HEADER MINIMALISTA (codevo.pe • FRAUD SHIELD • LATENCIA)       */}
+      {/* 1. HEADER MINIMALISTA (FRAUD SHIELD • LATENCIA)                   */}
       {/* ================================================================= */}
       <div className="relative z-20 pb-2 border-b border-[#1e293b]">
         <div className="flex items-center justify-between">
@@ -35,7 +44,7 @@ export const FraudVerticalViewport: React.FC<FraudVerticalViewportProps> = ({ sn
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#10b981] shadow-[0_0_8px_#10b981]"></span>
             </span>
             <span className="font-mono font-black text-white text-base tracking-[0.2em]">
-              codevo.pe
+              {COMPANY_NAME}
             </span>
           </div>
 
@@ -88,14 +97,16 @@ export const FraudVerticalViewport: React.FC<FraudVerticalViewportProps> = ({ sn
         {/* Dynamic Phase Banner */}
         <div className="p-2.5 rounded-xl bg-[#0b1120]/90 border border-[#1e293b] backdrop-blur-md flex items-center justify-between">
           <div className="flex items-center gap-2 min-w-0">
-            <span className="text-base shrink-0">
-              {snapshot.phase === 'CYCLE_DETECTION'
-                ? '🚨'
-                : snapshot.phase === 'ANOMALY_LOOP'
-                ? '⚠️'
-                : snapshot.phase === 'MITIGATION_SHIELD'
-                ? '🛡️'
-                : '💳'}
+            <span className="shrink-0">
+              {snapshot.phase === 'CYCLE_DETECTION' ? (
+                <AlertOctagon className="w-4 h-4 text-[#ef4444]" />
+              ) : snapshot.phase === 'ANOMALY_LOOP' ? (
+                <AlertTriangle className="w-4 h-4 text-[#f59e0b]" />
+              ) : snapshot.phase === 'MITIGATION_SHIELD' ? (
+                <ShieldCheck className="w-4 h-4 text-[#10b981]" />
+              ) : (
+                <CreditCard className="w-4 h-4 text-[#38bdf8]" />
+              )}
             </span>
             <div className="min-w-0">
               <div className="text-[10px] font-mono font-bold text-white tracking-wider truncate">
@@ -129,8 +140,8 @@ export const FraudVerticalViewport: React.FC<FraudVerticalViewportProps> = ({ sn
           {snapshot.shieldActive && (
             <div className="absolute top-[50%] left-[50%] pointer-events-none -translate-x-1/2 -translate-y-1/2 z-10">
               <div className="w-[210px] h-[160px] rounded-[36px] border-2 border-[#10b981] shadow-[0_0_24px_rgba(16,185,129,0.4)] bg-[#022c22]/20 flex flex-col items-center justify-start pt-1">
-                <span className="px-2 py-0.5 rounded-full bg-[#022c22] border border-[#10b981] text-[8px] font-mono font-black text-[#10b981] shadow-sm -mt-3.5">
-                  🛡️ CLÚSTER AISLADO
+                <span className="px-2 py-0.5 rounded-full bg-[#022c22] border border-[#10b981] text-[8px] font-mono font-black text-[#10b981] shadow-sm -mt-3.5 flex items-center gap-1">
+                  <Shield className="w-2.5 h-2.5 inline" /> CLÚSTER AISLADO
                 </span>
               </div>
             </div>
@@ -273,7 +284,7 @@ export const FraudVerticalViewport: React.FC<FraudVerticalViewportProps> = ({ sn
           {/* Phase 2: Anomaly Speed Banner */}
           {snapshot.anomalyRateText && (
             <div className="absolute top-[22%] left-[50%] -translate-x-1/2 px-2.5 py-1 rounded-xl bg-[#291804]/95 border border-[#f59e0b] shadow-[0_0_16px_rgba(245,158,11,0.5)] z-30 flex items-center gap-1.5 animate-bounce">
-              <span className="text-xs">⚠️</span>
+              <AlertTriangle className="w-3 h-3 text-[#f59e0b]" />
               <span className="text-[8px] font-mono font-black text-[#fef3c7] tracking-wider">
                 {snapshot.anomalyRateText}
               </span>
@@ -284,11 +295,11 @@ export const FraudVerticalViewport: React.FC<FraudVerticalViewportProps> = ({ sn
           {snapshot.alertCardActive && (
             <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[85%] p-3.5 rounded-2xl bg-[#1c0a0a]/95 border-2 border-[#ef4444] shadow-[0_0_30px_rgba(239,68,68,0.7)] backdrop-blur-xl z-40 flex flex-col items-center text-center animate-in zoom-in-95 duration-300">
               <div className="flex items-center gap-1.5 text-xs font-mono font-black text-[#fecaca] tracking-wider mb-1">
-                <span>🚨</span>
+                <AlertOctagon className="w-3.5 h-3.5 text-[#ef4444]" />
                 <span>CICLO DE LAVADO DETECTADO</span>
               </div>
               <div className="text-[8px] font-mono text-white/80 mb-2">
-                A ➔ B ➔ C ➔ D ➔ A (Cadencia: 120ms)
+                A -&gt; B -&gt; C -&gt; D -&gt; A (Cadencia: 120ms)
               </div>
               <div className="text-2xl font-mono font-black text-[#ef4444] tracking-widest my-1 drop-shadow-[0_0_12px_#ef4444]">
                 {snapshot.riskScore}
@@ -306,8 +317,8 @@ export const FraudVerticalViewport: React.FC<FraudVerticalViewportProps> = ({ sn
         {/* =============================================================== */}
         <div className="p-2.5 rounded-2xl bg-[#0b1120]/95 border border-[#1e293b] shadow-xl">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-[9px] font-mono font-bold text-[#38bdf8] tracking-wider flex items-center gap-1">
-              <span>🧠</span> MOTOR DISTRIBUIDO: TARJAN SCC
+            <span className="text-[9px] font-mono font-bold text-[#38bdf8] tracking-wider flex items-center gap-1.5">
+              <Brain className="w-3.5 h-3.5 text-[#38bdf8]" /> MOTOR DISTRIBUIDO: TARJAN SCC
             </span>
             <span className="text-[8px] font-mono text-[#10b981] font-bold">
               0 Fugas
@@ -341,8 +352,8 @@ export const FraudVerticalViewport: React.FC<FraudVerticalViewportProps> = ({ sn
         <div className="p-2.5 rounded-xl bg-gradient-to-r from-[#06141a] via-[#0b1120] to-[#06141a] border border-[#10b981]/40 shadow-lg flex items-center justify-between gap-2">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5">
-              <span className="text-[10px] font-mono font-black text-[#10b981] tracking-wider truncate">
-                🛡️ RED SEGURA • 0 FUGAS
+              <span className="text-[10px] font-mono font-black text-[#10b981] tracking-wider truncate flex items-center gap-1">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#10b981]" /> RED SEGURA • 0 FUGAS
               </span>
               <span className="px-1.5 py-0.2 rounded bg-[#10b981]/20 text-[#86efac] text-[8px] font-mono font-bold border border-[#10b981]/40">
                 $179.4k RECUPERADOS

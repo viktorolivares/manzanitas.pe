@@ -31,6 +31,7 @@ import {
   Txt,
   Line,
 } from '@motion-canvas/2d';
+import { COMPANY_NAME } from '../../config/appConfig';
 
 /**
  * PALETA DE COLORES - Cyberpunk / Dark Concurrency
@@ -76,7 +77,7 @@ export default makeScene2D(function* (view) {
   view.add(
     <Node ref={marcaRef} y={-850}>
       <Txt
-        text="codevo.pe"
+        text={COMPANY_NAME}
         fill={'#ffffff'}
         fontFamily={'JetBrains Mono, monospace'}
         fontSize={34}
@@ -199,17 +200,17 @@ export default makeScene2D(function* (view) {
         initialFill = '#064e3b';
         initialBorder = COLORES.verde;
         label = 'START';
-        icon = '🏁';
+        icon = 'S';
       } else if (isTarget) {
         initialFill = '#881337';
         initialBorder = COLORES.magenta;
         label = 'GOAL';
-        icon = '🎯';
+        icon = 'G';
       } else if (isWall) {
         initialFill = '#1e293b';
         initialBorder = '#334155';
         label = 'WALL';
-        icon = '🧱';
+        icon = '#';
       }
 
       const scaleSig = createSignal(1);
@@ -301,7 +302,9 @@ export default makeScene2D(function* (view) {
     >
       <Rect layout direction={'row'} alignItems={'center'} justifyContent={'space-between'} width={'100%'}>
         <Rect layout direction={'row'} alignItems={'center'} gap={12}>
-          <Txt text="📬" fontSize={24} />
+          <Rect width={42} height={24} radius={6} fill={'rgba(56, 189, 248, 0.15)'} layout alignItems={'center'} justifyContent={'center'}>
+            <Txt text="FIFO" fontSize={11} fontWeight={900} fill={COLORES.cian} fontFamily={'JetBrains Mono, monospace'} />
+          </Rect>
           <Txt
             text="COLA FIFO (COLLECTIONS.DEQUE)"
             fill={COLORES.cian}
@@ -353,8 +356,8 @@ export default makeScene2D(function* (view) {
             queueItemsSig().length === 0
               ? ''
               : queueItemsSig()
-                  .map((item, idx) => (idx === 0 ? \`[POP ◀ \${item}]\` : item))
-                  .join('   ➔   ')
+                  .map((item, idx) => (idx === 0 ? \`[POP < \${item}]\` : item))
+                  .join('   ->   ')
           }
           fill={COLORES.cian}
           fontFamily={'JetBrains Mono, monospace'}
@@ -427,7 +430,7 @@ export default makeScene2D(function* (view) {
           justifyContent={'center'}
           gap={2}
         >
-          <Txt text="⬆️" fontSize={20} />
+          <Txt text="^" fontSize={18} fontWeight={900} fill={'#38bdf8'} />
           <Txt text="ARRIBA" fill={'#ffffff'} fontFamily={'JetBrains Mono, monospace'} fontSize={13} fontWeight={800} />
           <Txt text="(-1, 0)" fill={COLORES.textoApagado} fontFamily={'JetBrains Mono, monospace'} fontSize={11} />
         </Rect>
@@ -446,7 +449,7 @@ export default makeScene2D(function* (view) {
           justifyContent={'center'}
           gap={2}
         >
-          <Txt text="➡️" fontSize={20} />
+          <Txt text=">" fontSize={18} fontWeight={900} fill={'#38bdf8'} />
           <Txt text="DERECHA" fill={'#ffffff'} fontFamily={'JetBrains Mono, monospace'} fontSize={13} fontWeight={800} />
           <Txt text="(0, +1)" fill={COLORES.textoApagado} fontFamily={'JetBrains Mono, monospace'} fontSize={11} />
         </Rect>
@@ -465,7 +468,7 @@ export default makeScene2D(function* (view) {
           justifyContent={'center'}
           gap={2}
         >
-          <Txt text="⬇️" fontSize={20} />
+          <Txt text="v" fontSize={18} fontWeight={900} fill={'#38bdf8'} />
           <Txt text="ABAJO" fill={'#ffffff'} fontFamily={'JetBrains Mono, monospace'} fontSize={13} fontWeight={800} />
           <Txt text="(+1, 0)" fill={COLORES.textoApagado} fontFamily={'JetBrains Mono, monospace'} fontSize={11} />
         </Rect>
@@ -484,7 +487,7 @@ export default makeScene2D(function* (view) {
           justifyContent={'center'}
           gap={2}
         >
-          <Txt text="⬅️" fontSize={20} />
+          <Txt text="<" fontSize={18} fontWeight={900} fill={'#38bdf8'} />
           <Txt text="IZQUIERDA" fill={'#ffffff'} fontFamily={'JetBrains Mono, monospace'} fontSize={13} fontWeight={800} />
           <Txt text="(0, -1)" fill={COLORES.textoApagado} fontFamily={'JetBrains Mono, monospace'} fontSize={11} />
         </Rect>
@@ -554,9 +557,9 @@ export default makeScene2D(function* (view) {
     dirDerechaBorder(COLORES.cian, 0.3),
     dirDerechaFill('rgba(56, 189, 248, 0.2)', 0.3),
     bannerTituloSig('2. Explorando Vecino Derecha: (0,1)', 0.2),
-    bannerDescSig('curr = popleft() ➔ (0,0). El vecino (0,1) está libre y no visitado.', 0.2),
+    bannerDescSig('curr = popleft() -> (0,0). El vecino (0,1) está libre y no visitado.', 0.2),
     pasoBadgeSig('PASO 02 / 12', 0.2),
-    estadoTagSig('POP (0,0) ➔ DERECHA', 0.2),
+    estadoTagSig('POP (0,0) -> DERECHA', 0.2),
     estadoColorSig(COLORES.cian, 0.2),
   );
 
@@ -565,7 +568,7 @@ export default makeScene2D(function* (view) {
     cellFills[0][1]('#0369a1', 0.3),
     cellBorders[0][1](COLORES.cian, 0.3),
     cellScales[0][1](1.08, 0.3, easeOutBack),
-    cellIcons[0][1]('🌊', 0.2),
+    cellIcons[0][1]('+', 0.2),
     queueItemsSig(['(0,1)']),
     queueLenSig('len = 1'),
     visitadosCountSig('2 / 25'),
@@ -579,7 +582,7 @@ export default makeScene2D(function* (view) {
     cellFills[0][2]('#0369a1', 0.3),
     cellBorders[0][2](COLORES.cian, 0.3),
     cellScales[0][2](1.08, 0.3, easeOutBack),
-    cellIcons[0][2]('🌊', 0.2),
+    cellIcons[0][2]('+', 0.2),
     queueItemsSig(['(0,2)']),
     queueLenSig('len = 1'),
     visitadosCountSig('3 / 25'),
@@ -598,7 +601,7 @@ export default makeScene2D(function* (view) {
     cellFills[1][2]('#0369a1', 0.3),
     cellBorders[1][2](COLORES.cian, 0.3),
     cellScales[1][2](1.08, 0.3, easeOutBack),
-    cellIcons[1][2]('🌊', 0.2),
+    cellIcons[1][2]('+', 0.2),
     queueItemsSig(['(1,2)']),
     visitadosCountSig('4 / 25'),
     bannerTituloSig('4. Descenso de la Onda: (1,2)', 0.2),
@@ -607,14 +610,14 @@ export default makeScene2D(function* (view) {
   );
   yield* waitFor(1.0);
 
-  // PASO 5: Muro en (2,2) ➔ Ignorado, rodea por (0,3) y (0,4)
+  // PASO 5: Muro en (2,2) -> Ignorado, rodea por (0,3) y (0,4)
   yield* all(
     cellFills[0][3]('#0369a1', 0.3),
     cellBorders[0][3](COLORES.cian, 0.3),
-    cellIcons[0][3]('🌊', 0.2),
+    cellIcons[0][3]('+', 0.2),
     cellFills[0][4]('#0369a1', 0.3),
     cellBorders[0][4](COLORES.cian, 0.3),
-    cellIcons[0][4]('🌊', 0.2),
+    cellIcons[0][4]('+', 0.2),
     queueItemsSig(['(0,3)', '(0,4)']),
     queueLenSig('len = 2'),
     visitadosCountSig('6 / 25'),
@@ -651,7 +654,7 @@ export default makeScene2D(function* (view) {
     bannerDescSig('curr == target. BFS garantiza que este primer contacto es la distancia mínima absoluta.', 0.2),
     bannerBorderSig(COLORES.verde, 0.3),
     pasoBadgeSig('PASO 07 / 12', 0.2),
-    estadoTagSig('¡META ALCANZADA! 🎯', 0.2),
+    estadoTagSig('META ALCANZADA [OK]', 0.2),
     estadoColorSig(COLORES.verde, 0.2),
   );
   yield* waitFor(1.5);
@@ -669,7 +672,7 @@ export default makeScene2D(function* (view) {
       cellFills[r][c](COLORES.verde, 0.15),
       cellBorders[r][c]('#6ee7b7', 0.15),
       cellScales[r][c](1.1, 0.15, easeOutBack),
-      cellIcons[r][c]('⚡', 0.1),
+      cellIcons[r][c]('*', 0.1),
     );
   }
 
@@ -677,8 +680,7 @@ export default makeScene2D(function* (view) {
     bannerTituloSig('8. Ruta Óptima Reconstruida: 9 Pasos', 0.2),
     bannerDescSig('Reconstrucción por punteros parent[node]. Longitud mínima: 8 saltos (9 celdas).', 0.2),
     pasoBadgeSig('FINALIZADO', 0.2),
-    estadoTagSig('OPTIMAL PATH ✓', 0.2),
+    estadoTagSig('OPTIMAL PATH [OK]', 0.2),
   );
   yield* waitFor(2.5);
-});
-`;
+});`;

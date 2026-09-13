@@ -36,20 +36,20 @@ export const EMBEDDING_CODE_LINES = [
   'v_hombre = embedding_model["Hombre"]  # [-0.7, -0.6]',
   'v_mujer  = embedding_model["Mujer"]   # [+0.7, -0.6]',
   '# 2. Las relaciones entre conceptos son flechas (vectores):',
-  '#    Hombre ➔ Rey  suma exactamente el vector [+0.0, +1.3] (Nobleza)',
-  '#    Mujer  ➔ Reina suma exactamente el vector [+0.0, +1.3] (Nobleza)',
+  '#    Hombre -> Rey  suma exactamente el vector [+0.0, +1.3] (Nobleza)',
+  '#    Mujer  -> Reina suma exactamente el vector [+0.0, +1.3] (Nobleza)',
   '# 3. Operamos los significados matemáticamente:',
   'resultado = v_rey - v_hombre + v_mujer',
   '# 4. Buscamos el punto más cercano en el espacio vectorial:',
-  '#    resultado == [+0.7, +0.7] ➔ Coordenada exacta de "Reina" 👸',
+  '#    resultado == [+0.7, +0.7] -> Coordenada exacta de "Reina"',
 ];
 
 export function generateEmbeddingTimeline(): EmbeddingSnapshot[] {
   const baseWords: WordCoordinate[] = [
-    { id: 'hombre', label: 'Hombre', emoji: '👨', x: -55, y: -45, vector: [-0.7, -0.6], color: '#38bdf8', visible: true },
-    { id: 'mujer',  label: 'Mujer',  emoji: '👩', x: 55,  y: -45, vector: [0.7, -0.6],  color: '#ec4899', visible: true },
-    { id: 'rey',    label: 'Rey',    emoji: '👑', x: -55, y: 55,  vector: [-0.7, 0.7],  color: '#fbbf24', visible: true },
-    { id: 'reina',  label: 'Reina',  emoji: '👸', x: 55,  y: 55,  vector: [0.7, 0.7],   color: '#a855f7', visible: true },
+    { id: 'hombre', label: 'Hombre', emoji: '', x: -55, y: -45, vector: [-0.7, -0.6], color: '#38bdf8', visible: true },
+    { id: 'mujer',  label: 'Mujer',  emoji: '', x: 55,  y: -45, vector: [0.7, -0.6],  color: '#ec4899', visible: true },
+    { id: 'rey',    label: 'Rey',    emoji: '', x: -55, y: 55,  vector: [-0.7, 0.7],  color: '#fbbf24', visible: true },
+    { id: 'reina',  label: 'Reina',  emoji: '', x: 55,  y: 55,  vector: [0.7, 0.7],   color: '#a855f7', visible: true },
   ];
 
   return [
@@ -169,14 +169,14 @@ export function generateEmbeddingTimeline(): EmbeddingSnapshot[] {
       phase: 'EQUATION',
       phaseLabel: '5. ÁLGEBRA DE SIGNIFICADOS',
       stepTitle: 'Paso 8: ¿Podemos calcular con palabras?',
-      description: 'Hagamos un experimento algebraico con los significados: Tomamos el vector de "👑 Rey", le restamos "👨 Hombre" (quitamos el género masculino) y le sumamos "👩 Mujer".',
+      description: 'Hagamos un experimento algebraico con los significados: Tomamos el vector de "Rey", le restamos "Hombre" (quitamos el género masculino) y le sumamos "Mujer".',
       activeComponent: 'equation',
       words: baseWords.map(w => ({ ...w, visible: true, isNew: false })),
       gridVisible: true,
       axesLabelsVisible: true,
       arrowsVisible: true,
       equationVisible: true,
-      formulaHighlight: '👑 Rey - 👨 Hombre + 👩 Mujer',
+      formulaHighlight: 'Rey - Hombre + Mujer',
     },
     {
       stepIndex: 8,
@@ -185,14 +185,14 @@ export function generateEmbeddingTimeline(): EmbeddingSnapshot[] {
       phase: 'EQUATION',
       phaseLabel: '5. EL RESULTADO MÁGICO',
       stepTitle: 'Paso 9: [-0.7, 0.7] - [-0.7, -0.6] + [0.7, -0.6] = [+0.7, +0.7]',
-      description: 'Al resolver la aritmética de coordenadas numéricas, el resultado cae con absoluta precisión matemática en la posición de: 👸 "Reina". La IA puede razonar por analogía.',
+      description: 'Al resolver la aritmética de coordenadas numéricas, el resultado cae con absoluta precisión matemática en la posición de: "Reina". La IA puede razonar por analogía.',
       activeComponent: 'equation',
       words: baseWords.map(w => ({ ...w, visible: true, isNew: false })),
       gridVisible: true,
       axesLabelsVisible: true,
       arrowsVisible: true,
       equationVisible: true,
-      formulaHighlight: '👑 Rey - 👨 Hombre + 👩 Mujer = 👸 Reina',
+      formulaHighlight: 'Rey - Hombre + Mujer = Reina',
       highlightWordId: 'reina',
     },
     {

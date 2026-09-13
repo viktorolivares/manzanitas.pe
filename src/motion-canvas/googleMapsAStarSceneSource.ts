@@ -30,6 +30,7 @@ import {
   Txt,
   Line,
 } from '@motion-canvas/2d';
+import { COMPANY_NAME } from '../../config/appConfig';
 
 /**
  * PALETA CINEMÁTICA DARK TACTICAL GPS
@@ -117,11 +118,11 @@ export default makeScene2D(function* (view) {
         opacity={() => gpsPulseOpacity()}
       />
 
-      {/* Marca codevo.pe */}
+      {/* Marca */}
       <Txt
         x={-300}
         y={0}
-        text="codevo.pe"
+        text={COMPANY_NAME}
         fontFamily="monospace"
         fontWeight={900}
         fontSize={36}
@@ -278,10 +279,10 @@ export default makeScene2D(function* (view) {
               shadowBlur={12}
             >
               <Txt
-                text={idx === 0 ? '📍 ' + nodo.label : '🏁 ' + nodo.label}
+                text={idx === 0 ? '[ORIGEN] ' + nodo.label : '[DESTINO] ' + nodo.label}
                 fontFamily="monospace"
                 fontWeight={800}
-                fontSize={14}
+                fontSize={13}
                 fill={COLORES.textoBlanco}
               />
             </Rect>
@@ -354,7 +355,7 @@ export default makeScene2D(function* (view) {
         scale={0}
       >
         <Txt
-          text="⚠️ TRÁFICO +18 MIN"
+          text="ALERTA: TRAFICO +18 MIN"
           fontFamily="monospace"
           fontWeight={900}
           fontSize={15}
@@ -488,7 +489,7 @@ export default makeScene2D(function* (view) {
         lineWidth={1.5}
         opacity={0}
       >
-        <Txt text="f(D) = 28 min ✕" fontFamily="monospace" fontWeight={800} fontSize={13} fill={'#94a3b8'} />
+        <Txt text="f(D) = 28 min [X]" fontFamily="monospace" fontWeight={800} fontSize={13} fill={'#94a3b8'} />
       </Rect>
 
       {/* Nodo B (alternativa norte - prometedora) */}
@@ -504,7 +505,7 @@ export default makeScene2D(function* (view) {
         lineWidth={1.5}
         opacity={0}
       >
-        <Txt text="f(B) = 12 min ✓" fontFamily="monospace" fontWeight={800} fontSize={13} fill={COLORES.destino} />
+        <Txt text="f(B) = 12 min [OK]" fontFamily="monospace" fontWeight={800} fontSize={13} fill={COLORES.destino} />
       </Rect>
     </Node>
   );
@@ -602,7 +603,7 @@ export default makeScene2D(function* (view) {
         <Txt
           x={-280}
           y={0}
-          text="🟢 RUTA ÓPTIMA ENCONTRADA"
+          text="RUTA OPTIMA ENCONTRADA"
           fontFamily="monospace"
           fontWeight={800}
           fontSize={15}
@@ -649,5 +650,4 @@ export default makeScene2D(function* (view) {
 
   // Hold final cinematográfico
   yield* waitFor(3.5);
-});
-`;
+});`;

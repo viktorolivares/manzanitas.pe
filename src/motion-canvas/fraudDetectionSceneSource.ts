@@ -31,6 +31,7 @@ import {
   Txt,
   Line,
 } from '@motion-canvas/2d';
+import { COMPANY_NAME } from '../../config/appConfig';
 
 /**
  * PALETA FINTECH CYBERNETIC DARK
@@ -125,7 +126,7 @@ export default makeScene2D(function* (view) {
       <Txt
         x={-300}
         y={0}
-        text="codevo.pe"
+        text={COMPANY_NAME}
         fontFamily="monospace"
         fontWeight={900}
         fontSize={36}
@@ -439,7 +440,7 @@ export default makeScene2D(function* (view) {
     >
       <Txt
         y={-10}
-        text="⚠️ VELOCIDAD DE DISPERSIÓN: ANÓMALA"
+        text="ALERTA: VELOCIDAD DE DISPERSIÓN ANÓMALA"
         fontFamily="monospace"
         fontWeight={900}
         fontSize={16}
@@ -573,7 +574,7 @@ export default makeScene2D(function* (view) {
       {/* Encabezado de la Tarjeta */}
       <Node y={-95}>
         <Circle size={28} fill={COLORES.alertaRoja} x={-240} y={0} shadowColor={COLORES.alertaRoja} shadowBlur={12} />
-        <Txt text="🚨" fontSize={16} x={-240} y={1} />
+        <Txt text="!" fontSize={16} fontWeight={900} fill={'#ffffff'} x={-240} y={1} />
         <Txt
           x={20}
           y={0}
@@ -589,7 +590,7 @@ export default makeScene2D(function* (view) {
       {/* Subtítulo técnico del ciclo */}
       <Txt
         y={-40}
-        text="A (ID: 9021) ➔ B (ID: 4410) ➔ C (ID: 1102) ➔ D (ID: 8872)"
+        text="A (ID: 9021) -> B (ID: 4410) -> C (ID: 1102) -> D (ID: 8872)"
         fontFamily="monospace"
         fontWeight={700}
         fontSize={13}
@@ -640,7 +641,7 @@ export default makeScene2D(function* (view) {
   // Pausa dramática: El motor congela fondos en tiempo real
   yield* waitFor(1.8);
   yield* all(
-    freezeStatusText().text('🔒 FONDOS CONGELADOS ($179.4k)', 0.4),
+    freezeStatusText().text('[BLOQUEADO] FONDOS CONGELADOS ($179.4k)', 0.4),
     freezeStatusText().fill(COLORES.exitoVerde, 0.4),
   );
   yield* waitFor(1.5);
@@ -686,7 +687,7 @@ export default makeScene2D(function* (view) {
         scale={0.7}
       >
         <Txt
-          text="🛡️ CLUSTER CUARENTENADO"
+          text="CLUSTER CUARENTENADO"
           fontFamily="monospace"
           fontWeight={900}
           fontSize={13}
@@ -722,7 +723,7 @@ export default makeScene2D(function* (view) {
     ...[0, 1, 2, 3].map((idx) => nodeCircleRefs[idx]().stroke('#475569', 0.6)),
   );
 
-  // 4.4 La red legítima recupera su flujo normal entre cuentas seguras (E-Commerce ➔ Nómina / Retail ➔ Débito)
+  // 4.4 La red legítima recupera su flujo normal entre cuentas seguras (E-Commerce -> Nómina / Retail -> Débito)
   const safeEdgeIndices = [8, 9]; // EF, GH
   yield* all(
     ...safeEdgeIndices.map((idx) => edgeLineRefs[idx]().stroke(COLORES.transferenciaNormal, 0.6)),
@@ -750,7 +751,7 @@ export default makeScene2D(function* (view) {
         <Txt
           x={-280}
           y={0}
-          text="🛡️ SISTEMA DISTRIBUIDO PROTEGIDO"
+          text="SISTEMA DISTRIBUIDO PROTEGIDO"
           fontFamily="monospace"
           fontWeight={800}
           fontSize={15}
@@ -795,5 +796,4 @@ export default makeScene2D(function* (view) {
 
   // Hold final cinematográfico (cierre en 32-33s)
   yield* waitFor(2.8);
-});
-`;
+});`;

@@ -1,5 +1,14 @@
 import React from 'react';
+import {
+  Navigation,
+  AlertTriangle,
+  MapPin,
+  Flag,
+  Cpu,
+  CheckCircle2,
+} from 'lucide-react';
 import { MapsSnapshot } from '../data/mapsAlgorithm';
+import { COMPANY_NAME } from '../config/appConfig';
 
 interface MapsVerticalViewportProps {
   snapshot: MapsSnapshot;
@@ -36,7 +45,7 @@ export const MapsVerticalViewport: React.FC<MapsVerticalViewportProps> = ({ snap
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#10b981] shadow-[0_0_8px_#10b981]"></span>
             </span>
             <span className="font-mono font-black text-white text-base tracking-[0.2em]">
-              codevo.pe
+              {COMPANY_NAME}
             </span>
           </div>
 
@@ -77,7 +86,7 @@ export const MapsVerticalViewport: React.FC<MapsVerticalViewportProps> = ({ snap
         {/* Dynamic Subtitle Banner */}
         <div className="p-2.5 rounded-xl bg-[#0b1120]/90 border border-[#1e293b] backdrop-blur-md flex items-center justify-between">
           <div className="flex items-center gap-2 min-w-0">
-            <span className="text-base shrink-0">🛰️</span>
+            <Navigation className="w-4 h-4 text-[#38bdf8] shrink-0" />
             <div className="min-w-0">
               <div className="text-[10px] font-mono font-bold text-white tracking-wider truncate">
                 {snapshot.stepTitle}
@@ -164,7 +173,7 @@ export const MapsVerticalViewport: React.FC<MapsVerticalViewportProps> = ({ snap
                     dy="-3"
                     textAnchor="middle"
                   >
-                    {isTraffic ? '⚠️ +18m' : road.dist}
+                    {isTraffic ? '! +18m' : road.dist}
                   </text>
                 </g>
               );
@@ -210,13 +219,15 @@ export const MapsVerticalViewport: React.FC<MapsVerticalViewportProps> = ({ snap
                 >
                   {/* Pin label for Origin or Destination */}
                   {isOrigin && (
-                    <div className="absolute -top-7 px-2 py-0.5 rounded-full bg-[#0b1120] border border-[#38bdf8] text-[8px] font-mono font-black text-[#38bdf8] shadow-[0_0_8px_#38bdf8] whitespace-nowrap">
-                      📍 TU AUTO
+                    <div className="absolute -top-7 px-2 py-0.5 rounded-full bg-[#0b1120] border border-[#38bdf8] text-[8px] font-mono font-black text-[#38bdf8] shadow-[0_0_8px_#38bdf8] whitespace-nowrap flex items-center gap-1">
+                      <MapPin className="w-2.5 h-2.5" />
+                      <span>TU AUTO</span>
                     </div>
                   )}
                   {isDest && (
-                    <div className="absolute -bottom-7 px-2 py-0.5 rounded-full bg-[#0b1120] border border-[#10b981] text-[8px] font-mono font-black text-[#10b981] shadow-[0_0_8px_#10b981] whitespace-nowrap">
-                      🏁 OFICINA
+                    <div className="absolute -bottom-7 px-2 py-0.5 rounded-full bg-[#0b1120] border border-[#10b981] text-[8px] font-mono font-black text-[#10b981] shadow-[0_0_8px_#10b981] whitespace-nowrap flex items-center gap-1">
+                      <Flag className="w-2.5 h-2.5" />
+                      <span>OFICINA</span>
                     </div>
                   )}
 
@@ -249,7 +260,7 @@ export const MapsVerticalViewport: React.FC<MapsVerticalViewportProps> = ({ snap
           {/* Traffic Warning Floating Banner (Phase 2 & 3) */}
           {snapshot.trafficActive && (
             <div className="absolute top-[52%] left-[45%] -translate-x-1/2 -translate-y-1/2 px-2.5 py-1 rounded-xl bg-[#450a0a]/90 border border-[#ef4444] shadow-[0_0_16px_rgba(239,68,68,0.5)] z-30 flex items-center gap-1.5 animate-bounce">
-              <span className="text-xs">⚠️</span>
+              <AlertTriangle className="w-3.5 h-3.5 text-[#ef4444]" />
               <span className="text-[9px] font-mono font-black text-[#fecaca] tracking-wide">
                 TRÁFICO PESADO +18 MIN
               </span>
@@ -273,8 +284,9 @@ export const MapsVerticalViewport: React.FC<MapsVerticalViewportProps> = ({ snap
         {/* =============================================================== */}
         <div className="p-2.5 rounded-2xl bg-[#0b1120]/95 border border-[#1e293b] shadow-xl">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-[9px] font-mono font-bold text-[#38bdf8] tracking-wider flex items-center gap-1">
-              <span>🧠</span> ALGORITMO A* EN TIEMPO REAL
+            <span className="text-[9px] font-mono font-bold text-[#38bdf8] tracking-wider flex items-center gap-1.5">
+              <Cpu className="w-3.5 h-3.5 text-[#38bdf8]" />
+              ALGORITMO A* EN TIEMPO REAL
             </span>
             <span className="text-[8px] font-mono text-[#10b981] font-bold">
               Latencia: 4.2 ms
@@ -305,8 +317,9 @@ export const MapsVerticalViewport: React.FC<MapsVerticalViewportProps> = ({ snap
         <div className="p-2.5 rounded-xl bg-gradient-to-r from-[#06141a] via-[#0b1120] to-[#06141a] border border-[#10b981]/40 shadow-lg flex items-center justify-between gap-2">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5 text-[#10b981]" />
               <span className="text-[10px] font-mono font-black text-[#10b981] tracking-wider truncate">
-                🟢 RUTA ÓPTIMA: 12 MIN
+                RUTA ÓPTIMA: 12 MIN
               </span>
               <span className="px-1.5 py-0.2 rounded bg-[#10b981]/20 text-[#86efac] text-[8px] font-mono font-bold border border-[#10b981]/40">
                 -6 MIN

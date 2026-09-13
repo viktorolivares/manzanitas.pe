@@ -30,6 +30,7 @@ import {
   Txt,
   Line,
 } from '@motion-canvas/2d';
+import { COMPANY_NAME } from '../../config/appConfig';
 
 /**
  * PALETA CINEMÁTICA DARK NEON
@@ -82,7 +83,7 @@ export default makeScene2D(function* (view) {
       <Txt
         x={-300}
         y={0}
-        text="codevo.pe"
+        text={COMPANY_NAME}
         fontFamily="monospace"
         fontWeight={900}
         fontSize={36}
@@ -205,7 +206,7 @@ export default makeScene2D(function* (view) {
         ref={labelXmasc}
         x={-340}
         y={-30}
-        text="← Masculino"
+        text="<- Masculino"
         fontFamily="monospace"
         fontWeight={800}
         fontSize={22}
@@ -215,7 +216,7 @@ export default makeScene2D(function* (view) {
         ref={labelXfem}
         x={340}
         y={-30}
-        text="Femenino →"
+        text="Femenino ->"
         fontFamily="monospace"
         fontWeight={800}
         fontSize={22}
@@ -536,5 +537,4 @@ export default makeScene2D(function* (view) {
 
   yield* conclusionBox().opacity(1, 0.6);
   yield* waitFor(3.0); // Outro hold (Total: ~35 segundos a 1x)
-});
-`;
+});`;

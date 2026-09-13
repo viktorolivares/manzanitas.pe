@@ -1,5 +1,21 @@
 import React from 'react';
+import {
+  Zap,
+  Settings,
+  Lock,
+  Send,
+  ShieldCheck,
+  Search,
+  Landmark,
+  Check,
+  Radio,
+  Laptop,
+  FileText,
+  Package,
+  CheckCircle2,
+} from 'lucide-react';
 import { PseOseSnapshot } from '../data/pseOseAlgorithm';
+import { COMPANY_NAME } from '../config/appConfig';
 
 interface PseOseVerticalViewportProps {
   snapshot: PseOseSnapshot;
@@ -33,7 +49,7 @@ export const PseOseVerticalViewport: React.FC<PseOseVerticalViewportProps> = ({ 
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#10b981] shadow-[0_0_8px_#10b981]"></span>
             </span>
             <span className="font-mono font-black text-white text-base tracking-[0.2em]">
-              codevo.pe
+              {COMPANY_NAME}
             </span>
           </div>
 
@@ -86,24 +102,26 @@ export const PseOseVerticalViewport: React.FC<PseOseVerticalViewportProps> = ({ 
         {/* Dynamic Step Banner */}
         <div className="p-2.5 rounded-xl bg-[#0f172a]/95 border border-[#1e293b] backdrop-blur-md flex items-center justify-between">
           <div className="flex items-center gap-2 min-w-0">
-            <span className="text-base shrink-0">
-              {snapshot.phase === 'JSON_PAYLOAD'
-                ? '⚡'
-                : snapshot.phase === 'TRANSFORMACION_PSE'
-                ? '⚙️'
-                : snapshot.phase === 'FIRMA_PSE'
-                ? '🔐'
-                : snapshot.phase === 'ENVIO_OSE'
-                ? '🚀'
-                : snapshot.phase === 'BYPASS_SUNAT'
-                ? '🛡️'
-                : snapshot.phase === 'VALIDACION_OSE'
-                ? '🔍'
-                : snapshot.phase === 'CDR_GENERADO'
-                ? '🏛️'
-                : snapshot.phase === 'RETORNO_APP'
-                ? '✅'
-                : '📡'}
+            <span className="shrink-0">
+              {snapshot.phase === 'JSON_PAYLOAD' ? (
+                <Zap className="w-4 h-4 text-[#38bdf8]" />
+              ) : snapshot.phase === 'TRANSFORMACION_PSE' ? (
+                <Settings className="w-4 h-4 text-[#8b5cf6]" />
+              ) : snapshot.phase === 'FIRMA_PSE' ? (
+                <Lock className="w-4 h-4 text-[#fbbf24]" />
+              ) : snapshot.phase === 'ENVIO_OSE' ? (
+                <Send className="w-4 h-4 text-[#10b981]" />
+              ) : snapshot.phase === 'BYPASS_SUNAT' ? (
+                <ShieldCheck className="w-4 h-4 text-[#f59e0b]" />
+              ) : snapshot.phase === 'VALIDACION_OSE' ? (
+                <Search className="w-4 h-4 text-[#10b981]" />
+              ) : snapshot.phase === 'CDR_GENERADO' ? (
+                <CheckCircle2 className="w-4 h-4 text-[#10b981]" />
+              ) : snapshot.phase === 'RETORNO_APP' ? (
+                <Check className="w-4 h-4 text-[#38bdf8]" />
+              ) : (
+                <Radio className="w-4 h-4 text-[#38bdf8]" />
+              )}
             </span>
             <div className="min-w-0">
               <div className="text-[10px] font-mono font-bold text-white tracking-wider truncate">
@@ -127,7 +145,7 @@ export const PseOseVerticalViewport: React.FC<PseOseVerticalViewportProps> = ({ 
           
           {/* SVG Connection Lines */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
-            {/* TU APP ➔ PSE (Horizontal superior) */}
+            {/* TU APP -> PSE (Horizontal superior) */}
             <line
               x1="28%"
               y1="22%"
@@ -139,7 +157,7 @@ export const PseOseVerticalViewport: React.FC<PseOseVerticalViewportProps> = ({ 
               className={snapshot.phase === 'JSON_PAYLOAD' ? 'animate-pulse' : ''}
             />
 
-            {/* PSE ➔ OSE (Diagonal) */}
+            {/* PSE -> OSE (Diagonal) */}
             <line
               x1="70%"
               y1="28%"
@@ -151,7 +169,7 @@ export const PseOseVerticalViewport: React.FC<PseOseVerticalViewportProps> = ({ 
               className={snapshot.phase === 'ENVIO_OSE' ? 'animate-pulse' : ''}
             />
 
-            {/* OSE ➔ SUNAT (Vertical descendente asíncrona) */}
+            {/* OSE -> SUNAT (Vertical descendente asíncrona) */}
             <line
               x1="50%"
               y1="64%"
@@ -187,7 +205,7 @@ export const PseOseVerticalViewport: React.FC<PseOseVerticalViewportProps> = ({ 
             }`}
           >
             <div className="flex items-center gap-1.5 mb-0.5">
-              <span className="text-xs">💻</span>
+              <Laptop className="w-3.5 h-3.5 text-[#38bdf8]" />
               <span className="text-[9px] font-mono font-black text-white tracking-wider truncate">
                 TU APP / ERP
               </span>
@@ -211,7 +229,7 @@ export const PseOseVerticalViewport: React.FC<PseOseVerticalViewportProps> = ({ 
             }`}
           >
             <div className="flex items-center gap-1.5 mb-0.5">
-              <span className="text-xs">⚙️</span>
+              <Settings className="w-3.5 h-3.5 text-[#8b5cf6]" />
               <span className="text-[9px] font-mono font-black text-white tracking-wider truncate">
                 SERVIDOR PSE
               </span>
@@ -235,14 +253,15 @@ export const PseOseVerticalViewport: React.FC<PseOseVerticalViewportProps> = ({ 
             }`}
           >
             <div className="flex items-center justify-between mb-1">
-              <span className="px-1.5 py-0.2 rounded bg-[#022c22] text-[#10b981] border border-[#10b981]/40 text-[7px] font-mono font-black tracking-wider">
-                ✓ NODO OFICIAL OSE • AUDITORÍA
+              <span className="px-1.5 py-0.2 rounded bg-[#022c22] text-[#10b981] border border-[#10b981]/40 text-[7px] font-mono font-black tracking-wider flex items-center gap-1">
+                <ShieldCheck className="w-2.5 h-2.5 text-[#10b981]" />
+                NODO OFICIAL OSE • AUDITORÍA
               </span>
               <span className="text-[7px] font-mono text-[#86efac] font-bold">SLA 99.99%</span>
             </div>
 
             <div className="flex items-center gap-1.5">
-              <span className="text-sm">🏛️</span>
+              <Landmark className="w-4 h-4 text-[#10b981]" />
               <div>
                 <span className="text-[10px] font-mono font-black text-white tracking-wider block">
                   OPERADOR OSE (TRIBUNAL)
@@ -300,28 +319,40 @@ export const PseOseVerticalViewport: React.FC<PseOseVerticalViewportProps> = ({ 
           >
             {snapshot.packetType === 'json' && (
               <div className="px-2.5 py-1.5 rounded-xl bg-[#0c192e] border border-[#38bdf8] shadow-[0_0_14px_#38bdf8] text-center">
-                <div className="text-[8px] font-mono font-bold text-white">⚡ JSON VENTA</div>
+                <div className="text-[8px] font-mono font-bold text-white flex items-center justify-center gap-1">
+                  <Zap className="w-2.5 h-2.5 text-[#38bdf8]" />
+                  JSON VENTA
+                </div>
                 <div className="text-[6px] font-mono text-[#38bdf8]">1.2 KB • Sin SOAP</div>
               </div>
             )}
 
             {snapshot.packetType === 'ubl' && (
               <div className="px-2.5 py-1.5 rounded-xl bg-[#1e1b4b] border border-[#8b5cf6] shadow-[0_0_14px_#8b5cf6] text-center">
-                <div className="text-[8px] font-mono font-bold text-white">📑 XML UBL 2.1</div>
+                <div className="text-[8px] font-mono font-bold text-white flex items-center justify-center gap-1">
+                  <FileText className="w-2.5 h-2.5 text-[#8b5cf6]" />
+                  XML UBL 2.1
+                </div>
                 <div className="text-[6px] font-mono text-[#d8b4fe]">OASIS Invoice-2.1</div>
               </div>
             )}
 
             {snapshot.packetType === 'zip_firmado' && (
               <div className="px-2.5 py-1.5 rounded-xl bg-[#2a1705] border border-[#f59e0b] shadow-[0_0_16px_#f59e0b] text-center">
-                <div className="text-[8px] font-mono font-bold text-white">📦 ZIP CON CERT. PSE</div>
-                <div className="text-[6px] font-mono text-[#fde68a]">sendBill ➔ Troncal OSE</div>
+                <div className="text-[8px] font-mono font-bold text-white flex items-center justify-center gap-1">
+                  <Package className="w-2.5 h-2.5 text-[#f59e0b]" />
+                  ZIP CON CERT. PSE
+                </div>
+                <div className="text-[6px] font-mono text-[#fde68a]">sendBill -&gt; Troncal OSE</div>
               </div>
             )}
 
             {snapshot.packetType === 'cdr_ose' && (
               <div className="px-2.5 py-1.5 rounded-xl bg-[#022c22] border border-[#10b981] shadow-[0_0_18px_#10b981] text-center">
-                <div className="text-[8px] font-mono font-black text-[#10b981]">✓ CDR ACEPTADO (0)</div>
+                <div className="text-[8px] font-mono font-black text-[#10b981] flex items-center justify-center gap-1">
+                  <CheckCircle2 className="w-2.5 h-2.5 text-[#10b981]" />
+                  CDR ACEPTADO (0)
+                </div>
                 <div className="text-[6px] font-mono text-white">Firma Oficial OSE</div>
               </div>
             )}
@@ -329,7 +360,7 @@ export const PseOseVerticalViewport: React.FC<PseOseVerticalViewportProps> = ({ 
             {snapshot.packetType === 'sync_batch' && (
               <div className="px-2.5 py-1.5 rounded-xl bg-[#061426] border border-[#0284c7] shadow-[0_0_16px_#0284c7] text-center">
                 <div className="text-[8px] font-mono font-bold text-[#38bdf8]">BATCH ASÍNCRONO</div>
-                <div className="text-[6px] font-mono text-[#93c5fd]">Lote ➔ SUNAT Lake</div>
+                <div className="text-[6px] font-mono text-[#93c5fd]">Lote -&gt; SUNAT Lake</div>
               </div>
             )}
           </div>
@@ -337,8 +368,9 @@ export const PseOseVerticalViewport: React.FC<PseOseVerticalViewportProps> = ({ 
           {/* BYPASS BANNER OVERLAY */}
           {snapshot.phase === 'BYPASS_SUNAT' && (
             <div className="absolute top-[28%] left-[50%] -translate-x-1/2 w-[88%] p-2 rounded-xl bg-[#1c1917]/95 border-2 border-[#f59e0b] shadow-[0_0_24px_rgba(245,158,11,0.5)] backdrop-blur-md z-40 text-center animate-in zoom-in-95 duration-300">
-              <span className="text-[8px] font-mono font-black text-[#f59e0b] block">
-                ⚡ BYPASS: SERVIDORES SUNAT LIBRES DE ESTRÉS
+              <span className="text-[8px] font-mono font-black text-[#f59e0b] flex items-center justify-center gap-1">
+                <Zap className="w-3 h-3 text-[#f59e0b]" />
+                BYPASS: SERVIDORES SUNAT LIBRES DE ESTRÉS
               </span>
               <span className="text-[6.5px] text-[#fde68a] block mt-0.5">
                 Cero caídas en Cyber Days, Navidad o Cierre Fiscal de Mes.
@@ -353,8 +385,9 @@ export const PseOseVerticalViewport: React.FC<PseOseVerticalViewportProps> = ({ 
         {/* =============================================================== */}
         <div className="p-2.5 rounded-2xl bg-[#0f172a]/95 border border-[#1e293b] shadow-xl">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-[9px] font-mono font-bold text-[#38bdf8] tracking-wider flex items-center gap-1">
-              <span>⚙️</span> ESPECIFICACIÓN CLOUD
+            <span className="text-[9px] font-mono font-bold text-[#38bdf8] tracking-wider flex items-center gap-1.5">
+              <Settings className="w-3 h-3 text-[#38bdf8]" />
+              ESPECIFICACIÓN CLOUD
             </span>
             <span className="text-[8px] font-mono text-[#10b981] font-bold">
               Latencia: {snapshot.technicalDetails.sla}
@@ -386,8 +419,9 @@ export const PseOseVerticalViewport: React.FC<PseOseVerticalViewportProps> = ({ 
         <div className="p-2 rounded-xl bg-gradient-to-r from-[#06141a] via-[#0f172a] to-[#06141a] border border-[#10b981]/40 shadow-lg flex items-center justify-between gap-2">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5">
+              <Landmark className="w-3.5 h-3.5 text-[#10b981]" />
               <span className="text-[10px] font-mono font-black text-[#10b981] tracking-wider truncate">
-                🏛️ FACTURACIÓN PSE / OSE
+                FACTURACIÓN PSE / OSE
               </span>
               <span className="px-1.5 py-0.2 rounded bg-[#10b981]/20 text-[#86efac] text-[7.5px] font-mono font-bold border border-[#10b981]/40">
                 10 ETAPAS CLOUD

@@ -21,6 +21,7 @@ import {
   Rect,
   Txt,
 } from '@motion-canvas/2d';
+import { COMPANY_NAME } from '../../config/appConfig';
 
 export default makeScene2D(function* (view) {
   // =========================================================================
@@ -107,7 +108,7 @@ export default makeScene2D(function* (view) {
         />
         <Circle size={10} fill={C.exitoVerde} />
         <Txt
-          text="codevo.pe"
+          text={COMPANY_NAME}
           fill={C.textoBlanco}
           fontFamily={'JetBrains Mono, monospace'}
           fontSize={34}
@@ -265,7 +266,7 @@ export default makeScene2D(function* (view) {
   const lineSistemaValidadorAlpha = createSignal(0.3);
   const lineValidadorCorreccionAlpha = createSignal(0.2);
 
-  // Línea 1: SISTEMA ➔ VALIDADOR
+  // Línea 1: SISTEMA -> VALIDADOR
   view.add(
     <Line
       points={[
@@ -279,7 +280,7 @@ export default makeScene2D(function* (view) {
     />
   );
 
-  // Línea 2: VALIDADOR ➔ PANEL CORRECCIÓN
+  // Línea 2: VALIDADOR -> PANEL CORRECCIÓN
   view.add(
     <Line
       points={[
@@ -313,7 +314,7 @@ export default makeScene2D(function* (view) {
       >
         <Node y={-35}>
           <Circle size={44} fill={'#07192a'} stroke={C.sistemaCian} lineWidth={1.5} />
-          <Txt text="💻" fontSize={22} y={-2} />
+          <Txt text="APP" fontSize={12} fontWeight={900} fill={C.sistemaCian} fontFamily={'JetBrains Mono, monospace'} y={-2} />
         </Node>
         <Txt
           text="TU SISTEMA / ERP"
@@ -386,7 +387,7 @@ export default makeScene2D(function* (view) {
       >
         <Node y={-40}>
           <Circle size={52} fill={'#061324'} stroke={() => validadorBorderColor()} lineWidth={2} />
-          <Txt text="🏛️" fontSize={26} y={-2} />
+          <Txt text="SUNAT" fontSize={11} fontWeight={900} fill={C.validadorAzul} fontFamily={'JetBrains Mono, monospace'} y={-2} />
         </Node>
 
         <Txt
@@ -484,7 +485,7 @@ export default makeScene2D(function* (view) {
             radius={12}
           >
             <Txt
-              text="❌ ERROR COMÚN: Redondeo prematuro por ítem"
+              text="ERROR COMÚN: Redondeo prematuro por ítem"
               fill={C.errorRojo}
               fontFamily={'JetBrains Mono, monospace'}
               fontSize={11}
@@ -515,7 +516,7 @@ export default makeScene2D(function* (view) {
             shadowBlur={() => goodIgvGlow()}
           >
             <Txt
-              text="✅ REGLA UBL 2.1: Multiplicar Base Agregada * 0.18"
+              text="REGLA UBL 2.1: Multiplicar Base Agregada * 0.18"
               fill={C.exitoVerde}
               fontFamily={'JetBrains Mono, monospace'}
               fontSize={11}
@@ -610,7 +611,7 @@ export default makeScene2D(function* (view) {
       >
         <Node y={-24}>
           <Txt
-            text="⚠️ ERROR 2119: DISCREPANCIA DE IGV"
+            text="ERROR 2119: DISCREPANCIA DE IGV"
             fill={C.errorRojo}
             fontFamily={'JetBrains Mono, monospace'}
             fontSize={14}
@@ -864,7 +865,7 @@ export default makeScene2D(function* (view) {
     panelBorder(C.alertaAmarillo, 0.6),
     pktPos({ x: POS.correccion.x, y: POS.correccion.y - 140 }, 1.5, easeInOutCubic),
     didactTitle('Fase 4: Diagnóstico de Causa Raíz', 0.5),
-    didactDesc('❌ El sistema sumó 3 líneas redondeadas a 2 decimales prematuramente, perdiendo 10 céntimos.', 0.5),
+    didactDesc('El sistema sumó 3 líneas redondeadas a 2 decimales prematuramente, perdiendo 10 céntimos.', 0.5),
     didactStepBadge('P5/10', 0.4),
     didactBorder(C.alertaAmarillo, 0.4),
     progressBarWidth(600, 4.5),
@@ -878,7 +879,7 @@ export default makeScene2D(function* (view) {
     goodIgvScale(1.08, 0.5, easeOutBack),
     panelBorder(C.exitoVerde, 0.5),
     didactTitle('Fase 5: Solución Técnica Oficial UBL 2.1', 0.5),
-    didactDesc('✅ Multiplicar la Base Total Agregada (S/ 100.00 * 0.18) = S/ 18.00 exacto.', 0.5),
+    didactDesc('Multiplicar la Base Total Agregada (S/ 100.00 * 0.18) = S/ 18.00 exacto.', 0.5),
     didactStepBadge('P6/10', 0.4),
     didactBorder(C.exitoVerde, 0.4),
     teleCausa('Corregido: Base Agregada * 0.18', 0.4),
@@ -913,7 +914,7 @@ export default makeScene2D(function* (view) {
     validadorGlow(30, 0.4),
     validadorStatus('VALIDACIÓN CONFORME (TASA 18% EXACTA)', 0.4),
     validadorStatusColor(C.exitoVerde, 0.4),
-    headerBadgeText('✓ VALIDACIÓN CONFORME • TASA 18% OK', 0.4),
+    headerBadgeText('VALIDACIÓN CONFORME • TASA 18% OK', 0.4),
     didactTitle('Fase 7: CDR Estado 0 Generado con Éxito', 0.4),
     didactDesc('¡Comprobante legalmente aceptado! Se expide el CDR con Estado 0 sin multas ni bloqueos.', 0.4),
     didactStepBadge('P8/10', 0.4),
@@ -927,7 +928,7 @@ export default makeScene2D(function* (view) {
     sistemaScale(1.08, 0.5, easeOutBack),
     sistemaGlow(25, 0.5),
     didactTitle('Fase 8: Arquitectura Fiscal Conforme', 0.4),
-    didactDesc('codevo.pe: Resuelve inconsistencias de redondeo y mantén tu facturación 24/7 libre de errores.', 0.4),
+    didactDesc(`${COMPANY_NAME}: Resuelve inconsistencias de redondeo y mantén tu facturación 24/7 libre de errores.`, 0.4),
     didactStepBadge('P10/10', 0.4),
     progressBarWidth(940, 2.0),
     timerText('33.0s / 33s', 2.0),

@@ -37,6 +37,7 @@ import {
   Rect,
   Txt,
 } from '@motion-canvas/2d';
+import { COMPANY_NAME } from '../../config/appConfig';
 
 export default makeScene2D(function* (view) {
   // =========================================================================
@@ -125,7 +126,7 @@ export default makeScene2D(function* (view) {
         />
         <Circle size={10} fill={C.oseVerde} />
         <Txt
-          text="codevo.pe"
+          text={COMPANY_NAME}
           fill={C.textoBlanco}
           fontFamily={'JetBrains Mono, monospace'}
           fontSize={34}
@@ -233,7 +234,7 @@ export default makeScene2D(function* (view) {
       >
         <Node x={-430} y={0}>
           <Circle size={44} fill={'#070b14'} stroke={C.bordeNodo} lineWidth={2} />
-          <Txt text="⚡" fontSize={22} y={-2} />
+          <Txt text="STEP" fontSize={11} fontWeight={900} fill={C.textoBlanco} fontFamily={'JetBrains Mono, monospace'} y={0} />
         </Node>
 
         <Txt
@@ -285,7 +286,7 @@ export default makeScene2D(function* (view) {
   const lineOseToSunatAlpha = createSignal(0.2);
   const bypassSunatPulseAlpha = createSignal(0);
 
-  // Línea 1: TU APP ➔ PSE (Horizontal superior)
+  // Línea 1: TU APP -> PSE (Horizontal superior)
   view.add(
     <Line
       points={[
@@ -299,7 +300,7 @@ export default makeScene2D(function* (view) {
     />
   );
 
-  // Línea 2: PSE ➔ OSE (Diagonal descendente)
+  // Línea 2: PSE -> OSE (Diagonal descendente)
   view.add(
     <Line
       points={[
@@ -313,7 +314,7 @@ export default makeScene2D(function* (view) {
     />
   );
 
-  // Línea 3: OSE ➔ SUNAT (Vertical descendente - Sincronización Asíncrona)
+  // Línea 3: OSE -> SUNAT (Vertical descendente - Sincronización Asíncrona)
   view.add(
     <Line
       points={[
@@ -358,7 +359,7 @@ export default makeScene2D(function* (view) {
       >
         <Node y={-45}>
           <Circle size={44} fill={'#07192a'} stroke={C.appCian} lineWidth={1.5} />
-          <Txt text="💻" fontSize={22} y={-2} />
+          <Txt text="APP" fontSize={11} fontWeight={900} fill={C.appCian} fontFamily={'JetBrains Mono, monospace'} y={0} />
         </Node>
         <Txt
           text="TU APP / ERP"
@@ -419,7 +420,7 @@ export default makeScene2D(function* (view) {
       >
         <Node y={-45}>
           <Circle size={44} fill={'#190b2e'} stroke={C.pseVioleta} lineWidth={1.5} />
-          <Txt text="⚙️" fontSize={22} y={-2} />
+          <Txt text="PSE" fontSize={11} fontWeight={900} fill={C.pseVioleta} fontFamily={'JetBrains Mono, monospace'} y={0} />
         </Node>
         <Txt
           text="SERVIDOR PSE"
@@ -471,7 +472,7 @@ export default makeScene2D(function* (view) {
         shadowBlur={15}
       >
         <Txt
-          text="🔐 CERTIFICADO PSE APLICADO"
+          text="KEY: CERTIFICADO PSE APLICADO"
           fill={C.textoBlanco}
           fontFamily={'JetBrains Mono, monospace'}
           fontSize={11}
@@ -521,7 +522,7 @@ export default makeScene2D(function* (view) {
           radius={16}
         >
           <Txt
-            text="✓ NODO OFICIAL OSE • AUDITORÍA"
+            text="NODO OFICIAL OSE • AUDITORIA"
             fill={C.oseVerde}
             fontFamily={'JetBrains Mono, monospace'}
             fontSize={13}
@@ -532,7 +533,7 @@ export default makeScene2D(function* (view) {
 
         <Node y={-35}>
           <Circle size={54} fill={'#022c22'} stroke={C.oseVerde} lineWidth={2} />
-          <Txt text="🏛️" fontSize={28} y={-2} />
+          <Txt text="OSE" fontSize={13} fontWeight={900} fill={C.oseVerde} fontFamily={'JetBrains Mono, monospace'} y={0} />
         </Node>
 
         <Txt
@@ -710,7 +711,7 @@ export default makeScene2D(function* (view) {
         shadowBlur={25}
       >
         <Txt
-          text="⚡ BYPASS: SERVIDORES SUNAT LIBRES DE ESTRÉS"
+          text="BYPASS: SERVIDORES SUNAT LIBRES DE ESTRES"
           fill={C.amarilloAlerta}
           fontFamily={'JetBrains Mono, monospace'}
           fontSize={16}
@@ -725,7 +726,7 @@ export default makeScene2D(function* (view) {
   // 11. PANEL INFERIOR DE TELEMETRÍA TÉCNICA (Y: +780)
   // =========================================================================
   const teleProtocol = createSignal('HTTPS REST / JSON');
-  const teleFlow = createSignal('TU APP ➔ PSE (Puerto 443)');
+  const teleFlow = createSignal('TU APP -> PSE (Puerto 443)');
   const teleLatency = createSignal('12ms');
   const teleAdvantage = createSignal('Cero consumo de CPU en tu backend');
 
@@ -895,7 +896,7 @@ export default makeScene2D(function* (view) {
     lineAppToPseAlpha(1.0, 0.4),
     pktPos({ x: POS.pse.x, y: POS.pse.y }, 1.8, easeInOutCubic),
     teleProtocol('HTTPS REST / JSON', 0.5),
-    teleFlow('TU APP ➔ PSE (api.tu-pse.pe)', 0.5),
+    teleFlow('TU APP -> PSE (api.tu-pse.pe)', 0.5),
     teleLatency('25ms', 1.8),
   );
 
@@ -936,7 +937,7 @@ export default makeScene2D(function* (view) {
     linePseToOseAlpha(1.0, 0.4),
     pktPos({ x: POS.ose.x, y: POS.ose.y }, 2.0, easeInOutCubic),
     teleProtocol('mTLS / Troncal Dedicada OSE', 0.5),
-    teleFlow('PSE ➔ OSE (sendBill)', 0.5),
+    teleFlow('PSE -> OSE (sendBill)', 0.5),
     teleLatency('48ms', 2.0),
     progressBarWidth(360, 3.5),
     timerText('10.5s / 33s', 3.5),
@@ -990,7 +991,7 @@ export default makeScene2D(function* (view) {
     pktSub('R-2060...-01-F001.zip', 0.4),
     pktBorderColor(C.oseVerde, 0.4),
     pktFillColor('#03291e', 0.4),
-    oseStatusMsg('✓ CDR EMITIDO CON FIRMA OSE', 0.4),
+    oseStatusMsg('CDR EMITIDO CON FIRMA OSE', 0.4),
     didactStepTitle('Fase 6: El OSE (no SUNAT) sella el CDR Oficial', 0.5),
     didactStepDesc('¡Plena validez jurídica! El Estado delegó la firma del CDR al Operador Autorizado.', 0.5),
     didactBadgeNum('P7/10', 0.4),
@@ -1005,7 +1006,7 @@ export default makeScene2D(function* (view) {
     didactStepDesc('El CDR retorna en milisegundos. Tu cliente imprime su factura con Código QR conforme.', 0.5),
     didactBadgeNum('P8/10', 0.4),
     pktPos({ x: POS.pse.x, y: POS.pse.y }, 1.0, easeInOutCubic),
-    teleFlow('OSE ➔ PSE ➔ TU APP', 0.4),
+    teleFlow('OSE -> PSE -> TU APP', 0.4),
     teleLatency('85ms', 1.0),
     progressBarWidth(760, 2.0),
     timerText('23.0s / 33s', 2.0),
@@ -1023,7 +1024,7 @@ export default makeScene2D(function* (view) {
   // -------------------------------------------------------------------------
   // FASE 4: SINCRONIZACIÓN ASÍNCRONA CON SUNAT (23s - 33s)
   // -------------------------------------------------------------------------
-  // Paso 9: Línea asíncrona OSE ➔ SUNAT en segundo plano
+  // Paso 9: Línea asíncrona OSE -> SUNAT en segundo plano
   yield* all(
     appScale(1.0, 0.4),
     appGlow(0, 0.4),
@@ -1039,7 +1040,7 @@ export default makeScene2D(function* (view) {
     pktFillColor('#061426', 0.3),
     statusSubText('REPORTE EN BACKGROUND • ALTA DISPONIBILIDAD', 0.4),
     teleProtocol('Batch Asíncrono / Queue OSE-SUNAT', 0.4),
-    teleFlow('OSE ➔ Servidores SUNAT', 0.4),
+    teleFlow('OSE -> Servidores SUNAT', 0.4),
     teleAdvantage('Si SUNAT está en mantenimiento, tu negocio nunca deja de operar', 0.5),
     progressBarWidth(880, 3.5),
     timerText('28.0s / 33s', 3.5),
@@ -1067,11 +1068,10 @@ export default makeScene2D(function* (view) {
     sunatGlow(20, 0.5),
     pktOpacity(0, 0.4),
     teleLatency('SLA 99.99%', 0.5),
-    teleAdvantage('Arquitectura desacoplada de alto rendimiento (codevo.pe)', 0.5),
+    teleAdvantage(\`Arquitectura desacoplada de alto rendimiento (\${COMPANY_NAME})\`, 0.5),
     progressBarWidth(940, 2.5),
     timerText('33.0s / 33s', 2.5),
   );
 
   yield* waitUntil('end');
-});
-`;
+});`;

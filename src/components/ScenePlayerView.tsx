@@ -27,6 +27,7 @@ import { playStepSound } from '../utils/audioSynth';
 import { startVideoRecording, RecorderController } from '../utils/videoRecorder';
 import { SceneId, getSceneById } from '../data/scenesRegistry';
 import { Play, Pause, Square, Maximize2, Minimize2 } from 'lucide-react';
+import { COMPANY_NAME } from '../config/appConfig';
 
 export interface LayoutContextType {
   activeTab: 'youtube' | 'mobile' | 'code' | 'split' | 'preview';
@@ -34,6 +35,11 @@ export interface LayoutContextType {
   hideHeader: boolean;
   setHideHeader: (hide: boolean) => void;
   toggleFullscreen: () => void;
+  sidebarOpen?: boolean;
+  setSidebarOpen?: (open: boolean | ((prev: boolean) => boolean)) => void;
+  sidebarCompact?: boolean;
+  setSidebarCompact?: (compact: boolean | ((prev: boolean) => boolean)) => void;
+  sidebarCollapsed?: boolean;
 }
 
 interface ScenePlayerViewProps {
@@ -44,6 +50,9 @@ export function ScenePlayerView({ sceneId }: ScenePlayerViewProps) {
   const navigate = useNavigate();
   const outletContext = useOutletContext<LayoutContextType | undefined>();
   const activeTab = outletContext?.activeTab ?? 'split';
+  const hideHeader = outletContext?.hideHeader ?? false;
+  const sidebarOpen = outletContext?.sidebarOpen ?? false;
+  const sidebarCompact = outletContext?.sidebarCompact ?? false;
 
   const sceneMeta = getSceneById(sceneId);
 
@@ -135,7 +144,8 @@ export function ScenePlayerView({ sceneId }: ScenePlayerViewProps) {
       return;
     }
 
-    const sceneName = `manzanitas_${sceneId}`;
+    const brandSlug = COMPANY_NAME.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
+    const sceneName = `${brandSlug}_${sceneId}`;
     const controller = await startVideoRecording({
       filename: sceneName,
       onStart: () => {
@@ -518,12 +528,12 @@ export function ScenePlayerView({ sceneId }: ScenePlayerViewProps) {
                       'v_hombre = embedding_model["Hombre"]  # [-0.7, -0.6]',
                       'v_mujer  = embedding_model["Mujer"]   # [+0.7, -0.6]',
                       '# 2. Las relaciones entre conceptos son flechas (vectores):',
-                      '#    Hombre ➔ Rey  suma exactamente el vector [+0.0, +1.3] (Nobleza)',
-                      '#    Mujer  ➔ Reina suma exactamente el vector [+0.0, +1.3] (Nobleza)',
+                      '#    Hombre -> Rey  suma exactamente el vector [+0.0, +1.3] (Nobleza)',
+                      '#    Mujer  -> Reina suma exactamente el vector [+0.0, +1.3] (Nobleza)',
                       '# 3. Operamos los significados matemáticamente:',
                       'resultado = v_rey - v_hombre + v_mujer',
                       '# 4. Buscamos el punto más cercano en el espacio vectorial:',
-                      '#    resultado == [+0.7, +0.7] ➔ Coordenada exacta de "Reina" 👸',
+                      '#    resultado == [+0.7, +0.7] -> Coordenada exacta de "Reina"',
                     ]}
                     title="vector_embeddings_algebra.py"
                   />
@@ -551,6 +561,10 @@ export function ScenePlayerView({ sceneId }: ScenePlayerViewProps) {
 
       {/* ========================================================================= */}
       {/* CARD FLOTANTE DE GRABACIÓN / REPRODUCCIÓN                                */}
+      {/* ========================================================================= */}
+
+      {/* ========================================================================= */}
+      {/* BARRA INFERIOR DE REPRODUCCIÓN & GRABACIÓN (ANCHO COMPLETO, 1 FILA)       */}
       {/* ========================================================================= */}
 
       {/* ESTADO COLAPSADO: Botón circular fijo en la esquina inferior derecha (bottom-right) */}
@@ -602,64 +616,66 @@ export function ScenePlayerView({ sceneId }: ScenePlayerViewProps) {
               )}
             </button>
 
-            {/* Botón secundario para reabrir el panel completo */}
+            {/* Botón secundario para reabrir la barra completa */}
             <button
               onClick={() => setIsControlsCollapsed(false)}
               className="absolute -top-1 -left-1 w-6 h-6 rounded-full bg-[#0f172a] hover:bg-[#1e293b] border border-[#475569] text-[#94a3b8] hover:text-white flex items-center justify-center shadow-md transition-all text-xs"
-              title="Abrir panel completo de controles"
+              title="Abrir barra completa de controles"
             >
               <Maximize2 className="w-3 h-3" />
             </button>
           </div>
         </div>
       ) : (
-        /* ESTADO ACTIVO: Panel flotante sobre el contenido con controles completos */
-        <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-40 w-[95%] sm:w-[540px] max-w-[560px] bg-[#111827]/95 backdrop-blur-xl border border-[#38bdf8]/40 shadow-2xl shadow-black/80 rounded-2xl p-3 flex flex-col gap-2 transition-all animate-in fade-in slide-in-from-bottom-4">
-          <div className="flex items-center justify-between px-1 text-[11px] font-mono text-[#64748b]">
-            <div className="flex items-center gap-2 text-xs font-bold text-white">
-              <span className="w-2 h-2 rounded-full bg-[#10b981] animate-pulse"></span>
-              <span>CONTROLES DE REPRODUCCIÓN & GRABACIÓN</span>
-            </div>
-            <button
-              onClick={() => setIsControlsCollapsed(true)}
-              className="p-1 rounded-lg hover:bg-[#1f2937] text-[#94a3b8] hover:text-white transition-colors"
-              title="Colapsar a botón circular inferior derecho"
-            >
-              <Minimize2 className="w-3.5 h-3.5" />
-            </button>
+        /* ESTADO ACTIVO: Barra horizontal que se adapta fluidamente al menú lateral */
+        <div
+          id="docked-timeline-container"
+          className={`fixed bottom-0 right-0 z-40 bg-[#0c101d]/95 backdrop-blur-xl border-t shadow-2xl transition-all duration-300 ease-in-out ${
+            hideHeader || !sidebarOpen
+              ? 'left-0'
+              : sidebarCompact
+              ? 'left-16 sm:left-20'
+              : 'left-72 sm:left-80'
+          } ${
+            isRecording
+              ? 'border-red-500/80 shadow-red-950/40 ring-1 ring-red-500/30'
+              : 'border-[#1e293b] sm:border-[#38bdf8]/30 shadow-black/80'
+          }`}
+        >
+          <div className="w-full max-w-[1800px] mx-auto px-3 sm:px-5 py-2">
+            <TimelineControls
+              isPlaying={isPlaying}
+              onTogglePlay={() => setIsPlaying((p) => !p)}
+              onReset={() => {
+                setIsPlaying(false);
+                setCurrentStepIndex(0);
+              }}
+              onPrevStep={() => {
+                setIsPlaying(false);
+                setCurrentStepIndex((p) => Math.max(0, p - 1));
+              }}
+              onNextStep={() => {
+                setIsPlaying(false);
+                setCurrentStepIndex((p) => Math.min(activeTimeline.length - 1, p + 1));
+              }}
+              currentStepIndex={currentStepIndex}
+              totalSteps={activeTimeline.length}
+              currentTime={currentCalculatedTime}
+              totalTime={totalCalculatedTime}
+              onSeek={(idx) => {
+                setIsPlaying(false);
+                setCurrentStepIndex(idx);
+              }}
+              playbackSpeed={playbackSpeed}
+              onSpeedChange={setPlaybackSpeed}
+              soundEnabled={soundEnabled}
+              onToggleSound={() => setSoundEnabled((s) => !s)}
+              isRecording={isRecording}
+              onToggleRecord={handleToggleRecord}
+              recordingDuration={recordingDuration}
+              onCollapse={() => setIsControlsCollapsed(true)}
+            />
           </div>
-
-          <TimelineControls
-            isPlaying={isPlaying}
-            onTogglePlay={() => setIsPlaying((p) => !p)}
-            onReset={() => {
-              setIsPlaying(false);
-              setCurrentStepIndex(0);
-            }}
-            onPrevStep={() => {
-              setIsPlaying(false);
-              setCurrentStepIndex((p) => Math.max(0, p - 1));
-            }}
-            onNextStep={() => {
-              setIsPlaying(false);
-              setCurrentStepIndex((p) => Math.min(activeTimeline.length - 1, p + 1));
-            }}
-            currentStepIndex={currentStepIndex}
-            totalSteps={activeTimeline.length}
-            currentTime={currentCalculatedTime}
-            totalTime={totalCalculatedTime}
-            onSeek={(idx) => {
-              setIsPlaying(false);
-              setCurrentStepIndex(idx);
-            }}
-            playbackSpeed={playbackSpeed}
-            onSpeedChange={setPlaybackSpeed}
-            soundEnabled={soundEnabled}
-            onToggleSound={() => setSoundEnabled((s) => !s)}
-            isRecording={isRecording}
-            onToggleRecord={handleToggleRecord}
-            recordingDuration={recordingDuration}
-          />
         </div>
       )}
     </div>

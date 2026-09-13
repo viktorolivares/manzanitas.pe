@@ -19,6 +19,8 @@ import {
   ChevronDown,
   Keyboard,
   ExternalLink,
+  ArrowLeft,
+  ArrowRight,
 } from 'lucide-react';
 import {
   CATEGORIES_CONFIG,
@@ -26,6 +28,7 @@ import {
   getSceneByPath,
   SceneMeta,
 } from '../data/scenesRegistry';
+import { COMPANY_NAME } from '../config/appConfig';
 
 export function AppLayout() {
   const location = useLocation();
@@ -35,8 +38,28 @@ export function AppLayout() {
   const [activeTab, setActiveTab] = useState<'youtube' | 'mobile' | 'code'>('youtube');
   const [hideHeader, setHideHeader] = useState(false);
   const [topBarCollapsed, setTopBarCollapsed] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Sidebar behavior:
+  // - sidebarOpen: false por defecto ("obviar menú lateral"), cuando se oculta ocupa todo (100%)
+  // - sidebarCompact: modo íconos compacto
+  // - Cuando se abre el menú, reduce el espacio de la aplicación sin taparla ni superponerse
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(() => {
+    const saved = localStorage.getItem('app_sidebar_open');
+    return saved !== null ? saved === 'true' : false;
+  });
+  const [sidebarCompact, setSidebarCompact] = useState<boolean>(() => {
+    const saved = localStorage.getItem('app_sidebar_compact');
+    return saved === 'true';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('app_sidebar_open', String(sidebarOpen));
+  }, [sidebarOpen]);
+
+  useEffect(() => {
+    localStorage.setItem('app_sidebar_compact', String(sidebarCompact));
+  }, [sidebarCompact]);
+
   const [searchQuery, setSearchQuery] = useState('');
   const [showShortcutsModal, setShowShortcutsModal] = useState(false);
 
@@ -101,7 +124,9 @@ export function AppLayout() {
       } else if (e.key.toLowerCase() === 'f') {
         toggleFullscreen();
       } else if (e.key.toLowerCase() === 'b') {
-        setSidebarCollapsed((prev) => !prev);
+        setSidebarOpen((prev) => !prev);
+      } else if (e.key.toLowerCase() === 'm') {
+        setSidebarCompact((prev) => !prev);
       } else if (e.key === '?') {
         setShowShortcutsModal((prev) => !prev);
       }
@@ -111,9 +136,11 @@ export function AppLayout() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Close mobile drawer on route change
+  // Close sidebar on mobile when navigating
   useEffect(() => {
-    setMobileMenuOpen(false);
+    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+      setSidebarOpen(false);
+    }
   }, [location.pathname]);
 
   // Auto-expand current active category when route changes (only the active one is open)
@@ -217,38 +244,36 @@ export function AppLayout() {
       )}
 
       {/* ========================================================================= */}
-      {/* MOBILE BACKDROP OVERLAY                                                  */}
-      {/* ========================================================================= */}
-      {mobileMenuOpen && (
-        <div
-          onClick={() => setMobileMenuOpen(false)}
-          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40 lg:hidden transition-opacity"
-        />
-      )}
-
-      {/* ========================================================================= */}
-      {/* LEFT SIDEBAR (MENÚ IZQUIERDO - Oculto completamente en Modo Limpio)       */}
+      {/* LEFT SIDEBAR (MENÚ LATERAL - Flujo Flex Responsivo)                       */}
       {/* ========================================================================= */}
       <aside
-        className={`fixed lg:sticky top-0 h-screen z-50 flex flex-col bg-[#0d131f] border-r border-[#1f2937]/90 transition-all duration-300 ease-in-out select-none shadow-2xl ${
-          hideHeader
-            ? 'hidden'
-            : mobileMenuOpen
-            ? 'translate-x-0 w-72 sm:w-80'
-            : '-translate-x-full lg:translate-x-0'
-        } ${sidebarCollapsed ? 'lg:w-20' : 'lg:w-72 xl:w-80'}`}
+        id="app-navigation-sidebar"
+        className={`sticky top-0 h-screen shrink-0 z-40 flex flex-col bg-[#0d131f] border-r border-[#1f2937]/90 transition-all duration-300 ease-in-out select-none shadow-2xl overflow-hidden ${
+          !sidebarOpen || hideHeader
+            ? 'w-0 min-w-0 max-w-0 border-r-0 opacity-0 pointer-events-none p-0'
+            : sidebarCompact
+            ? 'w-16 sm:w-20 min-w-[4rem] sm:min-w-[5rem] max-w-[4rem] sm:max-w-[5rem] opacity-100'
+            : 'w-72 sm:w-80 min-w-[18rem] sm:min-w-[20rem] max-w-[18rem] sm:max-w-[20rem] opacity-100'
+        }`}
       >
         {/* Brand / Logo Header */}
-        <div className="h-16 px-4 border-b border-[#1f2937]/80 flex items-center justify-between gap-3 bg-[#0b0f19]">
-          <div className="flex items-center gap-3 overflow-hidden">
-            <div className="w-10 h-10 shrink-0 rounded-xl bg-gradient-to-tr from-[#10b981] via-[#0284c7] to-[#e11d48] flex items-center justify-center shadow-lg shadow-[#10b981]/25 ring-1 ring-white/15">
-              <Layers className="w-5 h-5 text-[#0a0e17] font-black" />
-            </div>
-            {!sidebarCollapsed && (
+        {!sidebarCompact ? (
+          <div className="h-16 px-4 border-b border-[#1f2937]/80 flex items-center justify-between gap-2 bg-[#0b0f19] shrink-0">
+            <div className="flex items-center gap-3 overflow-hidden">
+              <div className="w-10 h-10 shrink-0 rounded-xl bg-gradient-to-tr from-[#10b981] via-[#0284c7] to-[#e11d48] flex items-center justify-center shadow-lg shadow-[#10b981]/25 ring-1 ring-white/15">
+                <Layers className="w-5 h-5 text-[#0a0e17] font-black" />
+              </div>
               <div className="truncate">
                 <div className="flex items-center gap-1.5">
                   <span className="font-mono font-black text-base text-white tracking-wider">
-                    manzanitas<span className="text-[#38bdf8]">.pe</span>
+                    {COMPANY_NAME.includes('.') ? (
+                      <>
+                        {COMPANY_NAME.substring(0, COMPANY_NAME.lastIndexOf('.'))}
+                        <span className="text-[#38bdf8]">{COMPANY_NAME.substring(COMPANY_NAME.lastIndexOf('.'))}</span>
+                      </>
+                    ) : (
+                      COMPANY_NAME
+                    )}
                   </span>
                 </div>
                 <div className="text-[11px] font-mono text-[#64748b] tracking-tight truncate flex items-center gap-1">
@@ -256,34 +281,62 @@ export function AppLayout() {
                   <span className="text-[#10b981] font-semibold">• v7.0</span>
                 </div>
               </div>
-            )}
+            </div>
+
+            <div className="flex items-center gap-1">
+              {/* Botón Minimizar a modo compacto */}
+              <button
+                onClick={() => setSidebarCompact(true)}
+                className="p-1.5 rounded-lg text-[#64748b] hover:text-[#38bdf8] hover:bg-[#1f2937]/60 transition-colors"
+                title="Minimizar menú a barra de íconos (Atajo: M)"
+              >
+                <PanelLeftClose className="w-4 h-4" />
+              </button>
+              {/* Botón Ocultar menú completo */}
+              <button
+                onClick={() => setSidebarOpen(false)}
+                className="p-1.5 rounded-lg text-[#64748b] hover:text-[#ef4444] hover:bg-[#1f2937]/60 transition-colors"
+                title="Ocultar menú lateral (la aplicación ocupará todo el espacio) (Atajo: B)"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
           </div>
+        ) : (
+          <div className="h-16 border-b border-[#1f2937]/80 flex flex-col items-center justify-center bg-[#0b0f19] px-2 shrink-0">
+            <button
+              onClick={() => setSidebarCompact(false)}
+              className="w-10 h-10 shrink-0 rounded-xl bg-gradient-to-tr from-[#10b981] via-[#0284c7] to-[#e11d48] flex items-center justify-center shadow-lg shadow-[#10b981]/25 ring-1 ring-white/15 hover:scale-105 transition-transform"
+              title="Ampliar menú lateral"
+            >
+              <Layers className="w-5 h-5 text-[#0a0e17] font-black" />
+            </button>
+          </div>
+        )}
 
-          {/* Desktop Collapse / Expand Toggle */}
-          <button
-            onClick={() => setSidebarCollapsed((prev) => !prev)}
-            className="hidden lg:flex p-1.5 rounded-lg text-[#64748b] hover:text-[#38bdf8] hover:bg-[#1f2937]/60 transition-colors"
-            title={sidebarCollapsed ? 'Expandir menú lateral (Atajo: B)' : 'Colapsar menú lateral (Atajo: B)'}
-          >
-            {sidebarCollapsed ? (
-              <PanelLeftOpen className="w-4 h-4" />
-            ) : (
-              <PanelLeftClose className="w-4 h-4" />
-            )}
-          </button>
+        {/* Action buttons when Compact */}
+        {sidebarCompact && (
+          <div className="flex items-center justify-center gap-1 py-1.5 border-b border-[#1f2937]/40 shrink-0">
+            <button
+              onClick={() => setSidebarCompact(false)}
+              className="p-1.5 rounded-lg text-[#64748b] hover:text-[#38bdf8] hover:bg-[#1f2937]/80 transition-colors"
+              title="Ampliar menú lateral (Atajo: M)"
+            >
+              <PanelLeftOpen className="w-3.5 h-3.5" />
+            </button>
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="p-1.5 rounded-lg text-[#64748b] hover:text-[#ef4444] hover:bg-[#1f2937]/80 transition-colors"
+              title="Ocultar menú lateral (ocupa 100%) (Atajo: B)"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        )}
 
-          {/* Mobile Close Button */}
-          <button
-            onClick={() => setMobileMenuOpen(false)}
-            className="lg:hidden p-1.5 rounded-lg text-[#9ca3af] hover:text-white hover:bg-[#1f2937]"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Search Bar (Only shown when not collapsed) */}
-        {!sidebarCollapsed && (
-          <div className="px-3 pt-3 pb-2 border-b border-[#1f2937]/50">
+        {/* Search Bar (Only shown when not compact) */}
+        {!sidebarCompact && (
+          <div className="px-3 pt-3 pb-2 border-b border-[#1f2937]/50 shrink-0">
             <div className="relative">
               <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#64748b]" />
               <input
@@ -356,11 +409,12 @@ export function AppLayout() {
               const scenes = SCENES_REGISTRY.filter((s) => s.category === category.id);
               const isCurrentRouteCategory = currentScene.category === category.id;
               const isExpanded = expandedCategory === category.id;
+              const CatIcon = category.icon;
 
               return (
                 <div key={category.id} className="space-y-1">
                   {/* Category Header (Solo desplegado el activo) */}
-                  {!sidebarCollapsed ? (
+                  {!sidebarCompact ? (
                     <button
                       type="button"
                       onClick={() => toggleCategory(category.id)}
@@ -372,7 +426,7 @@ export function AppLayout() {
                       aria-expanded={isExpanded}
                     >
                       <span className="flex items-center gap-2 font-bold transition-colors">
-                        <span className="text-sm">{category.icon}</span>
+                        <CatIcon className={`w-4 h-4 ${isCurrentRouteCategory ? 'text-[#38bdf8]' : 'text-[#64748b] group-hover:text-[#94a3b8]'}`} />
                         <span className={isCurrentRouteCategory ? 'text-white font-black' : ''}>
                           {category.name}
                         </span>
@@ -397,7 +451,7 @@ export function AppLayout() {
                     <button
                       type="button"
                       onClick={() => {
-                        setSidebarCollapsed(false);
+                        setSidebarCompact(false);
                         setExpandedCategory(category.id);
                       }}
                       className={`w-full py-2 flex justify-center text-sm rounded-lg transition-colors cursor-pointer ${
@@ -405,14 +459,14 @@ export function AppLayout() {
                           ? 'bg-[#1e293b] text-white ring-1 ring-[#38bdf8]/40'
                           : 'hover:bg-[#151c2c]'
                       }`}
-                      title={`${category.name} (${scenes.length}) - Click para desplegar`}
+                      title={`${category.name} (${scenes.length}) - Click para ampliar`}
                     >
-                      <span>{category.icon}</span>
+                      <CatIcon className={`w-4 h-4 ${isCurrentRouteCategory ? 'text-[#38bdf8]' : 'text-[#64748b]'}`} />
                     </button>
                   )}
 
                   {/* Scenes Under This Category (Solo visible si está desplegado) */}
-                  {(!sidebarCollapsed ? isExpanded : isCurrentRouteCategory) && (
+                  {(!sidebarCompact ? isExpanded : isCurrentRouteCategory) && (
                     <div className="space-y-0.5 animate-in fade-in slide-in-from-top-1 duration-150 pl-0.5">
                       {scenes.map((scene) => {
                         const Icon = scene.icon;
@@ -421,7 +475,7 @@ export function AppLayout() {
                           <NavLink
                             key={scene.id}
                             to={scene.path}
-                            title={sidebarCollapsed ? `${scene.categoryLabel}: ${scene.shortTitle}` : undefined}
+                            title={sidebarCompact ? `${scene.categoryLabel}: ${scene.shortTitle}` : undefined}
                             className={({ isActive }) =>
                               `flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all group relative ${
                                 isActive
@@ -437,7 +491,7 @@ export function AppLayout() {
                                     ? 'border-[#a855f7]'
                                     : 'border-[#10b981]'
                                   : 'border-transparent'
-                              } ${sidebarCollapsed ? 'justify-center px-2' : ''}`
+                              } ${sidebarCompact ? 'justify-center px-2' : ''}`
                             }
                           >
                             {({ isActive }) => (
@@ -457,7 +511,7 @@ export function AppLayout() {
                                   />
                                 </div>
 
-                                {!sidebarCollapsed && (
+                                {!sidebarCompact && (
                                   <div className="flex-1 truncate">
                                     <div className="text-xs truncate tracking-tight font-medium flex items-center justify-between">
                                       <span className={isActive ? 'text-white' : ''}>
@@ -486,8 +540,8 @@ export function AppLayout() {
         </div>
 
         {/* Sidebar Footer with Shortcuts Hint */}
-        <div className="p-3 border-t border-[#1f2937]/80 bg-[#0b0f19]/80">
-          {!sidebarCollapsed ? (
+        <div className="p-3 border-t border-[#1f2937]/80 bg-[#0b0f19]/80 shrink-0">
+          {!sidebarCompact ? (
             <div className="flex items-center justify-between text-xs text-[#64748b]">
               <button
                 onClick={() => setShowShortcutsModal(true)}
@@ -517,20 +571,50 @@ export function AppLayout() {
       {/* ========================================================================= */}
       {/* MAIN CONTENT AREA                                                         */}
       {/* ========================================================================= */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out">
         {/* Top Header Bar (Hidden in Clean Mode) */}
         {!hideHeader && (
           <header className="border-b border-[#1f2937] bg-[#111827]/95 backdrop-blur-md px-3 sm:px-6 py-2.5 sticky top-0 z-30 flex flex-wrap items-center justify-between gap-3 shadow-md">
-            {/* Left: Mobile Toggle & Breadcrumbs */}
-            <div className="flex items-center gap-3 min-w-0">
-              {/* Mobile hamburger button */}
+            {/* Left: Universal Sidebar Toggle & Breadcrumbs */}
+            <div className="flex items-center gap-2.5 min-w-0">
+              {/* Universal Sidebar Toggle Button */}
               <button
-                onClick={() => setMobileMenuOpen(true)}
-                className="lg:hidden p-2 rounded-xl bg-[#1f2937] hover:bg-[#374151] text-[#9ca3af] hover:text-white transition-colors shrink-0"
-                aria-label="Abrir Menú"
+                onClick={() => setSidebarOpen((prev) => !prev)}
+                className={`p-2 rounded-xl transition-all flex items-center gap-2 text-xs font-mono font-medium border shrink-0 ${
+                  sidebarOpen
+                    ? 'bg-[#1e293b] text-[#38bdf8] border-[#38bdf8]/40 shadow-sm'
+                    : 'bg-[#151c2c] text-[#94a3b8] hover:text-white hover:bg-[#1e293b] border-[#222f46]'
+                }`}
+                title={sidebarOpen ? 'Ocultar menú lateral (ocupa 100% de la pantalla) (Atajo: B)' : 'Mostrar menú lateral (reduce la pantalla) (Atajo: B)'}
+                aria-label={sidebarOpen ? 'Ocultar Menú Lateral' : 'Mostrar Menú Lateral'}
               >
-                <Menu className="w-4 h-4" />
+                {sidebarOpen ? (
+                  <PanelLeftClose className="w-4 h-4 text-[#38bdf8]" />
+                ) : (
+                  <PanelLeftOpen className="w-4 h-4 text-[#38bdf8]" />
+                )}
+                <span className="hidden sm:inline">
+                  {sidebarOpen ? 'Ocultar Menú' : 'Menú'}
+                </span>
               </button>
+
+              {/* Minimize/Expand Toggle when Sidebar is open */}
+              {sidebarOpen && (
+                <button
+                  onClick={() => setSidebarCompact((prev) => !prev)}
+                  className="hidden md:flex p-2 rounded-xl bg-[#151c2c] hover:bg-[#1e293b] text-[#94a3b8] hover:text-white border border-[#222f46] text-xs transition-colors items-center gap-1.5 shrink-0"
+                  title={sidebarCompact ? 'Ampliar menú lateral a ancho completo (Atajo: M)' : 'Minimizar menú lateral a barra de íconos (Atajo: M)'}
+                >
+                  {sidebarCompact ? (
+                    <Maximize2 className="w-3.5 h-3.5 text-[#38bdf8]" />
+                  ) : (
+                    <Minimize2 className="w-3.5 h-3.5 text-[#94a3b8]" />
+                  )}
+                  <span className="text-[11px] font-mono">
+                    {sidebarCompact ? 'Ampliar' : 'Minimizar'}
+                  </span>
+                </button>
+              )}
 
               {/* Breadcrumbs & Active Scene Info */}
               <div className="min-w-0">
@@ -566,7 +650,7 @@ export function AppLayout() {
                   title="Modo YouTube (Desktop/Horizontal): Divide la pantalla en dos columnas (preview móvil a la izquierda y código a la derecha) (Atajo: 2)"
                 >
                   <MonitorPlay className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">📺 Modo YouTube</span>
+                  <span className="hidden sm:inline">Modo YouTube</span>
                   <span className="sm:hidden">YouTube</span>
                 </button>
 
@@ -580,7 +664,7 @@ export function AppLayout() {
                   title="Modo Móvil (Vertical): Muestra únicamente la vista previa móvil centrada (Atajo: 1)"
                 >
                   <Smartphone className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">📱 Modo Móvil</span>
+                  <span className="hidden sm:inline">Modo Móvil</span>
                   <span className="sm:hidden">Móvil</span>
                 </button>
 
@@ -633,6 +717,11 @@ export function AppLayout() {
               hideHeader,
               setHideHeader,
               toggleFullscreen,
+              sidebarOpen,
+              setSidebarOpen,
+              sidebarCompact,
+              setSidebarCompact,
+              sidebarCollapsed: !sidebarOpen || sidebarCompact,
             }}
           />
         </main>
@@ -667,11 +756,11 @@ export function AppLayout() {
               <div className="flex items-center justify-between p-2 rounded-lg bg-[#1f2937]/50">
                 <span className="text-[#94a3b8]">Paso anterior / siguiente</span>
                 <div className="flex items-center gap-1">
-                  <kbd className="px-2 py-1 bg-[#111827] border border-[#374151] rounded text-[#38bdf8]">
-                    ←
+                  <kbd className="px-2 py-1 bg-[#111827] border border-[#374151] rounded text-[#38bdf8] flex items-center justify-center">
+                    <ArrowLeft className="w-3.5 h-3.5" />
                   </kbd>
-                  <kbd className="px-2 py-1 bg-[#111827] border border-[#374151] rounded text-[#38bdf8]">
-                    →
+                  <kbd className="px-2 py-1 bg-[#111827] border border-[#374151] rounded text-[#38bdf8] flex items-center justify-center">
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </kbd>
                 </div>
               </div>
@@ -700,9 +789,15 @@ export function AppLayout() {
                 </kbd>
               </div>
               <div className="flex items-center justify-between p-2 rounded-lg bg-[#1f2937]/50">
-                <span className="text-[#94a3b8]">Colapsar Menú Lateral</span>
+                <span className="text-[#94a3b8]">Mostrar / Ocultar Menú Lateral</span>
                 <kbd className="px-2 py-1 bg-[#111827] border border-[#374151] rounded text-[#38bdf8] font-bold">
                   B
+                </kbd>
+              </div>
+              <div className="flex items-center justify-between p-2 rounded-lg bg-[#1f2937]/50">
+                <span className="text-[#94a3b8]">Minimizar / Ampliar Menú Lateral</span>
+                <kbd className="px-2 py-1 bg-[#111827] border border-[#374151] rounded text-[#38bdf8] font-bold">
+                  M
                 </kbd>
               </div>
               <div className="flex items-center justify-between p-2 rounded-lg bg-[#1f2937]/50">

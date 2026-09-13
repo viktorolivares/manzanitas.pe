@@ -29,6 +29,7 @@ import {
   Line,
   Txt,
 } from '@motion-canvas/2d';
+import { COMPANY_NAME } from '../../config/appConfig';
 
 /**
  * PALETA DE COLOR: CYBERNETIC MEMORY HIERARCHY
@@ -61,7 +62,7 @@ export default makeScene2D(function* (view) {
   view.add(
     <Node ref={headerNode} y={-840}>
       <Txt
-        text="codevo.pe"
+        text={COMPANY_NAME}
         fill={'#ffffff'}
         fontFamily={'JetBrains Mono, monospace'}
         fontSize={34}
@@ -201,8 +202,8 @@ export default makeScene2D(function* (view) {
   const redisRingScale = createSignal(1);
   const redisRingStroke = createSignal(C.cian);
   const redisRingGlow = createSignal(C.cian);
-  const redisSlot1Text = createSignal('⚡ user:42 ➔ { id: 42, name: "Ana" }');
-  const redisSlot2Text = createSignal('○ user:99 ➔ (no en cache)');
+  const redisSlot1Text = createSignal('[RAM] user:42 -> { id: 42, name: "Ana" }');
+  const redisSlot2Text = createSignal('[VACIO] user:99 -> (no en cache)');
 
   centralNode().add(
     <Node y={-160}>
@@ -233,9 +234,9 @@ export default makeScene2D(function* (view) {
         {/* Cabecera del nivel */}
         <Rect layout direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
           <Rect layout direction={'row'} alignItems={'center'} gap={12}>
-            <Circle size={36} fill={'rgba(16, 185, 129, 0.15)'} layout alignItems={'center'} justifyContent={'center'}>
-              <Txt text="⚡" fontSize={18} />
-            </Circle>
+            <Rect width={48} height={26} radius={8} fill={'rgba(16, 185, 129, 0.15)'} layout alignItems={'center'} justifyContent={'center'}>
+              <Txt text="RAM" fontSize={11} fontWeight={900} fill={C.verde} fontFamily={'JetBrains Mono, monospace'} />
+            </Rect>
             <Rect layout direction={'column'} gap={2}>
               <Txt
                 text="ESCUDO DE MEMORIA (REDIS RAM)"
@@ -364,7 +365,7 @@ export default makeScene2D(function* (view) {
         <Rect layout direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
           <Rect layout direction={'row'} alignItems={'center'} gap={12}>
             <Circle size={36} fill={'rgba(245, 158, 11, 0.15)'} layout alignItems={'center'} justifyContent={'center'}>
-              <Txt text="🗄️" fontSize={18} />
+              <Txt text="DB" fontSize={12} fontWeight={900} fill={'#f59e0b'} fontFamily={'JetBrains Mono, monospace'} />
             </Circle>
             <Rect layout direction={'column'} gap={2}>
               <Txt
@@ -540,9 +541,9 @@ export default makeScene2D(function* (view) {
   );
 
   // -------------------------------------------------------------------------
-  // FASE 1: CACHE HIT (REBOTE EN EL ESCUDO DE RAM A 4ms) ⚡
+  // FASE 1: CACHE HIT (REBOTE EN EL ESCUDO DE RAM A 4ms)
   // -------------------------------------------------------------------------
-  estadoTexto('⚡ FASE 1: CACHE HIT (GET:42)');
+  estadoTexto('FASE 1: CACHE HIT (GET:42) - 4ms');
   estadoColor(C.verde);
   dbLoadTexto('DB CPU: 0% (DURMIENDO)');
 
@@ -587,9 +588,9 @@ export default makeScene2D(function* (view) {
   yield* waitFor(1.2);
 
   // -------------------------------------------------------------------------
-  // FASE 2: CACHE MISS (PERFORACIÓN AL DISCO A 85ms) 🐢
+  // FASE 2: CACHE MISS (PERFORACIÓN AL DISCO A 85ms)
   // -------------------------------------------------------------------------
-  estadoTexto('🐢 FASE 2: CACHE MISS (GET:99)');
+  estadoTexto('FASE 2: CACHE MISS (GET:99) - 85ms');
   estadoColor(C.ambar);
 
   // Petición para clave no cacheada
@@ -631,7 +632,7 @@ export default makeScene2D(function* (view) {
   yield* packetY(-160, 0.7, easeInOutCubic);
 
   // Redis absorbe el nuevo dato en memoria
-  redisSlot2Text('⚡ user:99 ➔ { id: 99, name: "Carlos" } [TTL]');
+  redisSlot2Text('[RAM] user:99 -> { id: 99, name: "Carlos" } [TTL]');
   redisRingStroke(C.verde);
   redisRingGlow(C.verde);
   yield* redisRingScale(1.12, 0.25, easeOutBack);
@@ -655,5 +656,4 @@ export default makeScene2D(function* (view) {
   redisRingGlow('rgba(0,0,0,0)');
 
   yield* waitFor(2.5);
-});
-`;
+});`;

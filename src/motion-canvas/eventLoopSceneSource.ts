@@ -31,6 +31,7 @@ import {
   Txt,
   Line,
 } from '@motion-canvas/2d';
+import { COMPANY_NAME } from '../../config/appConfig';
 
 /**
  * PALETA DE COLORES - Dark Neon & Cyber Concurrency
@@ -74,7 +75,7 @@ export default makeScene2D(function* (view) {
   view.add(
     <Node ref={marcaRef} y={-850}>
       <Txt
-        text="codevo.pe"
+        text={COMPANY_NAME}
         fill={'#ffffff'}
         fontFamily={'JetBrains Mono, monospace'}
         fontSize={34}
@@ -328,7 +329,7 @@ export default makeScene2D(function* (view) {
             fontSize={16}
             fontWeight={800}
           />
-          <Txt text="0ms ✓" fill={'#fef08a'} fontFamily={'JetBrains Mono, monospace'} fontSize={12} />
+          <Txt text="0ms OK" fill={'#fef08a'} fontFamily={'JetBrains Mono, monospace'} fontSize={12} />
         </Rect>
       </Node>
     </Rect>
@@ -458,7 +459,7 @@ export default makeScene2D(function* (view) {
     >
       <Rect layout direction={'row'} alignItems={'center'} justifyContent={'space-between'} width={'100%'}>
         <Rect layout direction={'row'} alignItems={'center'} gap={10}>
-          <Txt text="⚡" fontSize={22} />
+          <Txt text="VIP" fontSize={12} fontWeight={900} fill={COLORES.cian} fontFamily={'JetBrains Mono, monospace'} />
           <Txt
             text="MICROTASKS QUEUE (PROMESAS)"
             fill={COLORES.cian}
@@ -517,7 +518,7 @@ export default makeScene2D(function* (view) {
           opacity={() => microItemOpacity()}
           scale={() => microItemScale()}
         >
-          <Txt text="⚡" fontSize={16} />
+          <Txt text="VIP" fontSize={11} fontWeight={900} fill={'#ffffff'} fontFamily={'JetBrains Mono, monospace'} />
           <Txt
             text={() => microItemText()}
             fill={'#ffffff'}
@@ -789,8 +790,8 @@ export default makeScene2D(function* (view) {
     webApiCardOpacity(1, 0.4, easeOutBack),
     webApiTimerIconRot(360, 0.8, easeInOutCubic),
     pasoBadgeSig('PASO 04 / 10', 0.2),
-    estadoTagSig('TIMER ➔ MACROQUEUE', 0.2),
-    bannerTituloSig('4. Timer finalizado ➔ Macrotask Queue', 0.2),
+    estadoTagSig('TIMER -> MACROQUEUE', 0.2),
+    bannerTituloSig('4. Timer finalizado -> Macrotask Queue', 0.2),
     bannerDescSig('El timer de 0ms expira de inmediato y encola cb_timeout() en la Macrotask Queue.', 0.2),
   );
   yield* all(
@@ -857,7 +858,7 @@ export default makeScene2D(function* (view) {
     callStackBorderSig(COLORES.cian, 0.4),
     loopRotacionSig(420, 0.8, easeInOutCubic),
     loopScaleSig(1.08, 0.4, easeOutBack),
-    loopDecisionSig('⚡ ¡Stack libre! DRENANDO MICROTASKS VIP primero', 0.3),
+    loopDecisionSig('¡Stack libre! DRENANDO MICROTASKS VIP primero', 0.3),
     loopStateBadgeSig('DRENANDO VIP', 0.3),
     loopStateColorSig(COLORES.cian, 0.3),
     pasoBadgeSig('PASO 08 / 10', 0.2),
@@ -880,7 +881,7 @@ export default makeScene2D(function* (view) {
   yield* all(
     callStackItem1Opacity(0, 0.2),
     loopRotacionSig(600, 0.8, easeInOutCubic),
-    loopDecisionSig('⏳ Microtasks vacías: Despachando 1 Macrotask', 0.3),
+    loopDecisionSig('Microtasks vacias: Despachando 1 Macrotask', 0.3),
     loopStateBadgeSig('DESPACHANDO MACRO', 0.3),
     loopStateColorSig(COLORES.amarillo, 0.3),
     callStackBorderSig(COLORES.amarillo, 0.4),
@@ -907,15 +908,14 @@ export default makeScene2D(function* (view) {
     microQueueBorderSig(COLORES.borde, 0.3),
     webApiBorderSig(COLORES.borde, 0.3),
     loopScaleSig(1, 0.4),
-    loopDecisionSig('✓ Ciclo finalizado • Todas las colas en reposo', 0.3),
+    loopDecisionSig('Ciclo finalizado • Todas las colas en reposo', 0.3),
     loopStateBadgeSig('COMPLETADO', 0.3),
     loopStateColorSig(COLORES.verde, 0.3),
     pasoBadgeSig('PASO 10 / 10', 0.2),
     estadoTagSig('FINALIZADO', 0.2),
     estadoColorSig(COLORES.verde, 0.2),
     bannerTituloSig('10. Regla de Oro del Event Loop', 0.2),
-    bannerDescSig('Salida: 1. Inicio ➔ 4. Fin ➔ 3. Promesa resuelta (VIP) ➔ 2. Timeout listo (Macrotarea).', 0.2),
+    bannerDescSig('Salida: 1. Inicio -> 4. Fin -> 3. Promesa resuelta (VIP) -> 2. Timeout listo (Macrotarea).', 0.2),
   );
   yield* waitFor(2.0);
-});
-`;
+});`;

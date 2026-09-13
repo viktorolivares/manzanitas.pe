@@ -1,5 +1,14 @@
 import React from 'react';
+import {
+  Brain,
+  Sparkles,
+  Globe,
+  Crown,
+  User,
+  Compass,
+} from 'lucide-react';
 import { EmbeddingSnapshot } from '../data/embeddingAlgorithm';
+import { COMPANY_NAME } from '../config/appConfig';
 
 interface EmbeddingVerticalViewportProps {
   snapshot: EmbeddingSnapshot;
@@ -33,7 +42,7 @@ export const EmbeddingVerticalViewport: React.FC<EmbeddingVerticalViewportProps>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#10b981] shadow-[0_0_8px_#10b981]"></span>
             </span>
             <span className="font-mono font-black text-white text-base tracking-[0.2em]">
-              codevo.pe
+              {COMPANY_NAME}
             </span>
           </div>
 
@@ -73,7 +82,7 @@ export const EmbeddingVerticalViewport: React.FC<EmbeddingVerticalViewportProps>
         {/* Banner de paso actual y subtítulo explicativo */}
         <div className="p-2.5 rounded-xl bg-[#111827]/90 border border-[#1f2937] backdrop-blur-md flex items-center justify-between">
           <div className="flex items-center gap-2 min-w-0">
-            <span className="text-base shrink-0">💡</span>
+            <Brain className="w-4 h-4 text-[#38bdf8] shrink-0" />
             <div className="min-w-0">
               <div className="text-[10px] font-mono font-bold text-white tracking-wider truncate">
                 {snapshot.stepTitle}
@@ -109,20 +118,20 @@ export const EmbeddingVerticalViewport: React.FC<EmbeddingVerticalViewportProps>
               {/* Eje X (Horizontal: Género) */}
               <div className="absolute w-[88%] h-[2px] bg-[#334155]/80 flex items-center justify-between px-1 pointer-events-none z-0">
                 <span className="text-[8px] font-mono font-bold text-[#38bdf8] bg-[#0c101d] px-1 -ml-1 rounded border border-[#334155]/40">
-                  ← Masculino
+                  &lt;- Masculino
                 </span>
                 <span className="text-[8px] font-mono font-bold text-[#ec4899] bg-[#0c101d] px-1 -mr-1 rounded border border-[#334155]/40">
-                  Femenino →
+                  Femenino -&gt;
                 </span>
               </div>
 
               {/* Eje Y (Vertical: Nobleza / Estatus) */}
               <div className="absolute h-[84%] w-[2px] bg-[#334155]/80 flex flex-col items-center justify-between py-1 pointer-events-none z-0">
                 <span className="text-[8px] font-mono font-bold text-[#fbbf24] bg-[#0c101d] px-1 -mt-1 rounded border border-[#334155]/40">
-                  ▲ Nobleza (+1.0)
+                  + Nobleza (+1.0)
                 </span>
                 <span className="text-[8px] font-mono font-bold text-[#94a3b8] bg-[#0c101d] px-1 -mb-1 rounded border border-[#334155]/40">
-                  ▼ Común (-1.0)
+                  - Común (-1.0)
                 </span>
               </div>
 
@@ -131,7 +140,7 @@ export const EmbeddingVerticalViewport: React.FC<EmbeddingVerticalViewportProps>
             </>
           )}
 
-          {/* Flechas Vectoriales (Relación Hombre ➔ Rey y Mujer ➔ Reina) */}
+          {/* Flechas Vectoriales (Relación Hombre -> Rey y Mujer -> Reina) */}
           {snapshot.arrowsVisible && (
             <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
               <defs>
@@ -222,7 +231,15 @@ export const EmbeddingVerticalViewport: React.FC<EmbeddingVerticalViewportProps>
                       boxShadow: `0 0 14px ${w.color}40`,
                     }}
                   >
-                    <span className="text-base">{w.emoji}</span>
+                    {w.id === 'hombre' ? (
+                      <User className="w-3.5 h-3.5 text-[#38bdf8]" />
+                    ) : w.id === 'mujer' ? (
+                      <User className="w-3.5 h-3.5 text-[#ec4899]" />
+                    ) : w.id === 'rey' ? (
+                      <Crown className="w-3.5 h-3.5 text-[#fbbf24]" />
+                    ) : (
+                      <Crown className="w-3.5 h-3.5 text-[#a855f7]" />
+                    )}
                     <span className="text-xs font-bold text-white font-mono">{w.label}</span>
                   </div>
 
@@ -257,9 +274,9 @@ export const EmbeddingVerticalViewport: React.FC<EmbeddingVerticalViewportProps>
           {snapshot.showDimensionsNotice && (
             <div className="absolute bottom-2 left-2 right-2 p-2 rounded-xl bg-[#0f172a]/95 border border-[#8b5cf6]/50 shadow-xl flex items-center justify-between gap-2 z-30 animate-fadeIn">
               <div className="flex items-center gap-2">
-                <span className="text-sm">🌐</span>
+                <Globe className="w-3.5 h-3.5 text-[#38bdf8]" />
                 <span className="text-[8px] font-mono text-white leading-tight">
-                  <strong className="text-[#38bdf8]">2 Ejes en este demo</strong> ➔ En modelos reales (Gemini / GPT): <strong className="text-[#a855f7]">1536 dimensiones</strong>
+                  <strong className="text-[#38bdf8]">2 Ejes en este demo</strong> -&gt; En modelos reales (Gemini / GPT): <strong className="text-[#a855f7]">1536 dimensiones</strong>
                 </span>
               </div>
               <span className="px-1.5 py-0.5 rounded bg-[#8b5cf6]/20 text-[#c084fc] text-[8px] font-mono font-bold border border-[#8b5cf6]/40 shrink-0">
@@ -280,8 +297,9 @@ export const EmbeddingVerticalViewport: React.FC<EmbeddingVerticalViewportProps>
           }`}
         >
           <div className="flex items-center justify-between mb-1">
-            <span className="text-[9px] font-mono font-bold text-[#fbbf24] tracking-wider flex items-center gap-1">
-              <span>✨</span> ÁLGEBRA DE SIGNIFICADOS
+            <span className="text-[9px] font-mono font-bold text-[#fbbf24] tracking-wider flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-[#fbbf24]" />
+              ÁLGEBRA DE SIGNIFICADOS
             </span>
             <span className="text-[8px] font-mono text-[#9ca3af]">
               {snapshot.equationVisible ? 'Cálculo Vectorial Activo' : 'Paso 8-9'}
@@ -290,18 +308,28 @@ export const EmbeddingVerticalViewport: React.FC<EmbeddingVerticalViewportProps>
 
           {/* Formula visually highlighted */}
           <div className="p-2 rounded-xl bg-[#0a0f1d] border border-[#1e293b] flex items-center justify-center gap-1.5 text-xs font-mono font-bold text-center">
-            <span className="text-[#fbbf24] bg-[#fbbf24]/10 px-1.5 py-0.5 rounded border border-[#fbbf24]/30">👑 Rey</span>
+            <span className="text-[#fbbf24] bg-[#fbbf24]/10 px-1.5 py-0.5 rounded border border-[#fbbf24]/30 flex items-center gap-1">
+              <Crown className="w-3 h-3 text-[#fbbf24]" />
+              Rey
+            </span>
             <span className="text-[#94a3b8]">-</span>
-            <span className="text-[#38bdf8] bg-[#38bdf8]/10 px-1.5 py-0.5 rounded border border-[#38bdf8]/30">👨 Hombre</span>
+            <span className="text-[#38bdf8] bg-[#38bdf8]/10 px-1.5 py-0.5 rounded border border-[#38bdf8]/30 flex items-center gap-1">
+              <User className="w-3 h-3 text-[#38bdf8]" />
+              Hombre
+            </span>
             <span className="text-[#94a3b8]">+</span>
-            <span className="text-[#ec4899] bg-[#ec4899]/10 px-1.5 py-0.5 rounded border border-[#ec4899]/30">👩 Mujer</span>
+            <span className="text-[#ec4899] bg-[#ec4899]/10 px-1.5 py-0.5 rounded border border-[#ec4899]/30 flex items-center gap-1">
+              <User className="w-3 h-3 text-[#ec4899]" />
+              Mujer
+            </span>
             <span className="text-[#94a3b8]">=</span>
-            <span className={`px-2 py-0.5 rounded border transition-all duration-500 ${
+            <span className={`px-2 py-0.5 rounded border transition-all duration-500 flex items-center gap-1 ${
               snapshot.highlightWordId === 'reina'
                 ? 'text-[#a855f7] bg-[#a855f7]/30 border-[#a855f7] shadow-[0_0_12px_#a855f7] scale-105'
                 : 'text-[#a855f7] bg-[#a855f7]/10 border-[#a855f7]/40'
             }`}>
-              👸 Reina
+              <Crown className="w-3 h-3 text-[#a855f7]" />
+              Reina
             </span>
           </div>
 
@@ -319,9 +347,10 @@ export const EmbeddingVerticalViewport: React.FC<EmbeddingVerticalViewportProps>
       <div className="relative z-20 pt-2 border-t border-[#1f2937]">
         <div className="p-2.5 rounded-xl bg-gradient-to-r from-[#111827] via-[#1e1b4b]/40 to-[#111827] border border-[#38bdf8]/30 shadow-lg flex items-center justify-between gap-2">
           <div className="flex-1 min-w-0">
-            <span className="text-[10px] font-mono font-black text-white block tracking-wider truncate">
+            <span className="text-[10px] font-mono font-black text-white block tracking-wider truncate flex items-center gap-1">
+              <Compass className="w-3.5 h-3.5 text-[#38bdf8]" />
               {snapshot.phase === 'SUMMARY'
-                ? '💡 EN RESUMEN: UN EMBEDDING ES UN MAPA'
+                ? 'EN RESUMEN: UN EMBEDDING ES UN MAPA'
                 : snapshot.stepTitle}
             </span>
             <p className="text-[8px] text-[#cbd5e1] leading-tight line-clamp-2 mt-0.5">

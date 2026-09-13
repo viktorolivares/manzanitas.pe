@@ -1,5 +1,22 @@
 import React from 'react';
+import {
+  Monitor,
+  FileText,
+  Lock,
+  Archive,
+  Zap,
+  Search,
+  AlertOctagon,
+  Wrench,
+  Radio,
+  Landmark,
+  CheckCircle2,
+  XCircle,
+  FileCode,
+  Check,
+} from 'lucide-react';
 import { FacturacionSnapshot } from '../data/facturacionSunatAlgorithm';
+import { COMPANY_NAME } from '../config/appConfig';
 
 interface FacturacionVerticalViewportProps {
   snapshot: FacturacionSnapshot;
@@ -33,7 +50,7 @@ export const FacturacionVerticalViewport: React.FC<FacturacionVerticalViewportPr
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#10b981] shadow-[0_0_8px_#10b981]"></span>
             </span>
             <span className="font-mono font-black text-white text-base tracking-[0.2em]">
-              codevo.pe
+              {COMPANY_NAME}
             </span>
           </div>
 
@@ -86,26 +103,28 @@ export const FacturacionVerticalViewport: React.FC<FacturacionVerticalViewportPr
         {/* Dynamic Step Banner */}
         <div className="p-2.5 rounded-xl bg-[#0f172a]/95 border border-[#1e293b] backdrop-blur-md flex items-center justify-between">
           <div className="flex items-center gap-2 min-w-0">
-            <span className="text-base shrink-0">
-              {snapshot.phase === 'CALCULO_ERP'
-                ? '💻'
-                : snapshot.phase === 'ESTRUCTURA_UBL'
-                ? '📑'
-                : snapshot.phase === 'FIRMA_DIGITAL'
-                ? '🔐'
-                : snapshot.phase === 'COMPRESION_ZIP'
-                ? '📦'
-                : snapshot.phase === 'CONEXION_SOAP'
-                ? '⚡'
-                : snapshot.phase === 'VALIDACION_XSD'
-                ? '🔍'
-                : snapshot.phase === 'ERROR_RECHAZO'
-                ? '🚨'
-                : snapshot.phase === 'SUBSANACION'
-                ? '🛠️'
-                : snapshot.phase === 'ESCANEO_SUNAT'
-                ? '📡'
-                : '🏛️'}
+            <span className="shrink-0">
+              {snapshot.phase === 'CALCULO_ERP' ? (
+                <Monitor className="w-4 h-4 text-[#38bdf8]" />
+              ) : snapshot.phase === 'ESTRUCTURA_UBL' ? (
+                <FileCode className="w-4 h-4 text-[#f59e0b]" />
+              ) : snapshot.phase === 'FIRMA_DIGITAL' ? (
+                <Lock className="w-4 h-4 text-[#f59e0b]" />
+              ) : snapshot.phase === 'COMPRESION_ZIP' ? (
+                <Archive className="w-4 h-4 text-[#a855f7]" />
+              ) : snapshot.phase === 'CONEXION_SOAP' ? (
+                <Zap className="w-4 h-4 text-[#38bdf8]" />
+              ) : snapshot.phase === 'VALIDACION_XSD' ? (
+                <Search className="w-4 h-4 text-[#38bdf8]" />
+              ) : snapshot.phase === 'ERROR_RECHAZO' ? (
+                <AlertOctagon className="w-4 h-4 text-[#ef4444]" />
+              ) : snapshot.phase === 'SUBSANACION' ? (
+                <Wrench className="w-4 h-4 text-[#10b981]" />
+              ) : snapshot.phase === 'ESCANEO_SUNAT' ? (
+                <Radio className="w-4 h-4 text-[#10b981]" />
+              ) : (
+                <Landmark className="w-4 h-4 text-[#10b981]" />
+              )}
             </span>
             <div className="min-w-0">
               <div className="text-[10px] font-mono font-bold text-white tracking-wider truncate">
@@ -129,7 +148,7 @@ export const FacturacionVerticalViewport: React.FC<FacturacionVerticalViewportPr
           
           {/* SVG Connection Lines */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
-            {/* System ➔ Firma Digital */}
+            {/* System -> Firma Digital */}
             <line
               x1="26%"
               y1="25%"
@@ -139,7 +158,7 @@ export const FacturacionVerticalViewport: React.FC<FacturacionVerticalViewportPr
               strokeWidth={['ESTRUCTURA_UBL', 'FIRMA_DIGITAL'].includes(snapshot.phase) ? '3.5' : '2'}
               strokeDasharray="4 4"
             />
-            {/* Firma Digital ➔ SUNAT */}
+            {/* Firma Digital -> SUNAT */}
             <path
               d="M 115 165 C 160 165, 170 140, 240 140"
               fill="none"
@@ -151,7 +170,7 @@ export const FacturacionVerticalViewport: React.FC<FacturacionVerticalViewportPr
                 filter: snapshot.phase === 'CONEXION_SOAP' ? 'drop-shadow(0 0 6px #38bdf8)' : undefined,
               }}
             />
-            {/* SUNAT ➔ System (CDR Return) */}
+            {/* SUNAT -> System (CDR Return) */}
             <path
               d="M 240 110 C 180 50, 130 50, 115 80"
               fill="none"
@@ -175,7 +194,7 @@ export const FacturacionVerticalViewport: React.FC<FacturacionVerticalViewportPr
             }`}
           >
             <div className="flex items-center gap-1.5 mb-1">
-              <span className="text-xs">💻</span>
+              <Monitor className="w-3.5 h-3.5 text-[#38bdf8]" />
               <span className="text-[9px] font-mono font-bold text-white tracking-wider truncate">
                 TU SISTEMA / API
               </span>
@@ -199,7 +218,7 @@ export const FacturacionVerticalViewport: React.FC<FacturacionVerticalViewportPr
             }`}
           >
             <div className="flex items-center gap-1.5 mb-1">
-              <span className="text-xs">🔐</span>
+              <Lock className="w-3.5 h-3.5 text-[#f59e0b]" />
               <span className="text-[9px] font-mono font-bold text-white tracking-wider truncate">
                 FIRMA DIGITAL / UBL
               </span>
@@ -270,18 +289,26 @@ export const FacturacionVerticalViewport: React.FC<FacturacionVerticalViewportPr
             {/* Status Footer Badge */}
             <div className="pt-1 border-t border-[#1e293b] text-center">
               <span
-                className="text-[7px] font-mono font-bold tracking-wider"
+                className="text-[7px] font-mono font-bold tracking-wider flex items-center justify-center gap-1"
                 style={{ color: snapshot.statusColor }}
               >
-                {snapshot.sunatStatus === 'approved'
-                  ? '✓ COMPROBANTE VÁLIDO'
-                  : snapshot.sunatStatus === 'scanning'
-                  ? '⚡ ESCANEANDO XSD'
-                  : snapshot.sunatStatus === 'error'
-                  ? '✕ EXCEPCIÓN 2324'
-                  : snapshot.sunatStatus === 'validating'
-                  ? 'EVALUANDO PADRÓN'
-                  : 'LISTO PARA RECEPCIÓN'}
+                {snapshot.sunatStatus === 'approved' ? (
+                  <>
+                    <CheckCircle2 className="w-2.5 h-2.5" /> COMPROBANTE VÁLIDO
+                  </>
+                ) : snapshot.sunatStatus === 'scanning' ? (
+                  <>
+                    <Zap className="w-2.5 h-2.5" /> ESCANEANDO XSD
+                  </>
+                ) : snapshot.sunatStatus === 'error' ? (
+                  <>
+                    <XCircle className="w-2.5 h-2.5" /> EXCEPCIÓN 2324
+                  </>
+                ) : snapshot.sunatStatus === 'validating' ? (
+                  'EVALUANDO PADRÓN'
+                ) : (
+                  'LISTO PARA RECEPCIÓN'
+                )}
               </span>
             </div>
           </div>
@@ -298,28 +325,36 @@ export const FacturacionVerticalViewport: React.FC<FacturacionVerticalViewportPr
           >
             {snapshot.packetStatus === 'ticket_orden' && (
               <div className="px-2.5 py-1.5 rounded-xl bg-[#0c192e] border border-[#38bdf8] shadow-[0_0_14px_#38bdf8] text-center">
-                <div className="text-[8px] font-mono font-bold text-white">📄 BOLETA B001-42</div>
+                <div className="text-[8px] font-mono font-bold text-white flex items-center justify-center gap-1">
+                  <FileText className="w-2.5 h-2.5 text-[#38bdf8]" /> BOLETA B001-42
+                </div>
                 <div className="text-[6px] font-mono text-[#38bdf8]">Total: S/ 149.90 (IGV 18%)</div>
               </div>
             )}
 
             {snapshot.packetStatus === 'xml_ubl' && (
               <div className="px-2.5 py-1.5 rounded-xl bg-[#1e1b4b] border border-[#f59e0b] shadow-[0_0_14px_#f59e0b] text-center">
-                <div className="text-[8px] font-mono font-bold text-white">📑 XML UBL 2.1</div>
+                <div className="text-[8px] font-mono font-bold text-white flex items-center justify-center gap-1">
+                  <FileCode className="w-2.5 h-2.5 text-[#f59e0b]" /> XML UBL 2.1
+                </div>
                 <div className="text-[6px] font-mono text-[#fcd34d]">Invoice-2.1.xsd</div>
               </div>
             )}
 
             {snapshot.packetStatus === 'firma_sha256' && (
               <div className="px-2.5 py-1.5 rounded-xl bg-[#2a1705] border border-[#f59e0b] shadow-[0_0_16px_#f59e0b] text-center">
-                <div className="text-[8px] font-mono font-bold text-white">🔒 XML FIRMADO</div>
+                <div className="text-[8px] font-mono font-bold text-white flex items-center justify-center gap-1">
+                  <Lock className="w-2.5 h-2.5 text-[#f59e0b]" /> XML FIRMADO
+                </div>
                 <div className="text-[6px] font-mono text-[#fde68a]">DigestValue SHA-256</div>
               </div>
             )}
 
             {snapshot.packetStatus === 'zip_firmado' && (
               <div className="px-2.5 py-1.5 rounded-xl bg-[#180f2e] border border-[#a855f7] shadow-[0_0_14px_#a855f7] text-center">
-                <div className="text-[8px] font-mono font-bold text-white">📦 2060...-03-B001-42.zip</div>
+                <div className="text-[8px] font-mono font-bold text-white flex items-center justify-center gap-1">
+                  <Archive className="w-2.5 h-2.5 text-[#a855f7]" /> 2060...-03-B001-42.zip
+                </div>
                 <div className="text-[6px] font-mono text-[#d8b4fe]">Nomenclatura SUNAT</div>
               </div>
             )}
@@ -333,7 +368,9 @@ export const FacturacionVerticalViewport: React.FC<FacturacionVerticalViewportPr
 
             {snapshot.packetStatus === 'reintento_ok' && (
               <div className="px-2.5 py-1.5 rounded-xl bg-[#062419] border border-[#10b981] shadow-[0_0_16px_#10b981] text-center">
-                <div className="text-[8px] font-mono font-bold text-white">📄 B001-43 (NUEVO)</div>
+                <div className="text-[8px] font-mono font-bold text-white flex items-center justify-center gap-1">
+                  <FileText className="w-2.5 h-2.5 text-[#10b981]" /> B001-43 (NUEVO)
+                </div>
                 <div className="text-[6px] font-mono text-[#86efac]">RUC Válido • Refirmado</div>
               </div>
             )}
@@ -346,7 +383,9 @@ export const FacturacionVerticalViewport: React.FC<FacturacionVerticalViewportPr
 
             {snapshot.packetStatus === 'completado_qr' && (
               <div className="px-2 py-1.5 rounded-xl bg-[#022c22] border border-[#10b981] shadow-[0_0_16px_#10b981] text-center">
-                <div className="text-[8px] font-mono font-black text-[#10b981]">✓ CDR FIRMADO</div>
+                <div className="text-[8px] font-mono font-black text-[#10b981] flex items-center justify-center gap-1">
+                  <CheckCircle2 className="w-2.5 h-2.5 text-[#10b981]" /> CDR FIRMADO
+                </div>
                 <div className="text-[6px] font-mono text-white">Estado 0 • QR Conforme</div>
               </div>
             )}
@@ -358,7 +397,7 @@ export const FacturacionVerticalViewport: React.FC<FacturacionVerticalViewportPr
           {snapshot.showErrorModal && (
             <div className="absolute top-[48%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[88%] p-3 rounded-2xl bg-[#1c080e]/95 border-2 border-[#ef4444] shadow-[0_0_30px_rgba(239,68,68,0.7)] backdrop-blur-xl z-40 flex flex-col items-center text-center animate-in zoom-in-95 duration-300">
               <div className="flex items-center gap-1.5 text-xs font-mono font-black text-[#fecaca] tracking-wider mb-1">
-                <span>✕</span>
+                <XCircle className="w-3.5 h-3.5 text-[#ef4444]" />
                 <span>ERROR DE RECEPCIÓN SUNAT</span>
               </div>
               <div className="text-[9px] font-mono font-bold text-[#ef4444] mb-1">
@@ -384,8 +423,9 @@ export const FacturacionVerticalViewport: React.FC<FacturacionVerticalViewportPr
         {/* =============================================================== */}
         <div className="p-2.5 rounded-2xl bg-[#0f172a]/95 border border-[#1e293b] shadow-xl">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-[9px] font-mono font-bold text-[#38bdf8] tracking-wider flex items-center gap-1">
-              <span>🏛️</span> ESPECIFICACIÓN TÉCNICA SUNAT
+            <span className="text-[9px] font-mono font-bold text-[#38bdf8] tracking-wider flex items-center gap-1.5">
+              <Landmark className="w-3.5 h-3.5 text-[#38bdf8]" />
+              ESPECIFICACIÓN TÉCNICA SUNAT
             </span>
             <span className="text-[8px] font-mono text-[#10b981] font-bold">
               {snapshot.technicalDetails.protocol}
@@ -417,8 +457,9 @@ export const FacturacionVerticalViewport: React.FC<FacturacionVerticalViewportPr
         <div className="p-2 rounded-xl bg-gradient-to-r from-[#06141a] via-[#0f172a] to-[#06141a] border border-[#10b981]/40 shadow-lg flex items-center justify-between gap-2">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5">
-              <span className="text-[10px] font-mono font-black text-[#10b981] tracking-wider truncate">
-                🏛️ FACTURACIÓN ELECTRÓNICA
+              <span className="text-[10px] font-mono font-black text-[#10b981] tracking-wider truncate flex items-center gap-1">
+                <Landmark className="w-3.5 h-3.5 text-[#10b981]" />
+                FACTURACIÓN ELECTRÓNICA
               </span>
               <span className="px-1.5 py-0.2 rounded bg-[#10b981]/20 text-[#86efac] text-[7.5px] font-mono font-bold border border-[#10b981]/40">
                 10 PASOS TRIBUTARIOS
