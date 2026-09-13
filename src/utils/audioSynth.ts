@@ -4,8 +4,9 @@
  */
 
 let audioCtx: AudioContext | null = null;
+let streamDestination: MediaStreamAudioDestinationNode | null = null;
 
-function getAudioContext(): AudioContext | null {
+export function getAudioContext(): AudioContext | null {
   if (typeof window === 'undefined') return null;
   if (!audioCtx) {
     const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
@@ -19,6 +20,15 @@ function getAudioContext(): AudioContext | null {
   return audioCtx;
 }
 
+export function getAudioStreamDestination(): MediaStreamAudioDestinationNode | null {
+  const ctx = getAudioContext();
+  if (!ctx) return null;
+  if (!streamDestination) {
+    streamDestination = ctx.createMediaStreamDestination();
+  }
+  return streamDestination;
+}
+
 export function playStepSound(type: 'pop' | 'enqueue' | 'visit' | 'target' | 'success') {
   try {
     const ctx = getAudioContext();
@@ -30,6 +40,9 @@ export function playStepSound(type: 'pop' | 'enqueue' | 'visit' | 'target' | 'su
 
     osc.connect(gain);
     gain.connect(ctx.destination);
+    if (streamDestination) {
+      gain.connect(streamDestination);
+    }
 
     if (type === 'enqueue') {
       osc.type = 'sine';
@@ -54,6 +67,9 @@ export function playStepSound(type: 'pop' | 'enqueue' | 'visit' | 'target' | 'su
         const g = ctx.createGain();
         o.connect(g);
         g.connect(ctx.destination);
+        if (streamDestination) {
+          g.connect(streamDestination);
+        }
         o.type = 'sine';
         o.frequency.setValueAtTime(freq, now + idx * 0.1);
         g.gain.setValueAtTime(0.08, now + idx * 0.1);
@@ -73,3 +89,4 @@ export function playStepSound(type: 'pop' | 'enqueue' | 'visit' | 'target' | 'su
     // Graceful fallback if audio is not permitted
   }
 }
+

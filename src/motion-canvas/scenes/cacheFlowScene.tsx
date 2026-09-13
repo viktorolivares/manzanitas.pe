@@ -1,15 +1,4 @@
-/**
- * MOTION CANVAS SOURCE CODE (cacheFlowScene.tsx)
- * 
- * Código TypeScript completo para Motion Canvas:
- * - Formato: Vertical 9:16 (1080x1920) a 60 FPS
- * - Tema: Arquitectura de Escudo de Memoria (RAM Shield vs Disk Vault)
- * - Concepto: Evita tarjetas estándar. Utiliza un Núcleo de Entrada (Gateway),
- *   un Escudo de Memoria RAM en suspensión (Redis) y un Cilindro de Almacenamiento Físico (Database).
- * - Marca: codevo.pe (Limpia)
- */
-
-export const CACHE_FLOW_SCENE_CODE = `import {makeScene2D} from '@motion-canvas/2d';
+import {makeScene2D} from '@motion-canvas/2d';
 import {
   all,
   chain,
@@ -656,4 +645,3 @@ export default makeScene2D(function* (view) {
 
   yield* waitFor(2.5);
 });
-`;

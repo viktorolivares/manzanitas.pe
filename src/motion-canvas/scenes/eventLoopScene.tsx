@@ -1,17 +1,4 @@
-/**
- * MOTION CANVAS SOURCE CODE (eventLoopScene.tsx)
- * 
- * Código TypeScript completo para Motion Canvas:
- * - Formato: Vertical 9:16 (1080x1920) a 60 FPS
- * - Tema: Visualización del Motor Event Loop en JavaScript (Call Stack, Web APIs, Microtasks, Macrotasks, Stdout)
- * - Diseño: Sin consola de código estática, 100% enfocado en los elementos visuales del loop, iconos y animación de partículas
- * - Marca: codevo.pe
- * 
- * Listo para copiar y pegar en tu proyecto Motion Canvas sin dependencias externas
- * excepto @motion-canvas/2d y @motion-canvas/core.
- */
-
-export const EVENT_LOOP_SCENE_CODE = `import {makeScene2D} from '@motion-canvas/2d';
+import {makeScene2D} from '@motion-canvas/2d';
 import {
   all,
   chain,
@@ -680,7 +667,7 @@ export default makeScene2D(function* (view) {
           text={() =>
             terminalLinesSig().length === 0
               ? '(Esperando salidas impresas...)'
-              : terminalLinesSig().map((l, i) => \`[\${i + 1}] > \${l}\`).join('\\n')
+              : terminalLinesSig().map((l, i) => `[${i + 1}] > ${l}`).join('\n')
           }
           fill={COLORES.verde}
           fontFamily={'JetBrains Mono, monospace'}
@@ -918,4 +905,3 @@ export default makeScene2D(function* (view) {
   );
   yield* waitFor(2.0);
 });
-`;

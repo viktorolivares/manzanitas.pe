@@ -1,16 +1,4 @@
-/**
- * MOTION CANVAS SOURCE CODE (facturacionSunatScene.tsx)
- * 
- * Formato: Vertical 9:16 (1080x1920) a 60 FPS
- * Duración: 34 Segundos (~2040 frames)
- * Tema: "¿Cómo funciona la Facturación Electrónica? (De tu Sistema a SUNAT: 10 Pasos Detallados)"
- * Estética: Fintech Cibernética / Glassmorphism / Dark Modern SUNAT Architecture
- * Marca: codevo.pe (Punto verde neón) • FACTURACIÓN ELECTRÓNICA • SUNAT
- * 
- * 100% Gráfico y Motion Graphics: Sin consolas ni código en pantalla.
- */
-
-export const FACTURACION_SUNAT_SCENE_CODE = `import {makeScene2D} from '@motion-canvas/2d';
+import {makeScene2D} from '@motion-canvas/2d';
 import {
   all,
   chain,
@@ -1091,4 +1079,3 @@ export default makeScene2D(function* (view) {
 
   yield* waitFor(2.2);
 });
-`;

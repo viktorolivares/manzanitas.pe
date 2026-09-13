@@ -1,15 +1,4 @@
-/**
- * MOTION CANVAS SOURCE CODE (googleMapsAStarScene.tsx)
- * 
- * Formato: Vertical 9:16 (1080x1920) a 60 FPS
- * Tema: "¿Cómo calcula Google Maps tu ruta más rápida? (A* Pathfinding y Tráfico en Tiempo Real)"
- * Estética: Navegación Satelital Táctica / Dark Cinematic Apple Maps
- * Marca: codevo.pe (GPS verde neón titilando) • GOOGLE MAPS ENGINE • A*
- * 
- * 100% Gráfico y Motion Graphics Moderno: CERO consolas ni código en pantalla.
- */
-
-export const GOOGLE_MAPS_ASTAR_SCENE_CODE = `import {makeScene2D} from '@motion-canvas/2d';
+import {makeScene2D} from '@motion-canvas/2d';
 import {
   all,
   chain,
@@ -650,4 +639,3 @@ export default makeScene2D(function* (view) {
   // Hold final cinematográfico
   yield* waitFor(3.5);
 });
-`;

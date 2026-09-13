@@ -1,16 +1,4 @@
-/**
- * MOTION CANVAS SOURCE CODE (fraudDetectionScene.tsx)
- * 
- * Formato: Vertical 9:16 (1080x1920) a 60 FPS
- * Duración: 32 Segundos (~1920 frames)
- * Tema: "Detección de Fraude Financiero en Tiempo Real con Grafos (Cycle Detection & Risk Scoring)"
- * Estética: Fintech Cibernética Táctica / Dark Glassmorphism High-Tech
- * Marca: codevo.pe (Radar verde neón) • SISTEMAS DISTRIBUIDOS • FRAUD SHIELD
- * 
- * 100% Gráfico y Motion Graphics: Sin consolas ni código en pantalla.
- */
-
-export const FRAUD_DETECTION_SCENE_CODE = `import {makeScene2D} from '@motion-canvas/2d';
+import {makeScene2D} from '@motion-canvas/2d';
 import {
   all,
   chain,
@@ -796,4 +784,3 @@ export default makeScene2D(function* (view) {
   // Hold final cinematográfico (cierre en 32-33s)
   yield* waitFor(2.8);
 });
-`;

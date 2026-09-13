@@ -1,17 +1,4 @@
-/**
- * MOTION CANVAS SOURCE CODE (bfsScene.tsx)
- * 
- * Código TypeScript completo para Motion Canvas:
- * - Formato: Vertical 9:16 (1080x1920) a 60 FPS
- * - Tema: Visualización del Algoritmo BFS (Breadth-First Search) en Matriz 5x5
- * - Diseño: Sin consola de código estática, 100% enfocado en los elementos visuales del algoritmo (Matriz, Cola FIFO, Exploración 4 Direcciones y Ruta Óptima)
- * - Marca: codevo.pe
- * 
- * Listo para copiar y pegar en tu proyecto Motion Canvas sin dependencias externas
- * excepto @motion-canvas/2d y @motion-canvas/core.
- */
-
-export const MOTION_CANVAS_CODE = `import {makeScene2D} from '@motion-canvas/2d';
+import {makeScene2D} from '@motion-canvas/2d';
 import {
   all,
   chain,
@@ -123,7 +110,7 @@ export default makeScene2D(function* (view) {
           fontWeight={700}
         />
         <Txt
-          text={() => \`Visitados: \${visitadosCountSig()}\`}
+          text={() => `Visitados: ${visitadosCountSig()}`}
           fill={COLORES.cian}
           fontFamily={'JetBrains Mono, monospace'}
           fontSize={14}
@@ -192,7 +179,7 @@ export default makeScene2D(function* (view) {
 
       let initialFill = COLORES.superficie;
       let initialBorder = COLORES.borde;
-      let label = \`\${r},\${c}\`;
+      let label = `${r},${c}`;
       let icon = '';
 
       if (isStart) {
@@ -353,7 +340,7 @@ export default makeScene2D(function* (view) {
             queueItemsSig().length === 0
               ? ''
               : queueItemsSig()
-                  .map((item, idx) => (idx === 0 ? \`[POP ◀ \${item}]\` : item))
+                  .map((item, idx) => (idx === 0 ? `[POP ◀ ${item}]` : item))
                   .join('   ➔   ')
           }
           fill={COLORES.cian}
@@ -681,4 +668,3 @@ export default makeScene2D(function* (view) {
   );
   yield* waitFor(2.5);
 });
-`;

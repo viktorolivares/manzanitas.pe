@@ -7,6 +7,9 @@ import {
   SkipForward,
   Volume2,
   VolumeX,
+  Video,
+  Square,
+  Sparkles,
 } from 'lucide-react';
 
 interface TimelineControlsProps {
@@ -24,6 +27,9 @@ interface TimelineControlsProps {
   onSpeedChange: (speed: number) => void;
   soundEnabled: boolean;
   onToggleSound: () => void;
+  isRecording?: boolean;
+  onToggleRecord?: () => void;
+  recordingDuration?: number;
 }
 
 export const TimelineControls: React.FC<TimelineControlsProps> = ({
@@ -41,6 +47,9 @@ export const TimelineControls: React.FC<TimelineControlsProps> = ({
   onSpeedChange,
   soundEnabled,
   onToggleSound,
+  isRecording = false,
+  onToggleRecord,
+  recordingDuration = 0,
 }) => {
   const formatTime = (secs: number) => {
     const m = Math.floor(secs / 60);
@@ -52,7 +61,9 @@ export const TimelineControls: React.FC<TimelineControlsProps> = ({
   const speeds = [0.5, 1, 1.5, 2];
 
   return (
-    <div className="w-full bg-[#16161e] border border-[#414868]/60 rounded-2xl p-3.5 shadow-xl flex flex-col gap-3">
+    <div className={`w-full bg-[#16161e] border transition-all rounded-2xl p-3.5 shadow-xl flex flex-col gap-3 ${
+      isRecording ? 'border-red-500/80 shadow-red-950/40 ring-1 ring-red-500/50' : 'border-[#414868]/60'
+    }`}>
       {/* Timeline progress slider */}
       <div className="flex items-center gap-3 w-full">
         <span className="text-xs font-mono text-[#38bdf8] min-w-[58px]">
@@ -127,12 +138,40 @@ export const TimelineControls: React.FC<TimelineControlsProps> = ({
           </button>
         </div>
 
-        {/* Center: Step indicators */}
-        <div className="hidden sm:flex items-center gap-2 text-xs font-mono text-[#9aa5ce] bg-[#1a1b26] px-3 py-1.5 rounded-lg border border-[#414868]/40">
-          <span>Paso</span>
-          <span className="text-[#38bdf8] font-bold">{currentStepIndex + 1}</span>
-          <span>de</span>
-          <span>{totalSteps}</span>
+        {/* Center: Step indicators & Recording Status */}
+        <div className="flex items-center gap-2">
+          <div className="hidden sm:flex items-center gap-2 text-xs font-mono text-[#9aa5ce] bg-[#1a1b26] px-3 py-1.5 rounded-lg border border-[#414868]/40">
+            <span>Paso</span>
+            <span className="text-[#38bdf8] font-bold">{currentStepIndex + 1}</span>
+            <span>de</span>
+            <span>{totalSteps}</span>
+          </div>
+
+          {/* Record Button */}
+          {onToggleRecord && (
+            <button
+              onClick={onToggleRecord}
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-xl font-medium text-xs transition-all active:scale-95 shadow-md border ${
+                isRecording
+                  ? 'bg-red-500 hover:bg-red-600 text-white border-red-400 animate-pulse shadow-red-500/40'
+                  : 'bg-gradient-to-r from-red-600/90 to-rose-600/90 hover:from-red-500 hover:to-rose-500 text-white border-red-500/50 shadow-red-900/30'
+              }`}
+              title={isRecording ? 'Detener y descargar video' : 'Grabar video de la escena (60 FPS)'}
+            >
+              {isRecording ? (
+                <>
+                  <span className="w-2.5 h-2.5 rounded-full bg-white animate-ping" />
+                  <span className="font-mono font-bold tracking-wider">REC {formatTime(recordingDuration)}</span>
+                  <Square className="w-3.5 h-3.5 fill-current ml-1" />
+                </>
+              ) : (
+                <>
+                  <Video className="w-3.5 h-3.5" />
+                  <span className="font-semibold">Grabar Video</span>
+                </>
+              )}
+            </button>
+          )}
         </div>
 
         {/* Right: Speed & sound */}

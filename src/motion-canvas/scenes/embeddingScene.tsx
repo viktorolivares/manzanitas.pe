@@ -1,16 +1,4 @@
-/**
- * MOTION CANVAS SOURCE CODE (embeddingScene.tsx)
- * 
- * Formato: Vertical 9:16 (1080x1920) a 60 FPS
- * Duración total: ~33.5 segundos (> 30 segundos garantizados a 1x)
- * Tema: "¿Cómo entiende una IA las palabras? El Mapa de los Embeddings"
- * Estética: Dark Cinematic / Linear & Vercel Design System
- * Branding: codevo.pe (status verde neón pulsante) • GUÍA VISUAL DE IA
- * 
- * Animación ultra didáctica, pausada, comprensible y profesional.
- */
-
-export const EMBEDDING_SCENE_CODE = `import {makeScene2D} from '@motion-canvas/2d';
+import {makeScene2D} from '@motion-canvas/2d';
 import {
   all,
   chain,
@@ -537,4 +525,3 @@ export default makeScene2D(function* (view) {
   yield* conclusionBox().opacity(1, 0.6);
   yield* waitFor(3.0); // Outro hold (Total: ~35 segundos a 1x)
 });
-`;
