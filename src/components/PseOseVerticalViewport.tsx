@@ -38,7 +38,7 @@ export const PseOseVerticalViewport: React.FC<PseOseVerticalViewportProps> = ({ 
       />
 
       {/* ================================================================= */}
-      {/* 1. HEADER SUPERIOR (codevo.pe • ARQUITECTURA CLOUD • PSE / OSE)   */}
+      {/* 1. HEADER SUPERIOR (my.app • ARQUITECTURA CLOUD • PSE / OSE)   */}
       {/* ================================================================= */}
       <div className="relative z-20 pb-2 border-b border-[#1e293b]">
         <div className="flex items-center justify-between">

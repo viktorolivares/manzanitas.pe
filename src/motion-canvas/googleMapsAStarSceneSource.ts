@@ -4,7 +4,7 @@
  * Formato: Vertical 9:16 (1080x1920) a 60 FPS
  * Tema: "¿Cómo calcula Google Maps tu ruta más rápida? (A* Pathfinding y Tráfico en Tiempo Real)"
  * Estética: Navegación Satelital Táctica / Dark Cinematic Apple Maps
- * Marca: codevo.pe (GPS verde neón titilando) • GOOGLE MAPS ENGINE • A*
+ * Marca: my.app (GPS verde neón titilando) • GOOGLE MAPS ENGINE • A*
  * 
  * 100% Gráfico y Motion Graphics Moderno: CERO consolas ni código en pantalla.
  */

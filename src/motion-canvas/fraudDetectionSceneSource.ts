@@ -5,7 +5,7 @@
  * Duración: 32 Segundos (~1920 frames)
  * Tema: "Detección de Fraude Financiero en Tiempo Real con Grafos (Cycle Detection & Risk Scoring)"
  * Estética: Fintech Cibernética Táctica / Dark Glassmorphism High-Tech
- * Marca: codevo.pe (Radar verde neón) • SISTEMAS DISTRIBUIDOS • FRAUD SHIELD
+ * Marca: my.app (Radar verde neón) • SISTEMAS DISTRIBUIDOS • FRAUD SHIELD
  * 
  * 100% Gráfico y Motion Graphics: Sin consolas ni código en pantalla.
  */
@@ -104,7 +104,7 @@ export default makeScene2D(function* (view) {
 
   view.add(
     <Node ref={headerNode} y={-860}>
-      {/* Izquierda: Radar Ping verde neón + Marca codevo.pe */}
+      {/* Izquierda: Radar Ping verde neón + Marca my.app */}
       <Circle
         x={-420}
         y={0}

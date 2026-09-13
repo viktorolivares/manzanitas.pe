@@ -74,7 +74,7 @@ export default makeScene2D(function* (view) {
   );
 
   // =========================================================================
-  // 2. HEADER SUPERIOR (Y: -860) • BRANDING codevo.pe & ARQUITECTURA CLOUD
+  // 2. HEADER SUPERIOR (Y: -860) • BRANDING my.app & ARQUITECTURA CLOUD
   // =========================================================================
   const headerNode = createRef<Node>();
   const neonPingScale = createSignal(1);
@@ -98,7 +98,7 @@ export default makeScene2D(function* (view) {
         shadowBlur={30}
       />
 
-      {/* Marca codevo.pe con punto verde neón */}
+      {/* Marca my.app con punto verde neón */}
       <Node x={-360} y={-24}>
         <Circle
           size={14}

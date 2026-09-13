@@ -34,7 +34,7 @@ export const MapsVerticalViewport: React.FC<MapsVerticalViewportProps> = ({ snap
       />
 
       {/* ================================================================= */}
-      {/* 1. HEADER MINIMALISTA & GPS PULSE (codevo.pe • GOOGLE MAPS A*)    */}
+      {/* 1. HEADER MINIMALISTA & GPS PULSE (my.app • GOOGLE MAPS A*)    */}
       {/* ================================================================= */}
       <div className="relative z-20 pb-2 border-b border-[#1e293b]">
         <div className="flex items-center justify-between">

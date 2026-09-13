@@ -94,7 +94,7 @@ export default makeScene2D(function* (view) {
 
   view.add(
     <Node ref={headerNode} y={-860}>
-      {/* Izquierda: Marca codevo.pe con punto de estado verde neón */}
+      {/* Izquierda: Marca my.app con punto de estado verde neón */}
       <Circle
         x={-420}
         y={0}

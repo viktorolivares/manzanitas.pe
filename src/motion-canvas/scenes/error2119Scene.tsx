@@ -72,7 +72,7 @@ export default makeScene2D(function* (view) {
   );
 
   // =========================================================================
-  // 2. HEADER SUPERIOR (Y: -860) • BRANDING codevo.pe
+  // 2. HEADER SUPERIOR (Y: -860) • BRANDING my.app
   // =========================================================================
   const headerNode = createRef<Node>();
   const neonPingScale = createSignal(1);
@@ -96,7 +96,7 @@ export default makeScene2D(function* (view) {
         shadowBlur={30}
       />
 
-      {/* Marca codevo.pe con punto verde neón */}
+      {/* Marca my.app con punto verde neón */}
       <Node x={-360} y={-24}>
         <Circle
           size={14}
@@ -779,7 +779,7 @@ export default makeScene2D(function* (view) {
   // EJECUCIÓN CINEMÁTICA PRINCIPAL (DURACIÓN: 33 SEGUNDOS / ~1980 FRAMES)
   // =========================================================================
 
-  // Loop de pulso verde neón para la marca codevo.pe
+  // Loop de pulso verde neón para la marca my.app
   // @ts-ignore
   const pulseTask = function* () {
     while (true) {

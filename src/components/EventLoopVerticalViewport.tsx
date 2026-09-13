@@ -29,7 +29,7 @@ export const EventLoopVerticalViewport: React.FC<EventLoopVerticalViewportProps>
       />
 
       {/* ================================================================= */}
-      {/* 1. HEADER MINIMALISTA - MARCA codevo.pe                           */}
+      {/* 1. HEADER MINIMALISTA - MARCA my.app                           */}
       {/* ================================================================= */}
       <div className="relative z-20 pb-2.5 border-b border-[#1e293b]">
         <div className="flex items-center justify-between">

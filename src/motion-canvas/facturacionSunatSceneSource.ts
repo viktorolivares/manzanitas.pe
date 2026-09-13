@@ -5,7 +5,7 @@
  * Duración: 34 Segundos (~2040 frames)
  * Tema: "¿Cómo funciona la Facturación Electrónica? (De tu Sistema a SUNAT: 10 Pasos Detallados)"
  * Estética: Fintech Cibernética / Glassmorphism / Dark Modern SUNAT Architecture
- * Marca: codevo.pe (Punto verde neón) • FACTURACIÓN ELECTRÓNICA • SUNAT
+ * Marca: my.app (Punto verde neón) • FACTURACIÓN ELECTRÓNICA • SUNAT
  * 
  * 100% Gráfico y Motion Graphics: Sin consolas ni código en pantalla.
  */
@@ -106,7 +106,7 @@ export default makeScene2D(function* (view) {
 
   view.add(
     <Node ref={headerNode} y={-860}>
-      {/* Izquierda: Marca codevo.pe con punto de estado verde neón */}
+      {/* Izquierda: Marca my.app con punto de estado verde neón */}
       <Circle
         x={-420}
         y={0}

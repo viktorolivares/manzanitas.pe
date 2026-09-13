@@ -5,7 +5,7 @@
  * - Formato: Vertical 9:16 (1080x1920) a 60 FPS
  * - Duración Total: 33 Segundos (1980 frames a 60fps)
  * - Tema: Rechazo por discrepancia de cálculo de IGV (Error 2119) y solución técnica con regla UBL 2.1
- * - Marca: codevo.pe (status verde neón pulsante)
+ * - Marca: my.app (status verde neón pulsante)
  * - Topología de Red (3 Nodos):
  *    1. [TU SISTEMA]: Emisor del comprobante (Y: -350)
  *    2. [VALIDADOR OSE / SUNAT]: Escáner fiscal central (Y: 0)
@@ -88,7 +88,7 @@ export default makeScene2D(function* (view) {
   );
 
   // =========================================================================
-  // 2. HEADER SUPERIOR (Y: -860) • BRANDING codevo.pe
+  // 2. HEADER SUPERIOR (Y: -860) • BRANDING my.app
   // =========================================================================
   const headerNode = createRef<Node>();
   const neonPingScale = createSignal(1);
@@ -112,7 +112,7 @@ export default makeScene2D(function* (view) {
         shadowBlur={30}
       />
 
-      {/* Marca codevo.pe con punto verde neón */}
+      {/* Marca my.app con punto verde neón */}
       <Node x={-360} y={-24}>
         <Circle
           size={14}
@@ -795,7 +795,7 @@ export default makeScene2D(function* (view) {
   // EJECUCIÓN CINEMÁTICA PRINCIPAL (DURACIÓN: 33 SEGUNDOS / ~1980 FRAMES)
   // =========================================================================
 
-  // Loop de pulso verde neón para la marca codevo.pe
+  // Loop de pulso verde neón para la marca my.app
   // @ts-ignore
   const pulseTask = function* () {
     while (true) {

@@ -5,7 +5,7 @@
  * Duración total: ~33.5 segundos (> 30 segundos garantizados a 1x)
  * Tema: "¿Cómo entiende una IA las palabras? El Mapa de los Embeddings"
  * Estética: Dark Cinematic / Linear & Vercel Design System
- * Branding: codevo.pe (status verde neón pulsante) • GUÍA VISUAL DE IA
+ * Branding: my.app (status verde neón pulsante) • GUÍA VISUAL DE IA
  * 
  * Animación ultra didáctica, pausada, comprensible y profesional.
  */
@@ -62,7 +62,7 @@ export default makeScene2D(function* (view) {
   );
 
   // =========================================================================
-  // 2. HEADER BRANDING (Y = -840): codevo.pe + GUÍA VISUAL DE IA
+  // 2. HEADER BRANDING (Y = -840): my.app + GUÍA VISUAL DE IA
   // =========================================================================
   const headerNode = createRef<Node>();
   const statusGlow = createSignal(1);

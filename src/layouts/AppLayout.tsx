@@ -28,7 +28,7 @@ import {
   getSceneByPath,
   SceneMeta,
 } from '../data/scenesRegistry';
-import { COMPANY_NAME } from '../config/appConfig';
+import { APP_NAME } from '../config/appConfig';
 
 export function AppLayout() {
   const location = useLocation();
@@ -266,13 +266,13 @@ export function AppLayout() {
               <div className="truncate">
                 <div className="flex items-center gap-1.5">
                   <span className="font-mono font-black text-base text-white tracking-wider">
-                    {COMPANY_NAME.includes('.') ? (
+                    {APP_NAME.includes('.') ? (
                       <>
-                        {COMPANY_NAME.substring(0, COMPANY_NAME.lastIndexOf('.'))}
-                        <span className="text-[#38bdf8]">{COMPANY_NAME.substring(COMPANY_NAME.lastIndexOf('.'))}</span>
+                        {APP_NAME.substring(0, APP_NAME.lastIndexOf('.'))}
+                        <span className="text-[#38bdf8]">{APP_NAME.substring(APP_NAME.lastIndexOf('.'))}</span>
                       </>
                     ) : (
-                      COMPANY_NAME
+                      APP_NAME
                     )}
                   </span>
                 </div>

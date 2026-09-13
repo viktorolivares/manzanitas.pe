@@ -31,7 +31,7 @@ export const EmbeddingVerticalViewport: React.FC<EmbeddingVerticalViewportProps>
       />
 
       {/* ================================================================= */}
-      {/* 1. HEADER FLOTANTE & BRANDING (codevo.pe • GUÍA VISUAL DE IA)     */}
+      {/* 1. HEADER FLOTANTE & BRANDING (my.app • GUÍA VISUAL DE IA)     */}
       {/* ================================================================= */}
       <div className="relative z-20 pb-2 border-b border-[#1f2937]">
         <div className="flex items-center justify-between">

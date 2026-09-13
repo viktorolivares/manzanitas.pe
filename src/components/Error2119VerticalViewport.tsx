@@ -38,7 +38,7 @@ export const Error2119VerticalViewport: React.FC<Error2119VerticalViewportProps>
       />
 
       {/* ================================================================= */}
-      {/* 1. HEADER SUPERIOR (codevo.pe • DEBUGGING FISCAL • SUNAT / OSE)   */}
+      {/* 1. HEADER SUPERIOR (my.app • DEBUGGING FISCAL • SUNAT / OSE)   */}
       {/* ================================================================= */}
       <div className="relative z-20 pb-2 border-b border-[#1e293b]">
         <div className="flex items-center justify-between">

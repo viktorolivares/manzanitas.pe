@@ -51,7 +51,7 @@ export default makeScene2D(function* (view) {
   );
 
   // =========================================================================
-  // 2. ENCABEZADO DE MARCA codevo.pe (Y: -850)
+  // 2. ENCABEZADO DE MARCA my.app (Y: -850)
   // Limpio, tipografía monoespaciada de alto contraste
   // =========================================================================
   const marcaRef = createRef<Node>();

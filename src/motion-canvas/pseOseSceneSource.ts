@@ -4,7 +4,7 @@
  * - Formato: Vertical 9:16 (1080x1920) a 60 FPS
  * - Duración Total: 33 Segundos (1980 frames a 60fps)
  * - Tema: Por qué SUNAT ya no valida tus facturas en vivo (Desacoplamiento con PSE y OSE)
- * - Marca: codevo.pe (status verde neón pulsante)
+ * - Marca: my.app (status verde neón pulsante)
  * - Topología de Red:
  *    1. TU APP / ERP: (Y: -400, X: -320)
  *    2. PSE: (Y: -400, X: +320)
@@ -90,7 +90,7 @@ export default makeScene2D(function* (view) {
   );
 
   // =========================================================================
-  // 2. HEADER SUPERIOR (Y: -860) • BRANDING codevo.pe & ARQUITECTURA CLOUD
+  // 2. HEADER SUPERIOR (Y: -860) • BRANDING my.app & ARQUITECTURA CLOUD
   // =========================================================================
   const headerNode = createRef<Node>();
   const neonPingScale = createSignal(1);
@@ -114,7 +114,7 @@ export default makeScene2D(function* (view) {
         shadowBlur={30}
       />
 
-      {/* Marca codevo.pe con punto verde neón */}
+      {/* Marca my.app con punto verde neón */}
       <Node x={-360} y={-24}>
         <Circle
           size={14}

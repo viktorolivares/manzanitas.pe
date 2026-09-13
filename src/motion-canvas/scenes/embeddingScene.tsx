@@ -50,7 +50,7 @@ export default makeScene2D(function* (view) {
   );
 
   // =========================================================================
-  // 2. HEADER BRANDING (Y = -840): codevo.pe + GUÍA VISUAL DE IA
+  // 2. HEADER BRANDING (Y = -840): my.app + GUÍA VISUAL DE IA
   // =========================================================================
   const headerNode = createRef<Node>();
   const statusGlow = createSignal(1);

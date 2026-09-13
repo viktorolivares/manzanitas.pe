@@ -92,7 +92,7 @@ export default makeScene2D(function* (view) {
 
   view.add(
     <Node ref={headerNode} y={-860}>
-      {/* Izquierda: Radar Ping verde neón + Marca codevo.pe */}
+      {/* Izquierda: Radar Ping verde neón + Marca my.app */}
       <Circle
         x={-420}
         y={0}

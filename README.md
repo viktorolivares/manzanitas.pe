@@ -1,4 +1,4 @@
-# codevo.pe — Animaciones & Generador de Video (1080x1920 Vertical)
+# my.app — Animaciones & Generador de Video (1080x1920 Vertical)
 
 Este repositorio permite crear y exportar animaciones procedurales en formato vertical 9:16 (**1080x1920 a 60 FPS**) listas para redes sociales (Shorts, Reels, TikTok), tanto **directamente desde la interfaz web interactiva** como a través del motor **Motion Canvas integrado**.
 

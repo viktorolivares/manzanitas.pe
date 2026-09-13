@@ -41,7 +41,7 @@ export default makeScene2D(function* (view) {
   view.add(<Rect width={1080} height={1920} fill={C.fondo} />);
 
   // =========================================================================
-  // 1. HEADER LIMPIO CON MARCA codevo.pe (Y: -850)
+  // 1. HEADER LIMPIO CON MARCA my.app (Y: -850)
   // =========================================================================
   const headerNode = createRef<Node>();
   const estadoTexto = createSignal('CACHE HIT • 4ms');

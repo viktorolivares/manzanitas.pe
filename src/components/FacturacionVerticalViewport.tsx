@@ -39,7 +39,7 @@ export const FacturacionVerticalViewport: React.FC<FacturacionVerticalViewportPr
       />
 
       {/* ================================================================= */}
-      {/* 1. HEADER SUPERIOR (codevo.pe • FACTURACIÓN ELECTRÓNICA • SUNAT) */}
+      {/* 1. HEADER SUPERIOR (my.app • FACTURACIÓN ELECTRÓNICA • SUNAT) */}
       {/* ================================================================= */}
       <div className="relative z-20 pb-2 border-b border-[#1e293b]">
         <div className="flex items-center justify-between">

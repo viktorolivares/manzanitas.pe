@@ -5,7 +5,7 @@
  * - Formato: Vertical 9:16 (1080x1920) a 60 FPS
  * - Tema: Visualización del Motor Event Loop en JavaScript (Call Stack, Web APIs, Microtasks, Macrotasks, Stdout)
  * - Diseño: Sin consola de código estática, 100% enfocado en los elementos visuales del loop, iconos y animación de partículas
- * - Marca: codevo.pe
+ * - Marca: my.app
  * 
  * Listo para copiar y pegar en tu proyecto Motion Canvas sin dependencias externas
  * excepto @motion-canvas/2d y @motion-canvas/core.
@@ -64,7 +64,7 @@ export default makeScene2D(function* (view) {
   );
 
   // =========================================================================
-  // 2. ENCABEZADO DE MARCA codevo.pe (Y: -850)
+  // 2. ENCABEZADO DE MARCA my.app (Y: -850)
   // Limpio, tipografía monoespaciada de alto contraste
   // =========================================================================
   const marcaRef = createRef<Node>();
