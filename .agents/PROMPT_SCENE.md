@@ -3,7 +3,7 @@
 Copia y pega este prompt cada vez que desees generar una nueva escena interactiva y de video:
 
 ```markdown
-Actúa como desarrollador senior y director de motion graphics para el repositorio "manzanitas.pe".
+Actúa como desarrollador senior y director de motion graphics para esta aplicación web de animaciones técnicas.
 
 Necesito que crees una nueva escena completa y funcional con los siguientes datos:
 - TÍTULO: [Ejemplo: Algoritmo Dijkstra / OAuth 2.0 PKCE / Docker Container Lifecycle]

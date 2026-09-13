@@ -1,9 +1,9 @@
 ---
 name: create-scene
-description: Crea una nueva escena interactiva y procedural 9:16 en manzanitas.pe siguiendo la arquitectura de 5 archivos (data, viewport, registry, player y routing).
+description: Crea una nueva escena interactiva y procedural 9:16 siguiendo la arquitectura de 5 archivos (data, viewport, registry, player y routing).
 ---
 
-# Skill: Creación de Nueva Escena en manzanitas.pe
+# Skill: Creación de Nueva Escena
 
 Esta skill define el procedimiento estándar, las reglas de diseño y las plantillas de código para agregar una nueva escena interactiva y procedural al proyecto.
 
@@ -12,10 +12,10 @@ Esta skill define el procedimiento estándar, las reglas de diseño y las planti
 ## 1. Regla de Oro: Distinción de Marca y Variables de Entorno
 
 - **`APP_NAME` (`src/config/appConfig.ts` <- `VITE_APP_NAME`):**
-  - Representa el **nombre de la plataforma web / aplicación** (por defecto `"manzanitas.pe"` o `"my.app"`).
+  - Representa el **nombre de la plataforma web / aplicación** (definido en `.env`, por defecto `"my.app"`).
   - Se utiliza exclusivamente en el menú lateral, header de la aplicación web y títulos globales de la plataforma.
 - **`COMPANY_NAME` (`src/config/appConfig.ts` <- `VITE_COMPANY_NAME`):**
-  - Representa la **empresa, cliente o patrocinador** para quien se genera la escena/video (por defecto `"codevo.pe"` o `"my.app"`).
+  - Representa la **empresa, cliente o patrocinador** para quien se genera la escena/video (definido en `.env`, por defecto `"my.app"`).
   - Se utiliza en los Viewports 9:16, marcas de agua del video, encabezado de las animaciones, créditos y escenas Motion Canvas.
 
 ---
